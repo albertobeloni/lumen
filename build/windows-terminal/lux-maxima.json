@@ -1,0 +1,23 @@
+{
+	"background": "#fff",
+	"black": "#fff",
+	"blue": "#3365cf",
+	"brightBlack": "#d9d8d8",
+	"brightBlue": "#c6d3ff",
+	"brightCyan": "#9ae0ec",
+	"brightGreen": "#afe1b0",
+	"brightPurple": "#f8c4f5",
+	"brightRed": "#ffc8bc",
+	"brightWhite": "#797878",
+	"brightYellow": "#f1d182",
+	"cursorColor": "#797878",
+	"cyan": "#007683",
+	"foreground": "#4d4c4c",
+	"green": "#007c32",
+	"name": "Lux Maxima",
+	"purple": "#9e47a4",
+	"red": "#b64630",
+	"selectionBackground": "#d9d8d8",
+	"white": "#4d4c4c",
+	"yellow": "#846700"
+}

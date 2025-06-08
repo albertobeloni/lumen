@@ -1,0 +1,3 @@
+[submodule "build/vscode"]
+	path = build/vscode
+	url = https://github.com/albertobeloni/lumen-vscode-theme.git

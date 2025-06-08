@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>{{name}}{{#if variant}} {{variant}}{{/if}}</title>
+		<link rel="stylesheet" href="static/sample.css">
+		<script>
+			document.addEventListener("DOMContentLoaded", () => {
+				const colorContainers = document.querySelectorAll(".color-step");
+
+				colorContainers.forEach(colorContainer => {
+					const value = colorContainer.querySelector(".color-value").innerHTML;
+					colorContainer.onclick = function() {
+						navigator.clipboard.writeText(value);
+					};
+				});
+			});
+		</script>
+	</head>
+	<body style="background: {{background}}">
+		<div class="colors">
+			{{#each colors}}
+			<div class="color">
+				{{#each this}}
+				<div class="color-step" style="background: {{hex this}}; color: {{foreground this}}">
+					<div class="color-id">{{@key}}</div>
+					{{!-- <div class="color-id">{{contrast @root.background this}}</div> --}}
+					<div class="color-value">{{hex this}}</div>
+				</div>
+				{{/each}}
+			</div>
+			{{/each}}
+		</div>
+	</body>
+</html>

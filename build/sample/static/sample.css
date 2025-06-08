@@ -1,0 +1,52 @@
+:root {
+	box-sizing: border-box;
+	font-family: "Iosevka Aile", system-ui, sans-serif;
+	line-height: 1;
+}
+
+*, *::before, *::after {
+	box-sizing: inherit;
+}
+
+body, h1, h2, h3, h4, h5, h6, p {
+	margin: 0;
+	padding: 0;
+}
+
+img {
+	max-width: 100%;
+	height: auto;
+}
+
+body {
+	padding: 3rem;
+}
+
+.colors {
+	display: flex;
+	flex-flow: column;
+	gap: 1rem;
+	height: calc(100vh - 6rem);
+}
+
+.color {
+	display: flex;
+	flex-direction: row;
+	flex-grow: 1;
+}
+
+.color-step {
+	align-items: center;
+	display: flex;
+	flex-grow: 1;
+	font-size: calc(0.625rem + 0.15vw);
+	justify-content: center;
+}
+
+.color-step:hover {
+	cursor: pointer;
+}
+
+.color-value {
+	display: none;
+}

@@ -1,0 +1,15 @@
+| Color | Hex |
+|-------|-----|
+| Background	| {{hex background}} |
+| Foreground	| {{hex foreground}} |
+
+{{#each colors}}
+{{#unless @first}}
+
+{{/unless}}
+| Color | Value | Hex |
+|-------|-------|-----|
+{{#each this}}
+| {{@../key}} | {{@key}} | {{hex this}} |
+{{/each}}
+{{/each}}

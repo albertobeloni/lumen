@@ -1,0 +1,30 @@
+{
+	"name": "lumen",
+	"author": {
+		"name": "Alberto Beloni",
+		"url": "https://github.com/albertobeloni"
+	},
+	"description": "",
+	"homepage": "https://github.com/albertobeloni/lumen",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/albertobeloni/lumen"
+	},
+	"bugs": {
+		"url": "https://github.com/albertobeloni/lumen/issues"
+	},
+	"version": "0.0.1",
+	"license": "MIT",
+	"main": "source/index.js",
+	"private": true,
+	"devDependencies": {
+		"colorjs.io": "^0.6.0-alpha.1",
+		"handlebars": "^4.7.8",
+		"nodemon": "^3.1.10"
+	},
+	"scripts": {
+		"build": "node source/index.js",
+		"start": "nodemon --watch source source/index.js"
+	},
+	"type": "module"
+}

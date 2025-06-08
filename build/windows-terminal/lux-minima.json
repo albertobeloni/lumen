@@ -1,0 +1,23 @@
+{
+	"background": "#fff7e5",
+	"black": "#fff7e5",
+	"blue": "#3365cf",
+	"brightBlack": "#d8d2c5",
+	"brightBlue": "#c6d3ff",
+	"brightCyan": "#9ae0ec",
+	"brightGreen": "#afe1b0",
+	"brightPurple": "#f8c4f5",
+	"brightRed": "#ffc8bc",
+	"brightWhite": "#777574",
+	"brightYellow": "#f1d182",
+	"cursorColor": "#777574",
+	"cyan": "#007683",
+	"foreground": "#4a4b4f",
+	"green": "#007c32",
+	"name": "Lux Minima",
+	"purple": "#9e47a4",
+	"red": "#b64630",
+	"selectionBackground": "#d8d2c5",
+	"white": "#4a4b4f",
+	"yellow": "#846700"
+}

@@ -1,0 +1,10 @@
+:root {
+	--lumen-background: {{hex background}};
+	--lumen-foreground: {{hex foreground}};
+	{{#each colors}}
+
+	{{#each this}}
+	--lumen--{{@../key}}-{{@key}}: {{hex this}};
+	{{/each}}
+	{{/each}}
+}

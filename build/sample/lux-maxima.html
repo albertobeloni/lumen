@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Lux Maxima</title>
+		<link rel="stylesheet" href="static/sample.css">
+		<script>
+			document.addEventListener("DOMContentLoaded", () => {
+				const colorContainers = document.querySelectorAll(".color-step");
+
+				colorContainers.forEach(colorContainer => {
+					const value = colorContainer.querySelector(".color-value").innerHTML;
+					colorContainer.onclick = function() {
+						navigator.clipboard.writeText(value);
+					};
+				});
+			});
+		</script>
+	</head>
+	<body style="background: rgb(100% 100% 100%)">
+		<div class="colors">
+			<div class="color">
+				<div class="color-step" style="background: #f2f2f2; color: #797878">
+					<div class="color-id">0</div>
+					<div class="color-value">#f2f2f2</div>
+				</div>
+				<div class="color-step" style="background: #d9d8d8; color: #626262">
+					<div class="color-id">1</div>
+					<div class="color-value">#d9d8d8</div>
+				</div>
+				<div class="color-step" style="background: #c0bfbf; color: #4d4c4c">
+					<div class="color-id">2</div>
+					<div class="color-value">#c0bfbf</div>
+				</div>
+				<div class="color-step" style="background: #a7a7a7; color: #383838">
+					<div class="color-id">3</div>
+					<div class="color-value">#a7a7a7</div>
+				</div>
+				<div class="color-step" style="background: #908f8f; color: #252424">
+					<div class="color-id">4</div>
+					<div class="color-value">#908f8f</div>
+				</div>
+				<div class="color-step" style="background: #797878; color: #f2f2f2">
+					<div class="color-id">5</div>
+					<div class="color-value">#797878</div>
+				</div>
+				<div class="color-step" style="background: #626262; color: #d9d8d8">
+					<div class="color-id">6</div>
+					<div class="color-value">#626262</div>
+				</div>
+				<div class="color-step" style="background: #4d4c4c; color: #c0bfbf">
+					<div class="color-id">7</div>
+					<div class="color-value">#4d4c4c</div>
+				</div>
+				<div class="color-step" style="background: #383838; color: #a7a7a7">
+					<div class="color-id">8</div>
+					<div class="color-value">#383838</div>
+				</div>
+				<div class="color-step" style="background: #252424; color: #908f8f">
+					<div class="color-id">9</div>
+					<div class="color-value">#252424</div>
+				</div>
+			</div>
+			<div class="color">
+				<div class="color-step" style="background: #ffede9; color: #b64630">
+					<div class="color-id">0</div>
+					<div class="color-value">#ffede9</div>
+				</div>
+				<div class="color-step" style="background: #ffc8bc; color: #923220">
+					<div class="color-id">1</div>
+					<div class="color-value">#ffc8bc</div>
+				</div>
+				<div class="color-step" style="background: #ffa08c; color: #6c2315">
+					<div class="color-id">2</div>
+					<div class="color-value">#ffa08c</div>
+				</div>
+				<div class="color-step" style="background: #f37b62; color: #46160d">
+					<div class="color-id">3</div>
+					<div class="color-value">#f37b62</div>
+				</div>
+				<div class="color-step" style="background: #d75e46; color: #200a06">
+					<div class="color-id">4</div>
+					<div class="color-value">#d75e46</div>
+				</div>
+				<div class="color-step" style="background: #b64630; color: #ffede9">
+					<div class="color-id">5</div>
+					<div class="color-value">#b64630</div>
+				</div>
+				<div class="color-step" style="background: #923220; color: #ffc8bc">
+					<div class="color-id">6</div>
+					<div class="color-value">#923220</div>
+				</div>
+				<div class="color-step" style="background: #6c2315; color: #ffa08c">
+					<div class="color-id">7</div>
+					<div class="color-value">#6c2315</div>
+				</div>
+				<div class="color-step" style="background: #46160d; color: #f37b62">
+					<div class="color-id">8</div>
+					<div class="color-value">#46160d</div>
+				</div>
+				<div class="color-step" style="background: #200a06; color: #d75e46">
+					<div class="color-id">9</div>
+					<div class="color-value">#200a06</div>
+				</div>
+			</div>
+			<div class="color">
+				<div class="color-step" style="background: #ffeee2; color: #a05800">
+					<div class="color-id">0</div>
+					<div class="color-value">#ffeee2</div>
+				</div>
+				<div class="color-step" style="background: #ffca9f; color: #7d4400">
+					<div class="color-id">1</div>
+					<div class="color-value">#ffca9f</div>
+				</div>
+				<div class="color-step" style="background: #fba556; color: #5c3000">
+					<div class="color-id">2</div>
+					<div class="color-value">#fba556</div>
+				</div>
+				<div class="color-step" style="background: #e58724; color: #3d1e00">
+					<div class="color-id">3</div>
+					<div class="color-value">#e58724</div>
+				</div>
+				<div class="color-step" style="background: #c56e00; color: #1e0d01">
+					<div class="color-id">4</div>
+					<div class="color-value">#c56e00</div>
+				</div>
+				<div class="color-step" style="background: #a05800; color: #ffeee2">
+					<div class="color-id">5</div>
+					<div class="color-value">#a05800</div>
+				</div>
+				<div class="color-step" style="background: #7d4400; color: #ffca9f">
+					<div class="color-id">6</div>
+					<div class="color-value">#7d4400</div>
+				</div>
+				<div class="color-step" style="background: #5c3000; color: #fba556">
+					<div class="color-id">7</div>
+					<div class="color-value">#5c3000</div>
+				</div>
+				<div class="color-step" style="background: #3d1e00; color: #e58724">
+					<div class="color-id">8</div>
+					<div class="color-value">#3d1e00</div>
+				</div>
+				<div class="color-step" style="background: #1e0d01; color: #c56e00">
+					<div class="color-id">9</div>
+					<div class="color-value">#1e0d01</div>
+				</div>
+			</div>
+			<div class="color">
+				<div class="color-step" style="background: #ffefcf; color: #846700">
+					<div class="color-id">0</div>
+					<div class="color-value">#ffefcf</div>
+				</div>
+				<div class="color-step" style="background: #f1d182; color: #674f00">
+					<div class="color-id">1</div>
+					<div class="color-value">#f1d182</div>
+				</div>
+				<div class="color-step" style="background: #dcb444; color: #4b3900">
+					<div class="color-id">2</div>
+					<div class="color-value">#dcb444</div>
+				</div>
+				<div class="color-step" style="background: #c29800; color: #312400">
+					<div class="color-id">3</div>
+					<div class="color-value">#c29800</div>
+				</div>
+				<div class="color-step" style="background: #a37f00; color: #171000">
+					<div class="color-id">4</div>
+					<div class="color-value">#a37f00</div>
+				</div>
+				<div class="color-step" style="background: #846700; color: #ffefcf">
+					<div class="color-id">5</div>
+					<div class="color-value">#846700</div>
+				</div>
+				<div class="color-step" style="background: #674f00; color: #f1d182">
+					<div class="color-id">6</div>
+					<div class="color-value">#674f00</div>
+				</div>
+				<div class="color-step" style="background: #4b3900; color: #dcb444">
+					<div class="color-id">7</div>
+					<div class="color-value">#4b3900</div>
+				</div>
+				<div class="color-step" style="background: #312400; color: #c29800">
+					<div class="color-id">8</div>
+					<div class="color-value">#312400</div>
+				</div>
+				<div class="color-step" style="background: #171000; color: #a37f00">
+					<div class="color-id">9</div>
+					<div class="color-value">#171000</div>
+				</div>
+			</div>
+			<div class="color">
+				<div class="color-step" style="background: #f0f4ce; color: #627200">
+					<div class="color-id">0</div>
+					<div class="color-value">#f0f4ce</div>
+				</div>
+				<div class="color-step" style="background: #cfdb92; color: #4b5800">
+					<div class="color-id">1</div>
+					<div class="color-value">#cfdb92</div>
+				</div>
+				<div class="color-step" style="background: #b0c15c; color: #364000">
+					<div class="color-id">2</div>
+					<div class="color-value">#b0c15c</div>
+				</div>
+				<div class="color-step" style="background: #93a72b; color: #222900">
+					<div class="color-id">3</div>
+					<div class="color-value">#93a72b</div>
+				</div>
+				<div class="color-step" style="background: #798c00; color: #0f1301">
+					<div class="color-id">4</div>
+					<div class="color-value">#798c00</div>
+				</div>
+				<div class="color-step" style="background: #627200; color: #f0f4ce">
+					<div class="color-id">5</div>
+					<div class="color-value">#627200</div>
+				</div>
+				<div class="color-step" style="background: #4b5800; color: #cfdb92">
+					<div class="color-id">6</div>
+					<div class="color-value">#4b5800</div>
+				</div>
+				<div class="color-step" style="background: #364000; color: #b0c15c">
+					<div class="color-id">7</div>
+					<div class="color-value">#364000</div>
+				</div>
+				<div class="color-step" style="background: #222900; color: #93a72b">
+					<div class="color-id">8</div>
+					<div class="color-value">#222900</div>
+				</div>
+				<div class="color-step" style="background: #0f1301; color: #798c00">
+					<div class="color-id">9</div>
+					<div class="color-value">#0f1301</div>
+				</div>
+			</div>
+			<div class="color">
+				<div class="color-step" style="background: #e1f7dd; color: #007c32">
+					<div class="color-id">0</div>
+					<div class="color-value">#e1f7dd</div>
+				</div>
+				<div class="color-step" style="background: #afe1b0; color: #006025">
+					<div class="color-id">1</div>
+					<div class="color-value">#afe1b0</div>
+				</div>
+				<div class="color-step" style="background: #7fc987; color: #004619">
+					<div class="color-id">2</div>
+					<div class="color-value">#7fc987</div>
+				</div>
+				<div class="color-step" style="background: #52b163; color: #002d0d">
+					<div class="color-id">3</div>
+					<div class="color-value">#52b163</div>
+				</div>
+				<div class="color-step" style="background: #249746; color: #041407">
+					<div class="color-id">4</div>
+					<div class="color-value">#249746</div>
+				</div>
+				<div class="color-step" style="background: #007c32; color: #e1f7dd">
+					<div class="color-id">5</div>
+					<div class="color-value">#007c32</div>
+				</div>
+				<div class="color-step" style="background: #006025; color: #afe1b0">
+					<div class="color-id">6</div>
+					<div class="color-value">#006025</div>
+				</div>
+				<div class="color-step" style="background: #004619; color: #7fc987">
+					<div class="color-id">7</div>
+					<div class="color-value">#004619</div>
+				</div>
+				<div class="color-step" style="background: #002d0d; color: #52b163">
+					<div class="color-id">8</div>
+					<div class="color-value">#002d0d</div>
+				</div>
+				<div class="color-step" style="background: #041407; color: #249746">
+					<div class="color-id">9</div>
+					<div class="color-value">#041407</div>
+				</div>
+			</div>
+			<div class="color">
+				<div class="color-step" style="background: #d9f7ee; color: #007967">
+					<div class="color-id">0</div>
+					<div class="color-value">#d9f7ee</div>
+				</div>
+				<div class="color-step" style="background: #9ce2d0; color: #005e4f">
+					<div class="color-id">1</div>
+					<div class="color-value">#9ce2d0</div>
+				</div>
+				<div class="color-step" style="background: #55ccb4; color: #004439">
+					<div class="color-id">2</div>
+					<div class="color-value">#55ccb4</div>
+				</div>
+				<div class="color-step" style="background: #00b299; color: #002c24">
+					<div class="color-id">3</div>
+					<div class="color-value">#00b299</div>
+				</div>
+				<div class="color-step" style="background: #00957f; color: #001410">
+					<div class="color-id">4</div>
+					<div class="color-value">#00957f</div>
+				</div>
+				<div class="color-step" style="background: #007967; color: #d9f7ee">
+					<div class="color-id">5</div>
+					<div class="color-value">#007967</div>
+				</div>
+				<div class="color-step" style="background: #005e4f; color: #9ce2d0">
+					<div class="color-id">6</div>
+					<div class="color-value">#005e4f</div>
+				</div>
+				<div class="color-step" style="background: #004439; color: #55ccb4">
+					<div class="color-id">7</div>
+					<div class="color-value">#004439</div>
+				</div>
+				<div class="color-step" style="background: #002c24; color: #00b299">
+					<div class="color-id">8</div>
+					<div class="color-value">#002c24</div>
+				</div>
+				<div class="color-step" style="background: #001410; color: #00957f">
+					<div class="color-id">9</div>
+					<div class="color-value">#001410</div>
+				</div>
+			</div>
+			<div class="color">
+				<div class="color-step" style="background: #d9f6fb; color: #007683">
+					<div class="color-id">0</div>
+					<div class="color-value">#d9f6fb</div>
+				</div>
+				<div class="color-step" style="background: #9ae0ec; color: #005b66">
+					<div class="color-id">1</div>
+					<div class="color-value">#9ae0ec</div>
+				</div>
+				<div class="color-step" style="background: #4dc9db; color: #00424a">
+					<div class="color-id">2</div>
+					<div class="color-value">#4dc9db</div>
+				</div>
+				<div class="color-step" style="background: #00aec1; color: #002b30">
+					<div class="color-id">3</div>
+					<div class="color-value">#00aec1</div>
+				</div>
+				<div class="color-step" style="background: #0091a1; color: #001417">
+					<div class="color-id">4</div>
+					<div class="color-value">#0091a1</div>
+				</div>
+				<div class="color-step" style="background: #007683; color: #d9f6fb">
+					<div class="color-id">5</div>
+					<div class="color-value">#007683</div>
+				</div>
+				<div class="color-step" style="background: #005b66; color: #9ae0ec">
+					<div class="color-id">6</div>
+					<div class="color-value">#005b66</div>
+				</div>
+				<div class="color-step" style="background: #00424a; color: #4dc9db">
+					<div class="color-id">7</div>
+					<div class="color-value">#00424a</div>
+				</div>
+				<div class="color-step" style="background: #002b30; color: #00aec1">
+					<div class="color-id">8</div>
+					<div class="color-value">#002b30</div>
+				</div>
+				<div class="color-step" style="background: #001417; color: #0091a1">
+					<div class="color-id">9</div>
+					<div class="color-value">#001417</div>
+				</div>
+			</div>
+			<div class="color">
+				<div class="color-step" style="background: #e5f2ff; color: #0072a2">
+					<div class="color-id">0</div>
+					<div class="color-value">#e5f2ff</div>
+				</div>
+				<div class="color-step" style="background: #a9daff; color: #00587e">
+					<div class="color-id">1</div>
+					<div class="color-value">#a9daff</div>
+				</div>
+				<div class="color-step" style="background: #6ec1f7; color: #00405d">
+					<div class="color-id">2</div>
+					<div class="color-value">#6ec1f7</div>
+				</div>
+				<div class="color-step" style="background: #18a8eb; color: #00293d">
+					<div class="color-id">3</div>
+					<div class="color-value">#18a8eb</div>
+				</div>
+				<div class="color-step" style="background: #008cc7; color: #00131f">
+					<div class="color-id">4</div>
+					<div class="color-value">#008cc7</div>
+				</div>
+				<div class="color-step" style="background: #0072a2; color: #e5f2ff">
+					<div class="color-id">5</div>
+					<div class="color-value">#0072a2</div>
+				</div>
+				<div class="color-step" style="background: #00587e; color: #a9daff">
+					<div class="color-id">6</div>
+					<div class="color-value">#00587e</div>
+				</div>
+				<div class="color-step" style="background: #00405d; color: #6ec1f7">
+					<div class="color-id">7</div>
+					<div class="color-value">#00405d</div>
+				</div>
+				<div class="color-step" style="background: #00293d; color: #18a8eb">
+					<div class="color-id">8</div>
+					<div class="color-value">#00293d</div>
+				</div>
+				<div class="color-step" style="background: #00131f; color: #008cc7">
+					<div class="color-id">9</div>
+					<div class="color-value">#00131f</div>
+				</div>
+			</div>
+			<div class="color">
+				<div class="color-step" style="background: #eef0ff; color: #3365cf">
+					<div class="color-id">0</div>
+					<div class="color-value">#eef0ff</div>
+				</div>
+				<div class="color-step" style="background: #c6d3ff; color: #1d4daa">
+					<div class="color-id">1</div>
+					<div class="color-value">#c6d3ff</div>
+				</div>
+				<div class="color-step" style="background: #9db7ff; color: #13377e">
+					<div class="color-id">2</div>
+					<div class="color-value">#9db7ff</div>
+				</div>
+				<div class="color-step" style="background: #749bfc; color: #10244f">
+					<div class="color-id">3</div>
+					<div class="color-value">#749bfc</div>
+				</div>
+				<div class="color-step" style="background: #517fea; color: #091022">
+					<div class="color-id">4</div>
+					<div class="color-value">#517fea</div>
+				</div>
+				<div class="color-step" style="background: #3365cf; color: #eef0ff">
+					<div class="color-id">5</div>
+					<div class="color-value">#3365cf</div>
+				</div>
+				<div class="color-step" style="background: #1d4daa; color: #c6d3ff">
+					<div class="color-id">6</div>
+					<div class="color-value">#1d4daa</div>
+				</div>
+				<div class="color-step" style="background: #13377e; color: #9db7ff">
+					<div class="color-id">7</div>
+					<div class="color-value">#13377e</div>
+				</div>
+				<div class="color-step" style="background: #10244f; color: #749bfc">
+					<div class="color-id">8</div>
+					<div class="color-value">#10244f</div>
+				</div>
+				<div class="color-step" style="background: #091022; color: #517fea">
+					<div class="color-id">9</div>
+					<div class="color-value">#091022</div>
+				</div>
+			</div>
+			<div class="color">
+				<div class="color-step" style="background: #f6edff; color: #7755c7">
+					<div class="color-id">0</div>
+					<div class="color-value">#f6edff</div>
+				</div>
+				<div class="color-step" style="background: #ddcdff; color: #5d3fa3">
+					<div class="color-id">1</div>
+					<div class="color-value">#ddcdff</div>
+				</div>
+				<div class="color-step" style="background: #c4abff; color: #442c79">
+					<div class="color-id">2</div>
+					<div class="color-value">#c4abff</div>
+				</div>
+				<div class="color-step" style="background: #ab8cf6; color: #2b1d4c">
+					<div class="color-id">3</div>
+					<div class="color-value">#ab8cf6</div>
+				</div>
+				<div class="color-step" style="background: #916fe3; color: #130e21">
+					<div class="color-id">4</div>
+					<div class="color-value">#916fe3</div>
+				</div>
+				<div class="color-step" style="background: #7755c7; color: #f6edff">
+					<div class="color-id">5</div>
+					<div class="color-value">#7755c7</div>
+				</div>
+				<div class="color-step" style="background: #5d3fa3; color: #ddcdff">
+					<div class="color-id">6</div>
+					<div class="color-value">#5d3fa3</div>
+				</div>
+				<div class="color-step" style="background: #442c79; color: #c4abff">
+					<div class="color-id">7</div>
+					<div class="color-value">#442c79</div>
+				</div>
+				<div class="color-step" style="background: #2b1d4c; color: #ab8cf6">
+					<div class="color-id">8</div>
+					<div class="color-value">#2b1d4c</div>
+				</div>
+				<div class="color-step" style="background: #130e21; color: #916fe3">
+					<div class="color-id">9</div>
+					<div class="color-value">#130e21</div>
+				</div>
+			</div>
+			<div class="color">
+				<div class="color-step" style="background: #ffebfa; color: #9e47a4">
+					<div class="color-id">0</div>
+					<div class="color-value">#ffebfa</div>
+				</div>
+				<div class="color-step" style="background: #f8c4f5; color: #7e3384">
+					<div class="color-id">1</div>
+					<div class="color-value">#f8c4f5</div>
+				</div>
+				<div class="color-step" style="background: #e8a0e7; color: #5d2361">
+					<div class="color-id">2</div>
+					<div class="color-value">#e8a0e7</div>
+				</div>
+				<div class="color-step" style="background: #d47fd6; color: #3b173e">
+					<div class="color-id">3</div>
+					<div class="color-value">#d47fd6</div>
+				</div>
+				<div class="color-step" style="background: #bb61c0; color: #1b0b1b">
+					<div class="color-id">4</div>
+					<div class="color-value">#bb61c0</div>
+				</div>
+				<div class="color-step" style="background: #9e47a4; color: #ffebfa">
+					<div class="color-id">5</div>
+					<div class="color-value">#9e47a4</div>
+				</div>
+				<div class="color-step" style="background: #7e3384; color: #f8c4f5">
+					<div class="color-id">6</div>
+					<div class="color-value">#7e3384</div>
+				</div>
+				<div class="color-step" style="background: #5d2361; color: #e8a0e7">
+					<div class="color-id">7</div>
+					<div class="color-value">#5d2361</div>
+				</div>
+				<div class="color-step" style="background: #3b173e; color: #d47fd6">
+					<div class="color-id">8</div>
+					<div class="color-value">#3b173e</div>
+				</div>
+				<div class="color-step" style="background: #1b0b1b; color: #bb61c0">
+					<div class="color-id">9</div>
+					<div class="color-value">#1b0b1b</div>
+				</div>
+			</div>
+			<div class="color">
+				<div class="color-step" style="background: #ffecf0; color: #b3416e">
+					<div class="color-id">0</div>
+					<div class="color-value">#ffecf0</div>
+				</div>
+				<div class="color-step" style="background: #ffc5d5; color: #902e55">
+					<div class="color-id">1</div>
+					<div class="color-value">#ffc5d5</div>
+				</div>
+				<div class="color-step" style="background: #ff9bbb; color: #6a203e">
+					<div class="color-id">2</div>
+					<div class="color-value">#ff9bbb</div>
+				</div>
+				<div class="color-step" style="background: #ed78a1; color: #441527">
+					<div class="color-id">3</div>
+					<div class="color-value">#ed78a1</div>
+				</div>
+				<div class="color-step" style="background: #d35a87; color: #1f0a11">
+					<div class="color-id">4</div>
+					<div class="color-value">#d35a87</div>
+				</div>
+				<div class="color-step" style="background: #b3416e; color: #ffecf0">
+					<div class="color-id">5</div>
+					<div class="color-value">#b3416e</div>
+				</div>
+				<div class="color-step" style="background: #902e55; color: #ffc5d5">
+					<div class="color-id">6</div>
+					<div class="color-value">#902e55</div>
+				</div>
+				<div class="color-step" style="background: #6a203e; color: #ff9bbb">
+					<div class="color-id">7</div>
+					<div class="color-value">#6a203e</div>
+				</div>
+				<div class="color-step" style="background: #441527; color: #ed78a1">
+					<div class="color-id">8</div>
+					<div class="color-value">#441527</div>
+				</div>
+				<div class="color-step" style="background: #1f0a11; color: #d35a87">
+					<div class="color-id">9</div>
+					<div class="color-value">#1f0a11</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
