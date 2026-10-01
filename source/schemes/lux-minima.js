@@ -1,8 +1,8 @@
 export const data = {
 	name: "Lux",
 	variant: "Minima",
-	background: [90, 7.5, 97.5],
-	foreground: [270, 10, 10],
+	background: [90, 5, 95],
+	foreground: [270, 5, 5],
 	accent: "blue",
 	colors: {
 		red: [30, 60],

@@ -1,8 +1,8 @@
 export const data = {
 	name: "Nox",
 	variant: "Maxima",
-	background: [0, 0, 10],
-	foreground: [0, 0, 100],
+	background: [0, 0, 5],
+	foreground: [0, 0, 95],
 	accent: "blue",
 	colors: {
 		red: [30, 60],

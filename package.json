@@ -18,7 +18,7 @@
 	"main": "source/index.js",
 	"private": true,
 	"devDependencies": {
-		"colorjs.io": "^0.6.0-alpha.1",
+		"colorjs.io": "^0.7.1",
 		"handlebars": "^4.7.8",
 		"nodemon": "^3.1.10"
 	},
