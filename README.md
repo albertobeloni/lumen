@@ -18,7 +18,8 @@ From an image, Lumen takes three hues:
 
 - **base**: the hue covering the most area (tinted surfaces, `natural` style)
 - **primary**: the most dominant hue, weighted by chroma, ignoring greys
-- **tertiary**: the second most dominant hue, at least 60° from primary
+- **tertiary**: the most dominant hue that is also distinct from primary (each
+  hue's strength is scaled by how far it is from primary, at least 30° away)
 
 A greyscale image gives a neutral base, and primary and tertiary fall back to
 the defaults.

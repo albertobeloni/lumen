@@ -62,20 +62,32 @@ const histogram = (pixels, weight) => {
 	});
 };
 
-const peak = (bins, excluded = []) => {
-	let best = { hue: undefined, value: 0 };
+const peaks = (bins) => {
+	return Array.from(bins.keys())
+		.filter((hue) => {
+			return (
+				bins[hue] > bins[(hue + 359) % 360] &&
+				bins[hue] >= bins[(hue + 1) % 360]
+			);
+		})
+		.map((hue) => ({ hue, value: bins[hue] }))
+		.sort((a, b) => b.value - a.value);
+};
 
-	bins.forEach((value, hue) => {
-		const free = excluded.every(
-			(other) => distance(hue, other) > SEPARATION,
-		);
+const contrasting = (candidates, first) => {
+	return candidates
+		.filter(({ hue, value }) => {
+			return (
+				distance(hue, first.hue) >= SEPARATION &&
+				value >= SECOND * first.value
+			);
+		})
+		.map((peak) => {
+			const angle = (distance(peak.hue, first.hue) * Math.PI) / 360;
 
-		if (free && value > best.value) {
-			best = { hue, value };
-		}
-	});
-
-	return best;
+			return { ...peak, score: peak.value * Math.sin(angle) };
+		})
+		.sort((a, b) => b.score - a.score)[0];
 };
 
 const refine = (pixels, center, weight) => {
@@ -107,20 +119,19 @@ export const extract = async (file) => {
 	const definition = { style: "neutral" };
 
 	if (present(tinted, pixels.length)) {
-		const { hue } = peak(histogram(tinted, area));
+		const [{ hue }] = peaks(histogram(tinted, area));
 
 		definition.base = refine(tinted, hue, area);
 		definition.style = "natural";
 	}
 
 	if (present(colored, pixels.length)) {
-		const bins = histogram(colored, strength);
-		const first = peak(bins);
-		const second = peak(bins, [first.hue]);
+		const [first, ...rest] = peaks(histogram(colored, strength));
+		const second = contrasting(rest, first);
 
 		definition.primary = refine(colored, first.hue, strength);
 
-		if (second.value >= SECOND * first.value) {
+		if (second) {
 			definition.tertiary = refine(colored, second.hue, strength);
 		}
 	}
