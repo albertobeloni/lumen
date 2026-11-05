@@ -1,0 +1,61 @@
+export default {
+	color: {
+		red: 30,
+		// orange: 60,
+		yellow: 90,
+		// lime: 120,
+		green: 150,
+		// teal: 180,
+		cyan: 210,
+		// azure: 240,
+		blue: 270,
+		// purple: 300,
+		magenta: 330,
+		// pink: 360,
+	},
+	harmony: "default",
+	harmonies: {
+		default: {
+			primary: { rotation: 0, chromacity: 1 },
+			secondary: { rotation: 0, chromacity: 1 / 3 },
+			tertiary: { rotation: 180, chromacity: 1 },
+		},
+		analogous: {
+			primary: { rotation: 0, chromacity: 1 },
+			secondary: { rotation: 30, chromacity: 1 },
+			tertiary: { rotation: -30, chromacity: 1 },
+		},
+		complementary: {
+			primary: { rotation: 0, chromacity: 1 },
+			secondary: { rotation: 180, chromacity: 1 / 3 },
+			tertiary: { rotation: 180, chromacity: 1 },
+		},
+		monochromatic: {
+			primary: { rotation: 0, chromacity: 1 },
+			secondary: { rotation: 0, chromacity: 1 / 3 },
+			tertiary: { rotation: 0, chromacity: 2 / 3 },
+		},
+		split: {
+			primary: { rotation: 0, chromacity: 1 },
+			secondary: { rotation: 150, chromacity: 1 },
+			tertiary: { rotation: 210, chromacity: 1 },
+		},
+		triadic: {
+			primary: { rotation: 0, chromacity: 1 },
+			secondary: { rotation: 120, chromacity: 1 },
+			tertiary: { rotation: 240, chromacity: 1 },
+		},
+	},
+	harmonize: 15,
+	names: {
+		dark: "Dark",
+		light: "Light",
+	},
+	style: "neutral",
+	styles: {
+		neutral: { chroma: 0, offset: 0, chromacity: 1 },
+		natural: { chroma: 5, offset: 1, chromacity: 3 / 4 },
+		vibrant: { chroma: 10, offset: 1, chromacity: 1 },
+	},
+	primary: 0,
+};

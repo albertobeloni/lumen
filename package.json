@@ -1,0 +1,34 @@
+{
+	"name": "lumen",
+	"author": {
+		"name": "Alberto Beloni",
+		"url": "https://github.com/albertobeloni"
+	},
+	"description": "Perceptual color scheme generator",
+	"homepage": "https://github.com/albertobeloni/lumen",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/albertobeloni/lumen"
+	},
+	"bugs": {
+		"url": "https://github.com/albertobeloni/lumen/issues"
+	},
+	"version": "0.0.1",
+	"license": "MIT",
+	"main": "index.js",
+	"bin": {
+		"lumen": "source/command.js"
+	},
+	"private": true,
+	"engines": {
+		"node": ">=22"
+	},
+	"dependencies": {
+		"colorjs.io": "^0.7.1",
+		"sharp": "^0.35.5"
+	},
+	"scripts": {
+		"start": "node --watch-path=source source/command.js --all"
+	},
+	"type": "module"
+}
