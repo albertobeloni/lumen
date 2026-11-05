@@ -15,7 +15,7 @@ const surface = (palette, level) => ({
 	outline: {
 		normal: color(palette, orient(8, level)),
 		strong: color(palette, orient(16, level)),
-		subtle: color(palette, orient(4, level)),
+		subtle: color(palette, orient(2, level)),
 	},
 });
 
