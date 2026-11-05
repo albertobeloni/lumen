@@ -57,5 +57,5 @@ export default {
 		natural: { chroma: 5, offset: 1, chromacity: 3 / 4 },
 		vibrant: { chroma: 10, offset: 1, chromacity: 1 },
 	},
-	primary: 0,
+	primary: 180,
 };
