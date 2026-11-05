@@ -62,7 +62,7 @@ const palette = ({ roles }) => {
 		mOnSurface: surface.frame.foreground.normal,
 		mSurfaceVariant: surface.panel.background,
 		mOnSurfaceVariant: surface.panel.foreground.subtle,
-		mOutline: surface.panel.outline.subtle,
+		mOutline: surface.frame.outline.subtle,
 		mShadow: solid(roles.shadow),
 		mHover: accent.secondary.container.background,
 		mOnHover: accent.secondary.container.foreground.normal,
