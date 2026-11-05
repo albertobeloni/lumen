@@ -37,7 +37,7 @@ const terminal = ({ ansi, accent, surface }) => {
 	return {
 		background: surface.field.background,
 		foreground: surface.field.foreground.normal,
-		cursor: surface.field.foreground.strong,
+		cursor: surface.field.foreground.subtle,
 		cursorText: surface.field.background,
 		selectionBg: accent.base.container.background,
 		selectionFg: accent.base.container.foreground.strong,
@@ -51,13 +51,13 @@ const palette = ({ roles }) => {
 
 	return {
 		mPrimary: accent.primary.background,
-		mOnPrimary: accent.primary.foreground.strong,
+		mOnPrimary: accent.primary.foreground.normal,
 		mSecondary: accent.secondary.background,
-		mOnSecondary: accent.secondary.foreground.strong,
+		mOnSecondary: accent.secondary.foreground.normal,
 		mTertiary: accent.tertiary.background,
-		mOnTertiary: accent.tertiary.foreground.strong,
+		mOnTertiary: accent.tertiary.foreground.normal,
 		mError: color.red.background,
-		mOnError: color.red.foreground.strong,
+		mOnError: color.red.foreground.normal,
 		mSurface: surface.field.background,
 		mOnSurface: surface.field.foreground.normal,
 		mSurfaceVariant: surface.panel.background,
@@ -65,7 +65,7 @@ const palette = ({ roles }) => {
 		mOutline: surface.field.outline.normal,
 		mShadow: solid(roles.shadow),
 		mHover: accent.base.container.background,
-		mOnHover: accent.base.container.foreground.strong,
+		mOnHover: accent.base.container.foreground.normal,
 		terminal: terminal(roles),
 	};
 };
