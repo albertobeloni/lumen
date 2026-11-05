@@ -1,4 +1,5 @@
 export default {
-	primary: 0,
-	harmonize: 0,
+	base: [0, 0, 0],
+	primary: 180,
+	style: "neutral",
 };
