@@ -62,10 +62,10 @@ const palette = ({ roles }) => {
 		mOnSurface: surface.field.foreground.normal,
 		mSurfaceVariant: surface.panel.background,
 		mOnSurfaceVariant: surface.panel.foreground.subtle,
-		mOutline: surface.field.outline.normal,
+		mOutline: surface.field.outline.subtle,
 		mShadow: solid(roles.shadow),
-		mHover: accent.base.container.background,
-		mOnHover: accent.base.container.foreground.normal,
+		mHover: accent.secondary.container.background,
+		mOnHover: accent.secondary.container.foreground.normal,
 		terminal: terminal(roles),
 	};
 };
