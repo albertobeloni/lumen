@@ -4,7 +4,7 @@ import { parse } from "./components/parser.js";
 
 import ROLES from "./components/roles.js";
 
-const STEPS = 41;
+export const STEPS = 41;
 
 const base = ({ hues, chroma }, tones) => {
 	return tones.map((tone, index) => {

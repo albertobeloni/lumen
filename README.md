@@ -6,13 +6,15 @@ with balanced chroma across hues and the same contrast in both modes.
 ## Usage
 
 ```sh
-lumen build [input]   # every module into build/<module>/ (no input: every scheme)
-lumen apply [input]   # one scheme into each application (no input: the last one applied)
+lumen build [input] [--mode dark|light]   # every module into build/<module>/ (no input: every scheme)
+lumen apply [input] [--mode dark|light]   # one scheme into each application (no input: the last one applied)
 ```
 
 The input can be the name of a scheme in `source/schemes/`, a color
-(`"#7c5cff"`, `"oklch(60% 0.15 290)"`) or an image. The last input is stored
-in `$XDG_STATE_HOME/lumen/input`.
+(`"#7c5cff"`, `"oklch(60% 0.15 290)"`) or an image. `apply` stores the last
+input and mode in `$XDG_STATE_HOME/lumen/last.json`, so `lumen apply --mode
+light` switches the mode of the current scheme, and a new input keeps the
+current mode. The mode starts as `dark`.
 
 From an image, Lumen takes three hues:
 
@@ -26,6 +28,15 @@ the defaults.
 
 `build` is for development: it never touches application configuration and
 never runs commands. `apply` skips development modules (`json`, `preview`).
+
+## Library
+
+```js
+import Lumen, { interpret } from "lumen";
+
+const { definition } = await interpret("/path/to/wallpaper.jpg"); // or a scheme name, or a color
+const { palette, theme } = Lumen(definition);
+```
 
 ## Modules
 
@@ -47,10 +58,10 @@ export default (scheme, { name, mode }) => ({
 All fields are optional. `directory` must be an absolute path. A failing
 `command` is reported but doesn't stop the other modules.
 
-`mode` is the current theme mode (`dark` or `light`, from Noctalia) during
-`apply`, and `undefined` during `build`. Modules for applications that can hold
+`mode` is the theme mode (`dark` or `light`) during `apply`, and the `--mode`
+value (or `undefined`) during `build`. Modules for applications that can hold
 both themes should ignore it and write both. The others write the theme for the
-current mode, and `lumen apply` without input runs them again when the mode
+given mode, and `lumen apply --mode <mode>` runs them again when the mode
 changes.
 
 ## Development

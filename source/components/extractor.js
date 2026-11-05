@@ -57,8 +57,6 @@ const histogram = (pixels, weight) => {
 	});
 };
 
-// Local maxima, strongest first. The strongest value outside a range can be
-// the flank of a bigger peak, so only real peaks count
 const peaks = (bins) => {
 	return Array.from(bins.keys())
 		.filter((hue) => {
@@ -71,8 +69,6 @@ const peaks = (bins) => {
 		.sort((a, b) => b.value - a.value);
 };
 
-// The most dominant peak that is also distinct from the first: strength is
-// scaled by sin(distance / 2), 0 for the same hue and 1 for the opposite one
 const contrasting = (candidates, first) => {
 	return candidates
 		.filter(({ hue, value }) => {
@@ -89,7 +85,6 @@ const contrasting = (candidates, first) => {
 		.sort((a, b) => b.score - a.score)[0];
 };
 
-// Weighted circular mean of the hues around a peak
 const refine = (pixels, center, weight) => {
 	let [x, y] = [0, 0];
 
@@ -105,9 +100,6 @@ const refine = (pixels, center, weight) => {
 	return angle((Math.atan2(y, x) * 180) / Math.PI);
 };
 
-// Base: the hue covering the most area
-// Primary: the most dominant hue, weighted by chroma, excluding greys
-// Tertiary: the most dominant hue distinct from primary
 export const extract = async (file) => {
 	const pixels = await samples(file);
 	const minimum = pixels.length * PRESENCE;
@@ -132,7 +124,6 @@ export const extract = async (file) => {
 		}
 	}
 
-	// The base hue only shows with a style that gives the base some chroma
 	definition.style = definition.base === undefined ? "neutral" : "natural";
 
 	return definition;
