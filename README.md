@@ -32,9 +32,9 @@ never runs commands. `apply` skips development modules (`json`, `preview`).
 ## Library
 
 ```js
-import Lumen, { interpret } from "lumen";
+import Lumen, { read } from "lumen";
 
-const { definition } = await interpret("/path/to/wallpaper.jpg"); // or a scheme name, or a color
+const { definition } = await read("/path/to/wallpaper.jpg"); // or a scheme name, or a color
 const { palette, theme } = Lumen(definition);
 ```
 

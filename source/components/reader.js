@@ -24,7 +24,7 @@ export const schemes = () => {
 	return list(SCHEMES);
 };
 
-export const interpret = async (input) => {
+export const read = async (input) => {
 	if ((await schemes()).includes(input)) {
 		return { name: input, input, definition: await load(SCHEMES, input) };
 	}

@@ -1,2 +1,2 @@
 export { default } from "./source/lumen.js";
-export { interpret } from "./source/components/interpreter.js";
+export { read } from "./source/components/reader.js";

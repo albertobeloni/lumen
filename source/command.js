@@ -6,7 +6,7 @@ import path from "node:path";
 
 import { parseArgs } from "node:util";
 
-import { interpret, schemes } from "./components/interpreter.js";
+import { read, schemes } from "./components/reader.js";
 import { modules, run } from "./components/runner.js";
 import Lumen from "./lumen.js";
 
@@ -45,8 +45,8 @@ const build = async (input, mode) => {
 	const all = await modules();
 	const targets =
 		input === undefined
-			? await Promise.all((await schemes()).map(interpret))
-			: [await interpret(input)];
+			? await Promise.all((await schemes()).map(read))
+			: [await read(input)];
 
 	for (const { name, definition } of targets) {
 		const scheme = Lumen(definition);
@@ -62,7 +62,7 @@ const build = async (input, mode) => {
 
 const apply = async (input, mode) => {
 	const last = await recall();
-	const next = input === undefined ? last : await interpret(input);
+	const next = input === undefined ? last : await read(input);
 
 	if (next.definition === undefined) {
 		exit('Nothing to apply yet, run "lumen apply <input>" first');
