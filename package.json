@@ -28,7 +28,8 @@
 		"sharp": "^0.35.5"
 	},
 	"scripts": {
-		"start": "node --watch-path=source source/command.js --all"
+		"chroma": "node scripts/chroma.js",
+		"start": "node --watch-path=source source/command.js build"
 	},
 	"type": "module"
 }

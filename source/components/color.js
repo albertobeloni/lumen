@@ -1,5 +1,7 @@
 import Color from "colorjs.io";
 
+import TABLE from "./chroma.json" with { type: "json" };
+
 const GOLDEN = (Math.sqrt(5) - 1) / 2;
 const PRECISION = 0.1;
 const SAMPLES = [
@@ -18,7 +20,7 @@ const probe = (hue, tone) => {
 	return { hue, chroma: maximum(hue, tone) };
 };
 
-const shared = (tone) => {
+export const measure = (tone) => {
 	const minimum = SAMPLES.map((hue) => probe(hue, tone)).reduce(
 		(best, sample) => {
 			return sample.chroma < best.chroma ? sample : best;
@@ -72,8 +74,14 @@ export const chroma = (tone) => {
 		return 0;
 	}
 
+	const key = tone.toFixed(6);
+
+	if (Object.hasOwn(TABLE, key)) {
+		return TABLE[key];
+	}
+
 	if (!cache.has(tone)) {
-		cache.set(tone, shared(tone));
+		cache.set(tone, measure(tone));
 	}
 
 	return cache.get(tone);

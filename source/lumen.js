@@ -4,6 +4,8 @@ import { parse } from "./components/parser.js";
 
 import ROLES from "./components/roles.js";
 
+const STEPS = 41;
+
 const base = ({ hues, chroma }, tones) => {
 	return tones.map((tone, index) => {
 		return render(blend(hues, chroma, tone, index / (tones.length - 1)));
@@ -49,7 +51,7 @@ const theme = (scheme, dark) => {
 
 export const Lumen = (definition) => {
 	const scheme = parse(definition);
-	const tones = scale(41);
+	const tones = scale(STEPS);
 
 	scheme.palette = {
 		base: base(scheme.base, tones),

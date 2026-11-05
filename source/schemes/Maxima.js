@@ -1,4 +1,4 @@
 export default {
-	primary: 180,
+	primary: 0,
 	harmonize: 0,
 };
