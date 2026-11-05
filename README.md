@@ -33,15 +33,25 @@ Each module lives in `source/modules/<name>/<name>.js` and default-exports a
 function that receives the scheme and returns what to do with it:
 
 ```js
-export default (scheme, { name }) => ({
-	directory: "~/.config/app", // apply only; build always uses build/<module>/
+const CONFIG =
+	process.env.XDG_CONFIG_HOME ?? path.join(os.homedir(), ".config");
+
+export default (scheme, { name, mode }) => ({
+	directory: path.join(CONFIG, "app"), // apply only; build uses build/<module>/
 	files: [{ path: `${name}.conf`, data: "…" }],
 	command: "app --reload", // apply only, after the files are written
 	print: "…", // written to stdout
 });
 ```
 
-All fields are optional.
+All fields are optional. `directory` must be an absolute path. A failing
+`command` is reported but doesn't stop the other modules.
+
+`mode` is the current theme mode (`dark` or `light`, from Noctalia) during
+`apply`, and `undefined` during `build`. Modules for applications that can hold
+both themes should ignore it and write both. The others write the theme for the
+current mode, and `lumen apply` without input runs them again when the mode
+changes.
 
 ## Development
 

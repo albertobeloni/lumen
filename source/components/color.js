@@ -3,6 +3,10 @@ import Color from "colorjs.io";
 import TABLE from "./chroma.json" with { type: "json" };
 
 const GOLDEN = (Math.sqrt(5) - 1) / 2;
+
+// Below this CIELAB chroma, a color counts as grey
+export const GREY = 5;
+
 const PRECISION = 0.1;
 const SAMPLES = [
 	0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160,
@@ -87,8 +91,21 @@ export const chroma = (tone) => {
 	return cache.get(tone);
 };
 
+// HCT gives sRGB greys up to ~3 chroma, so colorfulness is CIELAB chroma,
+// where greys are exactly 0. Takes CIELAB coordinates
+export const colorfulness = ([, a, b]) => {
+	return Math.hypot(a, b);
+};
+
 export const contrast = (foreground, background) => {
 	return Color.contrast(foreground, background, "WCAG21");
+};
+
+// Shortest distance between two hues, in degrees
+export const distance = (a, b) => {
+	const difference = Math.abs(a - b) % 360;
+
+	return Math.min(difference, 360 - difference);
 };
 
 export const harmonize = (hue, anchor, strength) => {

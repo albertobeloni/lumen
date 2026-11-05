@@ -964,7 +964,7 @@
 						"outline": {
 							"normal": "#786e70",
 							"strong": "#4c474a",
-							"subtle": "#8e8484"
+							"subtle": "#9a8f8e"
 						},
 						"color": "#83787a",
 						"container": {
@@ -977,7 +977,7 @@
 							"outline": {
 								"normal": "#6c6466",
 								"strong": "#9a8f8e",
-								"subtle": "#575153"
+								"subtle": "#4c474a"
 							}
 						}
 					},
@@ -991,7 +991,7 @@
 						"outline": {
 							"normal": "#417a6d",
 							"strong": "#284f47",
-							"subtle": "#4e9283"
+							"subtle": "#569e8e"
 						},
 						"color": "#488678",
 						"container": {
@@ -1004,7 +1004,7 @@
 							"outline": {
 								"normal": "#3a6f63",
 								"strong": "#569e8e",
-								"subtle": "#2e5a50"
+								"subtle": "#284f47"
 							}
 						}
 					},
@@ -1018,7 +1018,7 @@
 						"outline": {
 							"normal": "#66736f",
 							"strong": "#424a47",
-							"subtle": "#7a8984"
+							"subtle": "#859590"
 						},
 						"color": "#707e79",
 						"container": {
@@ -1031,7 +1031,7 @@
 							"outline": {
 								"normal": "#5d6865",
 								"strong": "#859590",
-								"subtle": "#4b5451"
+								"subtle": "#424a47"
 							}
 						}
 					},
@@ -1045,7 +1045,7 @@
 						"outline": {
 							"normal": "#986071",
 							"strong": "#633d49",
-							"subtle": "#b47387"
+							"subtle": "#c37d93"
 						},
 						"color": "#a6697c",
 						"container": {
@@ -1058,7 +1058,7 @@
 							"outline": {
 								"normal": "#8a5767",
 								"strong": "#c37d93",
-								"subtle": "#704653"
+								"subtle": "#633d49"
 							}
 						}
 					}
@@ -1074,7 +1074,7 @@
 						"outline": {
 							"normal": "#413e41",
 							"strong": "#6c6466",
-							"subtle": "#2b292d"
+							"subtle": "#1e1d21"
 						}
 					},
 					"frame": {
@@ -1087,7 +1087,7 @@
 						"outline": {
 							"normal": "#474246",
 							"strong": "#72696b",
-							"subtle": "#312f32"
+							"subtle": "#252427"
 						}
 					},
 					"panel": {
@@ -1100,7 +1100,7 @@
 						"outline": {
 							"normal": "#4c474a",
 							"strong": "#786e70",
-							"subtle": "#363437"
+							"subtle": "#2b292d"
 						}
 					},
 					"modal": {
@@ -1113,7 +1113,7 @@
 						"outline": {
 							"normal": "#514c4f",
 							"strong": "#7e7375",
-							"subtle": "#3c393c"
+							"subtle": "#312f32"
 						}
 					},
 					"popup": {
@@ -1126,7 +1126,7 @@
 						"outline": {
 							"normal": "#575153",
 							"strong": "#83787a",
-							"subtle": "#413e41"
+							"subtle": "#363437"
 						}
 					}
 				},
@@ -1141,7 +1141,7 @@
 						"outline": {
 							"normal": "#9c624d",
 							"strong": "#663e31",
-							"subtle": "#b9755d"
+							"subtle": "#c87f66"
 						},
 						"color": "#aa6b55",
 						"container": {
@@ -1154,7 +1154,7 @@
 							"outline": {
 								"normal": "#8e5946",
 								"strong": "#c87f66",
-								"subtle": "#734738"
+								"subtle": "#663e31"
 							}
 						}
 					},
@@ -1168,7 +1168,7 @@
 						"outline": {
 							"normal": "#787237",
 							"strong": "#4e4921",
-							"subtle": "#8f8843"
+							"subtle": "#9c9349"
 						},
 						"color": "#847c3d",
 						"container": {
@@ -1181,7 +1181,7 @@
 							"outline": {
 								"normal": "#6d6731",
 								"strong": "#9c9349",
-								"subtle": "#585326"
+								"subtle": "#4e4921"
 							}
 						}
 					},
@@ -1195,7 +1195,7 @@
 						"outline": {
 							"normal": "#4d7a5c",
 							"strong": "#314f3a",
-							"subtle": "#5d916e"
+							"subtle": "#669e78"
 						},
 						"color": "#558564",
 						"container": {
@@ -1208,7 +1208,7 @@
 							"outline": {
 								"normal": "#466f53",
 								"strong": "#669e78",
-								"subtle": "#385942"
+								"subtle": "#314f3a"
 							}
 						}
 					},
@@ -1222,7 +1222,7 @@
 						"outline": {
 							"normal": "#3d797d",
 							"strong": "#264f51",
-							"subtle": "#4a9195"
+							"subtle": "#519da2"
 						},
 						"color": "#448589",
 						"container": {
@@ -1235,7 +1235,7 @@
 							"outline": {
 								"normal": "#376e72",
 								"strong": "#519da2",
-								"subtle": "#2b595c"
+								"subtle": "#264f51"
 							}
 						}
 					},
@@ -1249,7 +1249,7 @@
 						"outline": {
 							"normal": "#567296",
 							"strong": "#364a62",
-							"subtle": "#6788b2"
+							"subtle": "#7094c1"
 						},
 						"color": "#5e7da3",
 						"container": {
@@ -1262,7 +1262,7 @@
 							"outline": {
 								"normal": "#4e6888",
 								"strong": "#7094c1",
-								"subtle": "#3e546f"
+								"subtle": "#364a62"
 							}
 						}
 					},
@@ -1276,7 +1276,7 @@
 						"outline": {
 							"normal": "#85658d",
 							"strong": "#57415c",
-							"subtle": "#9f79a8"
+							"subtle": "#ad83b6"
 						},
 						"color": "#926f9a",
 						"container": {
@@ -1289,7 +1289,7 @@
 							"outline": {
 								"normal": "#795c80",
 								"strong": "#ad83b6",
-								"subtle": "#624a68"
+								"subtle": "#57415c"
 							}
 						}
 					}
@@ -1305,7 +1305,7 @@
 						"outline": {
 							"normal": "#9c624d",
 							"strong": "#663e31",
-							"subtle": "#b9755d"
+							"subtle": "#c87f66"
 						},
 						"color": "#aa6b55",
 						"container": {
@@ -1318,7 +1318,7 @@
 							"outline": {
 								"normal": "#8e5946",
 								"strong": "#c87f66",
-								"subtle": "#734738"
+								"subtle": "#663e31"
 							}
 						}
 					},
@@ -1332,7 +1332,7 @@
 						"outline": {
 							"normal": "#787237",
 							"strong": "#4e4921",
-							"subtle": "#8f8843"
+							"subtle": "#9c9349"
 						},
 						"color": "#847c3d",
 						"container": {
@@ -1345,7 +1345,7 @@
 							"outline": {
 								"normal": "#6d6731",
 								"strong": "#9c9349",
-								"subtle": "#585326"
+								"subtle": "#4e4921"
 							}
 						}
 					},
@@ -1359,7 +1359,7 @@
 						"outline": {
 							"normal": "#4d7a5c",
 							"strong": "#314f3a",
-							"subtle": "#5d916e"
+							"subtle": "#669e78"
 						},
 						"color": "#558564",
 						"container": {
@@ -1372,7 +1372,7 @@
 							"outline": {
 								"normal": "#466f53",
 								"strong": "#669e78",
-								"subtle": "#385942"
+								"subtle": "#314f3a"
 							}
 						}
 					},
@@ -1386,7 +1386,7 @@
 						"outline": {
 							"normal": "#567296",
 							"strong": "#364a62",
-							"subtle": "#6788b2"
+							"subtle": "#7094c1"
 						},
 						"color": "#5e7da3",
 						"container": {
@@ -1399,7 +1399,7 @@
 							"outline": {
 								"normal": "#4e6888",
 								"strong": "#7094c1",
-								"subtle": "#3e546f"
+								"subtle": "#364a62"
 							}
 						}
 					}
@@ -1997,7 +1997,7 @@
 						"outline": {
 							"normal": "#83787a",
 							"strong": "#b2a9a5",
-							"subtle": "#6c6466"
+							"subtle": "#615a5d"
 						},
 						"color": "#786e70",
 						"container": {
@@ -2010,7 +2010,7 @@
 							"outline": {
 								"normal": "#8e8484",
 								"strong": "#615a5d",
-								"subtle": "#a69c99"
+								"subtle": "#b2a9a5"
 							}
 						}
 					},
@@ -2024,7 +2024,7 @@
 						"outline": {
 							"normal": "#488678",
 							"strong": "#65b9a6",
-							"subtle": "#3a6f63"
+							"subtle": "#34645a"
 						},
 						"color": "#417a6d",
 						"container": {
@@ -2037,7 +2037,7 @@
 							"outline": {
 								"normal": "#4e9283",
 								"strong": "#34645a",
-								"subtle": "#5dac9a"
+								"subtle": "#65b9a6"
 							}
 						}
 					},
@@ -2051,7 +2051,7 @@
 						"outline": {
 							"normal": "#707e79",
 							"strong": "#9cafa9",
-							"subtle": "#5d6865"
+							"subtle": "#545e5b"
 						},
 						"color": "#66736f",
 						"container": {
@@ -2064,7 +2064,7 @@
 							"outline": {
 								"normal": "#7a8984",
 								"strong": "#545e5b",
-								"subtle": "#90a29c"
+								"subtle": "#9cafa9"
 							}
 						}
 					},
@@ -2078,7 +2078,7 @@
 						"outline": {
 							"normal": "#a6697c",
 							"strong": "#e493ac",
-							"subtle": "#8a5767"
+							"subtle": "#7d4e5d"
 						},
 						"color": "#986071",
 						"container": {
@@ -2091,7 +2091,7 @@
 							"outline": {
 								"normal": "#b47387",
 								"strong": "#7d4e5d",
-								"subtle": "#d3889f"
+								"subtle": "#e493ac"
 							}
 						}
 					}
@@ -2107,7 +2107,7 @@
 						"outline": {
 							"normal": "#c0b6b1",
 							"strong": "#8e8484",
-							"subtle": "#ddd4cc"
+							"subtle": "#ede4db"
 						}
 					},
 					"frame": {
@@ -2120,7 +2120,7 @@
 						"outline": {
 							"normal": "#b9afab",
 							"strong": "#887e7f",
-							"subtle": "#d5ccc5"
+							"subtle": "#e5dcd3"
 						}
 					},
 					"panel": {
@@ -2133,7 +2133,7 @@
 						"outline": {
 							"normal": "#b2a9a5",
 							"strong": "#83787a",
-							"subtle": "#cec5be"
+							"subtle": "#ddd4cc"
 						}
 					},
 					"modal": {
@@ -2146,7 +2146,7 @@
 						"outline": {
 							"normal": "#aca29f",
 							"strong": "#7e7375",
-							"subtle": "#c7bdb8"
+							"subtle": "#d5ccc5"
 						}
 					},
 					"popup": {
@@ -2159,7 +2159,7 @@
 						"outline": {
 							"normal": "#a69c99",
 							"strong": "#786e70",
-							"subtle": "#c0b6b1"
+							"subtle": "#cec5be"
 						}
 					}
 				},
@@ -2174,7 +2174,7 @@
 						"outline": {
 							"normal": "#aa6b55",
 							"strong": "#ea9578",
-							"subtle": "#8e5946"
+							"subtle": "#80503f"
 						},
 						"color": "#9c624d",
 						"container": {
@@ -2187,7 +2187,7 @@
 							"outline": {
 								"normal": "#b9755d",
 								"strong": "#80503f",
-								"subtle": "#d98a6f"
+								"subtle": "#ea9578"
 							}
 						}
 					},
@@ -2201,7 +2201,7 @@
 						"outline": {
 							"normal": "#847c3d",
 							"strong": "#b6ad57",
-							"subtle": "#6d6731"
+							"subtle": "#635d2c"
 						},
 						"color": "#787237",
 						"container": {
@@ -2214,7 +2214,7 @@
 							"outline": {
 								"normal": "#8f8843",
 								"strong": "#635d2c",
-								"subtle": "#a9a050"
+								"subtle": "#b6ad57"
 							}
 						}
 					},
@@ -2228,7 +2228,7 @@
 						"outline": {
 							"normal": "#558564",
 							"strong": "#78b98c",
-							"subtle": "#466f53"
+							"subtle": "#3f644b"
 						},
 						"color": "#4d7a5c",
 						"container": {
@@ -2241,7 +2241,7 @@
 							"outline": {
 								"normal": "#5d916e",
 								"strong": "#3f644b",
-								"subtle": "#6eab82"
+								"subtle": "#78b98c"
 							}
 						}
 					},
@@ -2255,7 +2255,7 @@
 						"outline": {
 							"normal": "#448589",
 							"strong": "#60b8be",
-							"subtle": "#376e72"
+							"subtle": "#316467"
 						},
 						"color": "#3d797d",
 						"container": {
@@ -2268,7 +2268,7 @@
 							"outline": {
 								"normal": "#4a9195",
 								"strong": "#316467",
-								"subtle": "#59aab0"
+								"subtle": "#60b8be"
 							}
 						}
 					},
@@ -2282,7 +2282,7 @@
 						"outline": {
 							"normal": "#5e7da3",
 							"strong": "#84ade1",
-							"subtle": "#4e6888"
+							"subtle": "#465e7b"
 						},
 						"color": "#567296",
 						"container": {
@@ -2295,7 +2295,7 @@
 							"outline": {
 								"normal": "#6788b2",
 								"strong": "#465e7b",
-								"subtle": "#7aa0d1"
+								"subtle": "#84ade1"
 							}
 						}
 					},
@@ -2309,7 +2309,7 @@
 						"outline": {
 							"normal": "#926f9a",
 							"strong": "#ca9ad5",
-							"subtle": "#795c80"
+							"subtle": "#6e5274"
 						},
 						"color": "#85658d",
 						"container": {
@@ -2322,7 +2322,7 @@
 							"outline": {
 								"normal": "#9f79a8",
 								"strong": "#6e5274",
-								"subtle": "#bb8ec5"
+								"subtle": "#ca9ad5"
 							}
 						}
 					}
@@ -2338,7 +2338,7 @@
 						"outline": {
 							"normal": "#aa6b55",
 							"strong": "#ea9578",
-							"subtle": "#8e5946"
+							"subtle": "#80503f"
 						},
 						"color": "#9c624d",
 						"container": {
@@ -2351,7 +2351,7 @@
 							"outline": {
 								"normal": "#b9755d",
 								"strong": "#80503f",
-								"subtle": "#d98a6f"
+								"subtle": "#ea9578"
 							}
 						}
 					},
@@ -2365,7 +2365,7 @@
 						"outline": {
 							"normal": "#847c3d",
 							"strong": "#b6ad57",
-							"subtle": "#6d6731"
+							"subtle": "#635d2c"
 						},
 						"color": "#787237",
 						"container": {
@@ -2378,7 +2378,7 @@
 							"outline": {
 								"normal": "#8f8843",
 								"strong": "#635d2c",
-								"subtle": "#a9a050"
+								"subtle": "#b6ad57"
 							}
 						}
 					},
@@ -2392,7 +2392,7 @@
 						"outline": {
 							"normal": "#558564",
 							"strong": "#78b98c",
-							"subtle": "#466f53"
+							"subtle": "#3f644b"
 						},
 						"color": "#4d7a5c",
 						"container": {
@@ -2405,7 +2405,7 @@
 							"outline": {
 								"normal": "#5d916e",
 								"strong": "#3f644b",
-								"subtle": "#6eab82"
+								"subtle": "#78b98c"
 							}
 						}
 					},
@@ -2419,7 +2419,7 @@
 						"outline": {
 							"normal": "#5e7da3",
 							"strong": "#84ade1",
-							"subtle": "#4e6888"
+							"subtle": "#465e7b"
 						},
 						"color": "#567296",
 						"container": {
@@ -2432,7 +2432,7 @@
 							"outline": {
 								"normal": "#6788b2",
 								"strong": "#465e7b",
-								"subtle": "#7aa0d1"
+								"subtle": "#84ade1"
 							}
 						}
 					}

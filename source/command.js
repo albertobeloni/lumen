@@ -10,16 +10,18 @@ import { parseArgs } from "node:util";
 
 import Color from "colorjs.io";
 
+import { colorfulness, GREY } from "./components/color.js";
 import { extract } from "./components/image.js";
 import { list, load } from "./components/loader.js";
 import Lumen from "./lumen.js";
 
 const OPTIONAL = ["json", "preview"];
 
-const USAGE = ["Usage:", "  lumen build [input]", "  lumen apply [input]"];
+const USAGE = `Usage:
+  lumen build [input]
+  lumen apply [input]`;
 
-const ROOT = path.join(import.meta.dirname, "..");
-const OUTPUT = path.join(ROOT, "build");
+const OUTPUT = path.join(import.meta.dirname, "..", "build");
 
 const MODULES = path.join(import.meta.dirname, "modules");
 const SCHEMES = path.join(import.meta.dirname, "schemes");
@@ -35,58 +37,58 @@ const exit = (message) => {
 	process.exit(1);
 };
 
-const expand = (directory) => {
-	return directory.replace(/^~(?=$|\/)/, os.homedir());
-};
+// A grey color has no hue: like a greyscale image, it gets a neutral base and
+// the default accents
+const tint = (input) => {
+	const color = new Color(input);
 
-const scheme = async (name) => {
-	return { name, definition: await load(SCHEMES, name) };
-};
-
-const color = (input) => {
-	return {
-		name: "Lumen",
-		definition: { primary: new Color(input).to("hct").get("h") },
-	};
-};
-
-const image = async (input) => {
-	return { name: "Lumen", definition: await extract(input) };
-};
-
-const inputs = async (input) => {
-	const schemes = await list(SCHEMES);
-
-	if (input === undefined) {
-		return Promise.all(schemes.map(scheme));
+	if (colorfulness(color.to("lab-d65").coords) < GREY) {
+		return { style: "neutral" };
 	}
 
-	if (schemes.includes(input)) {
-		return [await scheme(input)];
+	return { primary: color.to("hct").get("h") };
+};
+
+// Turns an input (scheme name, image path or color) into a definition
+const prepare = async (input) => {
+	if ((await list(SCHEMES)).includes(input)) {
+		return { name: input, input, definition: await load(SCHEMES, input) };
 	}
 
 	if (existsSync(input)) {
-		return [await image(input)];
+		const file = path.resolve(input);
+
+		return { name: "Lumen", input: file, definition: await extract(file) };
 	}
 
-	return [color(input)];
+	return { name: "Lumen", input, definition: tint(input) };
+};
+
+// The resolved theme mode, for modules that can only hold one theme at a time
+const mode = () => {
+	try {
+		return execSync("noctalia msg theme-mode-get", {
+			encoding: "utf8",
+			stdio: ["ignore", "pipe", "ignore"],
+		}).trim();
+	} catch {
+		return "dark";
+	}
 };
 
 const modules = async (filter) => {
 	const names = (await list(MODULES)).filter(filter);
-	const builds = await Promise.all(names.map((name) => load(MODULES, name)));
 
-	return names.map((name, index) => ({ name, build: builds[index] }));
+	return Promise.all(
+		names.map(async (name) => ({ name, build: await load(MODULES, name) })),
+	);
 };
 
 // The definition is stored with the input, so applying again (when the theme
 // mode changes, for example) doesn't need to analyse the image again
-const remember = async (input, definition) => {
+const remember = async (last) => {
 	await filesystem.mkdir(STATE, { recursive: true });
-	await filesystem.writeFile(
-		LAST,
-		`${JSON.stringify({ input, definition }, null, "\t")}\n`,
-	);
+	await filesystem.writeFile(LAST, `${JSON.stringify(last, null, "\t")}\n`);
 };
 
 const recall = async () => {
@@ -97,22 +99,15 @@ const recall = async () => {
 	return JSON.parse(last);
 };
 
-const prepare = async (input) => {
-	const value = existsSync(input) ? path.resolve(input) : input;
-	const [{ definition }] = await inputs(value);
-
-	return { input: value, definition };
-};
-
-const run = async (module, scheme, { name, apply }) => {
+const run = async (module, scheme, context, apply) => {
 	const {
 		directory,
 		files = [],
 		command,
 		print,
-	} = await module.build(scheme, { name });
+	} = await module.build(scheme, context);
 	const target =
-		apply && directory ? expand(directory) : path.join(OUTPUT, module.name);
+		apply && directory ? directory : path.join(OUTPUT, module.name);
 
 	for (const file of files) {
 		const destination = path.join(target, file.path);
@@ -125,32 +120,48 @@ const run = async (module, scheme, { name, apply }) => {
 		process.stdout.write(print);
 	}
 
+	// A failing reload (an application that isn't running, for example)
+	// shouldn't stop the other modules
 	if (apply && command) {
-		execSync(command, { stdio: "inherit" });
-	}
-};
-
-const build = async (input) => {
-	const all = await modules(() => true);
-
-	for (const { name, definition } of await inputs(input)) {
-		const scheme = Lumen(definition);
-
-		for (const module of all) {
-			await run(module, scheme, { name, apply: false });
+		try {
+			execSync(command, { stdio: "inherit" });
+		} catch (error) {
+			console.error(`${module.name}: ${error.message}`);
 		}
 	}
 };
 
+// Every module into build/, for every scheme when there's no input
+const build = async (input) => {
+	const all = await modules(() => true);
+	const targets =
+		input === undefined
+			? await Promise.all((await list(SCHEMES)).map(prepare))
+			: [await prepare(input)];
+
+	for (const { name, definition } of targets) {
+		const scheme = Lumen(definition);
+
+		for (const module of all) {
+			await run(module, scheme, { name }, false);
+		}
+	}
+};
+
+// One scheme, named Lumen, into each module's own directory. Without input,
+// the last one is applied again (when the theme mode changes, for example)
 const apply = async (input) => {
 	const last = input === undefined ? await recall() : await prepare(input);
 	const scheme = Lumen(last.definition);
+	const context = { name: "Lumen", mode: mode() };
 
 	for (const module of await modules((name) => !OPTIONAL.includes(name))) {
-		await run(module, scheme, { name: "Lumen", apply: true });
+		await run(module, scheme, context, true);
 	}
 
-	await remember(last.input, last.definition);
+	if (input !== undefined) {
+		await remember({ input: last.input, definition: last.definition });
+	}
 };
 
 const COMMANDS = { build, apply };
@@ -160,8 +171,8 @@ const main = async () => {
 		positionals: [command, input],
 	} = parseArgs({ allowPositionals: true });
 
-	if (!Object.hasOwn(COMMANDS, command ?? "")) {
-		exit(USAGE.join("\n"));
+	if (!Object.hasOwn(COMMANDS, command)) {
+		exit(USAGE);
 	}
 
 	await COMMANDS[command](input);
