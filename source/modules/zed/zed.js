@@ -91,20 +91,23 @@ const statuses = ({ color, surface }) => {
 // colors) for missing keys, so every key is set
 const style = (roles) => {
 	const { accent, color, surface } = roles;
-	const { field, frame, modal } = surface;
+	const { field, frame } = surface;
+	const selected = accent.base.container;
+	// Hover previews selection: halfway between the surface and the selection
+	const hover = alpha(selected.background, 0.5, frame.background);
 	const selection = alpha(accent.primary.color, 0.24);
 
 	return {
 		"background.appearance": "opaque",
 
-		// Surfaces: window chrome and side panels on frame, menus and dialogs on
-		// modal, the editor on field. Borders between them use subtle outlines
+		// Surfaces: window chrome, side panels, popups and menus on frame, the
+		// editor on field. Borders between them use subtle outlines
 		background: frame.background,
 		"surface.background": frame.background,
-		"elevated_surface.background": modal.background,
+		"elevated_surface.background": frame.background,
 		"panel.background": frame.background,
-		"panel.overlay_background": modal.background,
-		"panel.overlay_hover": accent.base.container.background,
+		"panel.overlay_background": frame.background,
+		"panel.overlay_hover": hover,
 		"title_bar.background": frame.background,
 		"title_bar.inactive_background": field.background,
 		"status_bar.background": frame.background,
@@ -115,9 +118,12 @@ const style = (roles) => {
 
 		// Borders
 		border: frame.outline.subtle,
+		// Also the border of every popup, menu and the command palette. They sit on
+		// frame (Zed's text colors come from frame, so text keeps its contrast
+		// there), outlined by its subtle outline like everything else
 		"border.variant": frame.outline.subtle,
 		"border.focused": accent.primary.color,
-		"border.selected": accent.primary.container.outline.normal,
+		"border.selected": selected.outline.normal,
 		"border.transparent": TRANSPARENT,
 		"border.disabled": frame.outline.subtle,
 		"pane.focused_border": accent.primary.color,
@@ -127,15 +133,15 @@ const style = (roles) => {
 
 		// Interactive elements
 		"element.background": frame.outline.subtle,
-		"element.hover": accent.base.container.background,
-		"element.active": accent.primary.container.background,
-		"element.selected": accent.primary.container.background,
+		"element.hover": hover,
+		"element.active": selected.background,
+		"element.selected": selected.background,
 		"element.disabled": frame.background,
 		"element.selection_background": selection,
 		"ghost_element.background": TRANSPARENT,
-		"ghost_element.hover": accent.base.container.background,
-		"ghost_element.active": accent.primary.container.background,
-		"ghost_element.selected": accent.primary.container.background,
+		"ghost_element.hover": hover,
+		"ghost_element.active": selected.background,
+		"ghost_element.selected": selected.background,
 		"ghost_element.disabled": TRANSPARENT,
 		"drop_target.background": alpha(accent.primary.color, 0.25),
 		"drop_target.border": accent.primary.color,

@@ -6,6 +6,7 @@ import path from "node:path";
 
 import { parseArgs } from "node:util";
 
+import { lock } from "./components/locker.js";
 import { read, schemes } from "./components/reader.js";
 import { modules, run } from "./components/runner.js";
 import Lumen from "./lumen.js";
@@ -61,29 +62,37 @@ const build = async (input, mode) => {
 };
 
 const apply = async (input, mode) => {
-	const last = await recall();
-	const next = input === undefined ? last : await read(input);
+	const release = await lock("lumen");
 
-	if (next.definition === undefined) {
-		exit('Nothing to apply yet, run "lumen apply <input>" first');
-	}
+	try {
+		const last = await recall();
+		const next = input === undefined ? last : await read(input);
 
-	const current = {
-		input: next.input,
-		definition: next.definition,
-		mode: mode ?? last.mode ?? "dark",
-	};
-	const scheme = Lumen(current.definition);
-	const context = { name: "Lumen", mode: current.mode };
+		if (next.definition === undefined) {
+			exit('Nothing to apply yet, run "lumen apply <input>" first');
+		}
 
-	for (const module of await modules((name) => !OPTIONAL.includes(name))) {
-		const output = path.join(OUTPUT, module.name);
+		const current = {
+			input: next.input,
+			definition: next.definition,
+			mode: mode ?? last.mode ?? "dark",
+		};
+		const scheme = Lumen(current.definition);
+		const context = { name: "Lumen", mode: current.mode };
 
-		await run(module, scheme, context, { output, apply: true });
-	}
+		const applied = await modules((name) => !OPTIONAL.includes(name));
 
-	if (input !== undefined || mode !== undefined) {
-		await remember(current);
+		for (const module of applied) {
+			const output = path.join(OUTPUT, module.name);
+
+			await run(module, scheme, context, { output, apply: true });
+		}
+
+		if (input !== undefined || mode !== undefined) {
+			await remember(current);
+		}
+	} finally {
+		release();
 	}
 };
 
