@@ -53,12 +53,13 @@ const terminal = ({ ansi, surface }) => {
 // Each status has a color, a background and a border: the color, its
 // container and the container's outline
 const statuses = ({ color, surface }) => {
-	const { field } = surface;
+	// Ignored, hidden… entries are in panels, on frame
+	const { frame } = surface;
 	const neutral = {
-		color: field.foreground.subtle,
+		color: frame.foreground.subtle,
 		container: {
-			background: field.outline.subtle,
-			outline: { normal: field.outline.normal },
+			background: frame.outline.subtle,
+			outline: { normal: frame.outline.normal },
 		},
 	};
 	const sources = {
@@ -147,13 +148,16 @@ const style = (roles) => {
 		"drop_target.border": accent.primary.color,
 
 		// Text and icons
-		text: frame.foreground.normal,
-		"text.muted": frame.foreground.subtle,
+		// Zed draws primary labels (e.g. selected project entries) with text and
+		// regular ones with text.muted; ignored and hidden entries use the neutral
+		// statuses, so the three get strong, normal and subtle
+		text: frame.foreground.strong,
+		"text.muted": frame.foreground.normal,
 		"text.placeholder": frame.foreground.subtle,
 		"text.disabled": frame.outline.normal,
 		"text.accent": accent.primary.color,
-		icon: frame.foreground.normal,
-		"icon.muted": frame.foreground.subtle,
+		icon: frame.foreground.strong,
+		"icon.muted": frame.foreground.normal,
 		"icon.placeholder": frame.foreground.subtle,
 		"icon.disabled": frame.outline.normal,
 		"icon.accent": accent.primary.color,
