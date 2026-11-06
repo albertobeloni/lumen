@@ -51,11 +51,11 @@ const palette = ({ roles }) => {
 
 	return {
 		mPrimary: accent.primary.background,
-		mOnPrimary: accent.primary.foreground.strong,
+		mOnPrimary: accent.primary.foreground.normal,
 		mSecondary: accent.secondary.background,
-		mOnSecondary: accent.secondary.foreground.strong,
+		mOnSecondary: accent.secondary.foreground.normal,
 		mTertiary: accent.tertiary.background,
-		mOnTertiary: accent.tertiary.foreground.strong,
+		mOnTertiary: accent.tertiary.foreground.normal,
 		mError: color.red.background,
 		mOnError: color.red.foreground.normal,
 		mSurface: surface.field.background,
@@ -65,7 +65,7 @@ const palette = ({ roles }) => {
 		mOutline: surface.frame.outline.subtle,
 		mShadow: solid(roles.shadow),
 		mHover: accent.secondary.container.background,
-		mOnHover: accent.secondary.container.foreground.strong,
+		mOnHover: accent.secondary.container.foreground.normal,
 		terminal: terminal(roles),
 	};
 };
