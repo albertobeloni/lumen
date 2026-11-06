@@ -97,6 +97,7 @@ export default {
 		operator: { role: "surface.field.foreground.subtle" },
 		property: { role: "surface.field.foreground.normal" },
 		punctuation: { role: "surface.field.foreground.subtle" },
+		special: { role: "color.cyan.color" },
 		string: { role: "accent.secondary.color" },
 		tag: { role: "accent.tertiary.color" },
 		type: { role: "accent.tertiary.color" },

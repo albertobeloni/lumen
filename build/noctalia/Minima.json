@@ -1,11 +1,11 @@
 {
 	"dark": {
 		"mPrimary": "#5dac9a",
-		"mOnPrimary": "#040f0c",
+		"mOnPrimary": "#1c3a33",
 		"mSecondary": "#90a29c",
-		"mOnSecondary": "#0b0d0d",
+		"mOnSecondary": "#2f3634",
 		"mTertiary": "#d3889f",
-		"mOnTertiary": "#15090d",
+		"mOnTertiary": "#4a2c35",
 		"mError": "#d98a6f",
 		"mOnError": "#4c2d22",
 		"mSurface": "#0c0d10",
@@ -15,7 +15,7 @@
 		"mOutline": "#252427",
 		"mShadow": "#000000",
 		"mHover": "#39403e",
-		"mOnHover": "#d2d6d4",
+		"mOnHover": "#9cafa9",
 		"terminal": {
 			"background": "#0c0d10",
 			"foreground": "#83787a",
@@ -47,11 +47,11 @@
 	},
 	"light": {
 		"mPrimary": "#2e5a50",
-		"mOnPrimary": "#f7f6f4",
+		"mOnPrimary": "#a5cfc3",
 		"mSecondary": "#4b5451",
-		"mOnSecondary": "#f9f6f4",
+		"mOnSecondary": "#bfc8c4",
 		"mTertiary": "#704653",
-		"mOnTertiary": "#fdf4f5",
+		"mOnTertiary": "#ecb9c7",
 		"mError": "#734738",
 		"mOnError": "#f2baa7",
 		"mSurface": "#fef5ea",
@@ -61,7 +61,7 @@
 		"mOutline": "#e5dcd3",
 		"mShadow": "#000000",
 		"mHover": "#adbbb6",
-		"mOnHover": "#262b29",
+		"mOnHover": "#424a47",
 		"terminal": {
 			"background": "#fef5ea",
 			"foreground": "#786e70",

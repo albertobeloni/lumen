@@ -49,6 +49,17 @@ export const measure = (tone) => {
 	return Math.min(left.chroma, right.chroma, minimum.chroma);
 };
 
+// A color made translucent: "#rrggbb" (or "#rrggbbaa", whose alpha is
+// replaced) with the given opacity. Given a background, the result is the
+// opaque color it shows on that background, for apps without transparency
+export const alpha = (color, opacity, background) => {
+	if (background === undefined) {
+		return render(color, opacity);
+	}
+
+	return render(Color.mix(background, color, opacity, { space: "srgb" }));
+};
+
 export const angle = (rotation) => {
 	return ((rotation % 360) + 360) % 360;
 };
