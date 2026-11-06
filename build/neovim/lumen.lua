@@ -41,10 +41,10 @@ local variants = {
 				bold = true,
 			},
 			LineNrSeparator = {
-				fg = "#413e41",
+				fg = "#1e1d21",
 			},
 			CursorLineNrSeparator = {
-				fg = "#474246",
+				fg = "#252427",
 				bg = "#16161a",
 			},
 			SignColumn = {
@@ -69,7 +69,7 @@ local variants = {
 				fg = "#6c6466",
 			},
 			WinSeparator = {
-				fg = "#413e41",
+				fg = "#1e1d21",
 				bg = "#0c0d10",
 			},
 			MatchParen = {
@@ -312,7 +312,7 @@ local variants = {
 				fg = "#83787a",
 			},
 			Function = {
-				fg = "#a6697c",
+				fg = "#768045",
 			},
 			Statement = {
 				fg = "#488678",
@@ -324,7 +324,7 @@ local variants = {
 				fg = "#6c6466",
 			},
 			Type = {
-				fg = "#a6697c",
+				fg = "#768045",
 			},
 			Special = {
 				fg = "#448589",
@@ -333,7 +333,7 @@ local variants = {
 				fg = "#6c6466",
 			},
 			Tag = {
-				fg = "#a6697c",
+				fg = "#768045",
 			},
 			Underlined = {
 				fg = "#488678",
@@ -362,7 +362,7 @@ local variants = {
 				fg = "#6c6466",
 			},
 			["@constructor"] = {
-				fg = "#a6697c",
+				fg = "#768045",
 			},
 			["@markup.raw"] = {
 				fg = "#707e79",
@@ -442,10 +442,10 @@ local variants = {
 				bold = true,
 			},
 			LineNrSeparator = {
-				fg = "#c0b6b1",
+				fg = "#ede4db",
 			},
 			CursorLineNrSeparator = {
-				fg = "#b9afab",
+				fg = "#e5dcd3",
 				bg = "#f5ece2",
 			},
 			SignColumn = {
@@ -470,7 +470,7 @@ local variants = {
 				fg = "#8e8484",
 			},
 			WinSeparator = {
-				fg = "#c0b6b1",
+				fg = "#ede4db",
 				bg = "#fef5ea",
 			},
 			MatchParen = {
@@ -713,7 +713,7 @@ local variants = {
 				fg = "#786e70",
 			},
 			Function = {
-				fg = "#986071",
+				fg = "#6c753f",
 			},
 			Statement = {
 				fg = "#417a6d",
@@ -725,7 +725,7 @@ local variants = {
 				fg = "#8e8484",
 			},
 			Type = {
-				fg = "#986071",
+				fg = "#6c753f",
 			},
 			Special = {
 				fg = "#3d797d",
@@ -734,7 +734,7 @@ local variants = {
 				fg = "#8e8484",
 			},
 			Tag = {
-				fg = "#986071",
+				fg = "#6c753f",
 			},
 			Underlined = {
 				fg = "#417a6d",
@@ -763,7 +763,7 @@ local variants = {
 				fg = "#8e8484",
 			},
 			["@constructor"] = {
-				fg = "#986071",
+				fg = "#6c753f",
 			},
 			["@markup.raw"] = {
 				fg = "#66736f",

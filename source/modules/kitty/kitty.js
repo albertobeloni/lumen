@@ -45,7 +45,7 @@ const colors = ({ accent, ansi, color, surface }) => {
 		visual_bell_color: color.yellow.container.background,
 
 		active_border_color: accent.primary.color,
-		inactive_border_color: field.outline.normal,
+		inactive_border_color: field.outline.subtle,
 		bell_border_color: color.yellow.color,
 
 		tab_bar_background: frame.background,

@@ -91,18 +91,18 @@ const statuses = ({ color, surface }) => {
 // colors) for missing keys, so every key is set
 const style = (roles) => {
 	const { accent, color, surface } = roles;
-	const { field, frame, panel, modal } = surface;
+	const { field, frame, modal } = surface;
 	const selection = alpha(accent.primary.color, 0.24);
 
 	return {
 		"background.appearance": "opaque",
 
-		// Surfaces: window chrome on frame, side panels on panel, menus and
-		// dialogs on modal, the editor on field
+		// Surfaces: window chrome and side panels on frame, menus and dialogs on
+		// modal, the editor on field. Borders between them use subtle outlines
 		background: frame.background,
-		"surface.background": panel.background,
+		"surface.background": frame.background,
 		"elevated_surface.background": modal.background,
-		"panel.background": panel.background,
+		"panel.background": frame.background,
 		"panel.overlay_background": modal.background,
 		"panel.overlay_hover": accent.base.container.background,
 		"title_bar.background": frame.background,
@@ -114,22 +114,23 @@ const style = (roles) => {
 		"tab.active_background": field.background,
 
 		// Borders
-		border: frame.outline.normal,
+		border: frame.outline.subtle,
 		"border.variant": frame.outline.subtle,
 		"border.focused": accent.primary.color,
 		"border.selected": accent.primary.container.outline.normal,
 		"border.transparent": TRANSPARENT,
 		"border.disabled": frame.outline.subtle,
 		"pane.focused_border": accent.primary.color,
-		"pane_group.border": frame.outline.normal,
-		"panel.focused_border": accent.primary.color,
+		"pane_group.border": frame.outline.subtle,
+		// Outline of the focused entry in the project panel, hidden
+		"panel.focused_border": TRANSPARENT,
 
 		// Interactive elements
-		"element.background": panel.outline.subtle,
+		"element.background": frame.outline.subtle,
 		"element.hover": accent.base.container.background,
 		"element.active": accent.primary.container.background,
 		"element.selected": accent.primary.container.background,
-		"element.disabled": panel.background,
+		"element.disabled": frame.background,
 		"element.selection_background": selection,
 		"ghost_element.background": TRANSPARENT,
 		"ghost_element.hover": accent.base.container.background,
@@ -140,15 +141,15 @@ const style = (roles) => {
 		"drop_target.border": accent.primary.color,
 
 		// Text and icons
-		text: panel.foreground.normal,
-		"text.muted": panel.foreground.subtle,
-		"text.placeholder": panel.foreground.subtle,
-		"text.disabled": panel.outline.normal,
+		text: frame.foreground.normal,
+		"text.muted": frame.foreground.subtle,
+		"text.placeholder": frame.foreground.subtle,
+		"text.disabled": frame.outline.normal,
 		"text.accent": accent.primary.color,
-		icon: panel.foreground.normal,
-		"icon.muted": panel.foreground.subtle,
-		"icon.placeholder": panel.foreground.subtle,
-		"icon.disabled": panel.outline.normal,
+		icon: frame.foreground.normal,
+		"icon.muted": frame.foreground.subtle,
+		"icon.placeholder": frame.foreground.subtle,
+		"icon.disabled": frame.outline.normal,
 		"icon.accent": accent.primary.color,
 		"link_text.hover": accent.primary.color,
 
@@ -196,9 +197,9 @@ const style = (roles) => {
 		"scrollbar.thumb.border": TRANSPARENT,
 		"scrollbar.track.background": TRANSPARENT,
 		"scrollbar.track.border": field.outline.subtle,
-		"panel.indent_guide": panel.outline.subtle,
-		"panel.indent_guide_active": panel.outline.normal,
-		"panel.indent_guide_hover": panel.outline.strong,
+		"panel.indent_guide": frame.outline.subtle,
+		"panel.indent_guide_active": frame.outline.normal,
+		"panel.indent_guide_hover": frame.outline.strong,
 
 		// Statuses and version control
 		...statuses(roles),

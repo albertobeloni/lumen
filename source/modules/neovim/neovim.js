@@ -56,9 +56,9 @@ const groups = ({ accent, color, roles, status, surface, syntax }) => {
 			bg: frame.background,
 			bold: true,
 		},
-		LineNrSeparator: { fg: field.outline.normal },
+		LineNrSeparator: { fg: field.outline.subtle },
 		CursorLineNrSeparator: {
-			fg: frame.outline.normal,
+			fg: frame.outline.subtle,
 			bg: frame.background,
 		},
 		SignColumn: { fg: field.foreground.subtle, bg: field.background },
@@ -67,7 +67,7 @@ const groups = ({ accent, color, roles, status, surface, syntax }) => {
 		NonText: { fg: field.outline.normal },
 		Conceal: { fg: field.foreground.subtle },
 		SpecialKey: { fg: field.foreground.subtle },
-		WinSeparator: { fg: field.outline.normal, bg: field.background },
+		WinSeparator: { fg: field.outline.subtle, bg: field.background },
 		MatchParen: {
 			fg: field.foreground.strong,
 			bg: panel.background,

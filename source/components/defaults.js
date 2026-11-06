@@ -18,7 +18,7 @@ export default {
 		default: {
 			primary: { rotation: 0, chromacity: 1 },
 			secondary: { rotation: 0, chromacity: 1 / 3 },
-			tertiary: { rotation: 180, chromacity: 1 },
+			tertiary: { rotation: -60, chromacity: 1 },
 		},
 		analogous: {
 			primary: { rotation: 0, chromacity: 1 },
@@ -57,5 +57,5 @@ export default {
 		natural: { chroma: 5, offset: 1, chromacity: 3 / 4 },
 		vibrant: { chroma: 10, offset: 1, chromacity: 1 },
 	},
-	primary: 180,
+	primary: 120,
 };
