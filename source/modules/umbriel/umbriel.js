@@ -21,8 +21,8 @@ shadow = "${shadow}"
 
 [colors.border]
 focused = "${primary.color}"
-unfocused = "${frame.outline.normal}"
-outer = "${frame.outline.normal}"
+unfocused = "${frame.outline.subtle}"
+outer = "${field.background}"
 
 [colors.overview]
 background_tint = "${alpha(field.background, 0.3)}"
