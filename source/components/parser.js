@@ -8,13 +8,9 @@ const accents = (scheme) => {
 
 	const accent = (name) => {
 		const { rotation } = harmony[name];
-		const anchor =
-			name == "quaternary" || name == "senary"
-				? scheme.tertiary
-				: scheme.primary;
 
 		return {
-			hue: scheme[name] ?? angle(anchor + rotation),
+			hue: scheme[name] ?? angle(scheme.primary + rotation),
 			chromacity: chromacity * harmony[name].chromacity,
 		};
 	};
