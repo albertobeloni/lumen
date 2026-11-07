@@ -19,9 +19,9 @@ const accents = (scheme) => {
 		primary: accent("primary"),
 		secondary: accent("secondary"),
 		tertiary: accent("tertiary"),
-		tertiary: accent("quaternary"),
-		tertiary: accent("quinary"),
-		tertiary: accent("senary"),
+		quaternary: accent("quaternary"),
+		quinary: accent("quinary"),
+		senary: accent("senary"),
 	};
 };
 

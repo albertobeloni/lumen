@@ -55,6 +55,9 @@ export default (dark) => {
 			primary: hue("primary"),
 			secondary: hue("secondary"),
 			tertiary: hue("tertiary"),
+			quaternary: hue("quaternary"),
+			quinary: hue("quinary"),
+			senary: hue("senary"),
 		},
 		surface: {
 			field: surface("base", 0),
