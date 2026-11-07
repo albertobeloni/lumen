@@ -63,14 +63,14 @@ const style = ({ accent, ansi, color, surface, syntax }) => {
 		"tab.inactive_background": frame.background,
 		"tab.active_background": field.background,
 
-		"border": field.outline.silent,
+		"border": field.outline.subtle,
 		"border.variant": field.outline.silent,
 		"border.focused": primary.color,
 		"border.selected": base.container.outline.normal,
 		"border.transparent": TRANSPARENT,
 		"border.disabled": field.outline.silent,
 		"pane.focused_border": primary.color,
-		"pane_group.border": field.outline.silent,
+		"pane_group.border": field.outline.subtle,
 		"panel.focused_border": TRANSPARENT,
 
 		"element.background": frame.overlay.silent,
