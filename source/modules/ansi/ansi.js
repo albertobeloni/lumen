@@ -1,4 +1,4 @@
-const LEVELS = ["subtle", "normal", "strong"];
+const LEVELS = ["silent", "subtle", "normal", "strong"];
 
 const WIDTH = 3;
 const HEIGHT = 1;

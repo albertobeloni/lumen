@@ -55,9 +55,9 @@ const groups = (roles) => {
 		"ColorColumn": { "bg": frame.background },
 		"LineNr": { "fg": field.foreground.subtle },
 		"CursorLineNr": { ...on(frame, "strong"), "bold": true },
-		"LineNrSeparator": { "fg": field.outline.subtle },
+		"LineNrSeparator": { "fg": field.outline.silent },
 		"CursorLineNrSeparator": {
-			"fg": frame.outline.subtle,
+			"fg": frame.outline.silent,
 			"bg": frame.background,
 		},
 		"SignColumn": on(field, "subtle"),
@@ -66,7 +66,7 @@ const groups = (roles) => {
 		"NonText": { "fg": field.outline.normal },
 		"Conceal": { "fg": field.foreground.subtle },
 		"SpecialKey": { "fg": field.foreground.subtle },
-		"WinSeparator": { "fg": field.outline.subtle, "bg": field.background },
+		"WinSeparator": { "fg": field.outline.silent, "bg": field.background },
 		"MatchParen": {
 			"fg": field.foreground.strong,
 			"bg": panel.background,

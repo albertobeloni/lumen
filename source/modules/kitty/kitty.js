@@ -20,7 +20,7 @@ url_color ${primary.color}
 visual_bell_color ${color.yellow.container.background}
 
 active_border_color ${primary.color}
-inactive_border_color ${field.outline.subtle}
+inactive_border_color ${field.outline.silent}
 bell_border_color ${color.yellow.color}
 
 tab_bar_background ${frame.background}

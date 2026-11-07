@@ -48,12 +48,12 @@ const variables = (roles, mode) => {
 
 		...area("sidebar", frame),
 		"sidebar-backdrop": frame.background,
-		"sidebar-border": frame.outline.subtle,
+		"sidebar-border": frame.outline.silent,
 		"sidebar-shade": shade,
 
 		...area("secondary-sidebar", frame),
 		"secondary-sidebar-backdrop": frame.background,
-		"secondary-sidebar-border": frame.outline.subtle,
+		"secondary-sidebar-border": frame.outline.silent,
 		"secondary-sidebar-shade": shade,
 
 		...area("card", panel),

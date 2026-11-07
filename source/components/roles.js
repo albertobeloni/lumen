@@ -1,5 +1,10 @@
 const MIDDLE = 20;
 
+const FOREGROUND = { silent: 12, subtle: 16, normal: 20, strong: 26 };
+const OUTLINE = { silent: 2, subtle: 4, normal: 8, strong: 16 };
+const SHADE = { silent: 0, subtle: 2, normal: 4, strong: 10 };
+const OVERLAY = { silent: 0.05, subtle: 0.075, normal: 0.1, strong: 0.2 };
+
 const away = (level, distance) => {
 	return level <= MIDDLE ? level + distance : level - distance;
 };
@@ -8,31 +13,30 @@ const color = (palette, level) => {
 	return { palette, level };
 };
 
-const contrast = (palette, level) => {
-	return {
-		normal: color(palette, away(level, 20)),
-		strong: color(palette, away(level, 26)),
-		subtle: color(palette, away(level, 16)),
-	};
+const levels = (palette, level, distances) => {
+	return Object.fromEntries(
+		Object.entries(distances).map(([name, distance]) => {
+			return [name, color(palette, away(level, distance))];
+		}),
+	);
 };
 
-const shade = (palette, level) => {
-	return {
-		normal: color(palette, away(level, 4)),
-		strong: color(palette, away(level, 10)),
-		subtle: color(palette, away(level, 0)),
-	};
+const overlay = (palette, level) => {
+	const tone = color(palette, away(level, FOREGROUND.strong));
+
+	return Object.fromEntries(
+		Object.entries(OVERLAY).map(([name, alpha]) => {
+			return [name, { ...tone, alpha }];
+		}),
+	);
 };
 
 const surface = (palette, level) => {
 	return {
 		background: color(palette, level),
-		foreground: contrast(palette, level),
-		outline: {
-			normal: color(palette, away(level, 8)),
-			strong: color(palette, away(level, 16)),
-			subtle: color(palette, away(level, 2)),
-		},
+		foreground: levels(palette, level, FOREGROUND),
+		outline: levels(palette, level, OUTLINE),
+		overlay: overlay(palette, level),
 	};
 };
 
@@ -58,11 +62,6 @@ export default (dark) => {
 			panel: surface("base", 2),
 			modal: surface("base", 3),
 			popup: surface("base", 4),
-		},
-		overlay: {
-			normal: { role: "surface.field.foreground.strong", alpha: 0.1 },
-			strong: { role: "surface.field.foreground.strong", alpha: 0.2 },
-			subtle: { role: "surface.field.foreground.strong", alpha: 0.05 },
 		},
 		color: {
 			red: hue("red"),
@@ -95,14 +94,18 @@ export default (dark) => {
 			variable: { role: "surface.field.foreground.normal" },
 		},
 		ansi: {
-			black: dark ? shade("base", 0) : contrast("base", 0),
-			red: contrast("red", 0),
-			green: contrast("green", 0),
-			yellow: contrast("yellow", 0),
-			blue: contrast("blue", 0),
-			magenta: contrast("magenta", 0),
-			cyan: contrast("cyan", 0),
-			white: dark ? contrast("base", 0) : shade("base", 0),
+			black: dark
+				? levels("base", 0, SHADE)
+				: levels("base", 0, FOREGROUND),
+			red: levels("red", 0, FOREGROUND),
+			green: levels("green", 0, FOREGROUND),
+			yellow: levels("yellow", 0, FOREGROUND),
+			blue: levels("blue", 0, FOREGROUND),
+			magenta: levels("magenta", 0, FOREGROUND),
+			cyan: levels("cyan", 0, FOREGROUND),
+			white: dark
+				? levels("base", 0, FOREGROUND)
+				: levels("base", 0, SHADE),
 		},
 		scrim: { value: "#000000", alpha: 0.75 },
 		shadow: { value: "#000000", alpha: 0.25 },
