@@ -54,8 +54,20 @@ export default {
 	primary: 120,
 	style: "neutral",
 	styles: {
-		neutral: { chroma: 0, offset: 0, chromacity: 1 },
-		natural: { chroma: 5, offset: 1, chromacity: 3 / 4 },
-		vibrant: { chroma: 10, offset: 1, chromacity: 1 },
+		neutral: {
+			chroma: 0,
+			offset: { dark: 0, light: 0 },
+			chromacity: 1,
+		},
+		natural: {
+			chroma: 5,
+			offset: { dark: 1, light: 2 },
+			chromacity: 3 / 4,
+		},
+		vibrant: {
+			chroma: 10,
+			offset: { dark: 1, light: 2 },
+			chromacity: 1,
+		},
 	},
 };

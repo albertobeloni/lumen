@@ -42,7 +42,7 @@ const theme = (scheme, dark) => {
 	return {
 		name: scheme.names[dark ? "dark" : "light"],
 		palette,
-		roles: resolve(ROLES(dark), palette, offset),
+		roles: resolve(ROLES(dark), palette, offset[dark ? "dark" : "light"]),
 	};
 };
 
