@@ -1,3 +1,4 @@
+import filesystem from "node:fs/promises";
 import path from "node:path";
 
 import { existsSync } from "node:fs";
@@ -20,6 +21,14 @@ const tint = (input) => {
 	return { primary: color.to("hct").get("h") };
 };
 
+const restore = async (file) => {
+	const { input, definition, mode } = JSON.parse(
+		await filesystem.readFile(file, "utf8"),
+	);
+
+	return { name: "Lumen", input, definition, mode };
+};
+
 export const schemes = () => {
 	return list(SCHEMES);
 };
@@ -31,6 +40,10 @@ export const read = async (input) => {
 
 	if (existsSync(input)) {
 		const file = path.resolve(input);
+
+		if (path.extname(file) === ".json") {
+			return restore(file);
+		}
 
 		return { name: "Lumen", input: file, definition: await extract(file) };
 	}

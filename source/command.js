@@ -15,8 +15,8 @@ const OPTIONAL = ["ansi"];
 const MODES = ["dark", "light"];
 
 const USAGE = `Usage:
-  lumen build [input] [--mode dark|light]
-  lumen apply [input] [--mode dark|light]`;
+  lumen build [input] [--mode dark|light] [--module name]...
+  lumen apply [input] [--mode dark|light] [--module name]...`;
 
 const OUTPUT = path.join(import.meta.dirname, "..", "build");
 
@@ -42,16 +42,20 @@ const recall = async () => {
 	return JSON.parse(last);
 };
 
-const build = async (input, mode) => {
-	const all = await modules();
+const select = (names, fallback) => {
+	return names === undefined ? fallback : (name) => names.includes(name);
+};
+
+const build = async (input, mode, names) => {
+	const all = await modules(select(names, () => true));
 	const targets =
 		input === undefined
 			? await Promise.all((await schemes()).map(read))
 			: [await read(input)];
 
-	for (const { name, definition } of targets) {
-		const scheme = Lumen(definition);
-		const context = { name, mode };
+	for (const target of targets) {
+		const scheme = Lumen(target.definition);
+		const context = { name: target.name, mode: mode ?? target.mode };
 
 		for (const module of all) {
 			const output = path.join(OUTPUT, module.name);
@@ -61,7 +65,7 @@ const build = async (input, mode) => {
 	}
 };
 
-const apply = async (input, mode) => {
+const apply = async (input, mode, names) => {
 	const release = await lock("lumen");
 
 	try {
@@ -75,12 +79,14 @@ const apply = async (input, mode) => {
 		const current = {
 			input: next.input,
 			definition: next.definition,
-			mode: mode ?? last.mode ?? "dark",
+			mode: mode ?? next.mode ?? last.mode ?? "dark",
 		};
 		const scheme = Lumen(current.definition);
 		const context = { name: "Lumen", mode: current.mode };
 
-		const applied = await modules((name) => !OPTIONAL.includes(name));
+		const applied = await modules(
+			select(names, (name) => !OPTIONAL.includes(name)),
+		);
 
 		for (const module of applied) {
 			const output = path.join(OUTPUT, module.name);
@@ -101,10 +107,13 @@ const COMMANDS = { build, apply };
 const main = async () => {
 	const {
 		positionals: [command, input],
-		values: { mode },
+		values: { mode, module: names },
 	} = parseArgs({
 		allowPositionals: true,
-		options: { mode: { type: "string", short: "m" } },
+		options: {
+			mode: { type: "string", short: "m" },
+			module: { type: "string", short: "M", multiple: true },
+		},
 	});
 
 	if (!Object.hasOwn(COMMANDS, command)) {
@@ -115,7 +124,13 @@ const main = async () => {
 		exit(USAGE);
 	}
 
-	await COMMANDS[command](input, mode);
+	const known = (await modules()).map(({ name }) => name);
+
+	if (names?.some((name) => !known.includes(name))) {
+		exit(USAGE);
+	}
+
+	await COMMANDS[command](input, mode, names);
 };
 
 main();
