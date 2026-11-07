@@ -1,7 +1,7 @@
 const MIDDLE = 20;
 
 const FOREGROUND = { silent: 12, subtle: 16, normal: 20, strong: 26 };
-const OUTLINE = { silent: 2, subtle: 4, normal: 8, strong: 16 };
+const OUTLINE = { silent: 3, subtle: 4, normal: 8, strong: 16 };
 const SHADE = { silent: 0, subtle: 2, normal: 4, strong: 10 };
 const OVERLAY = { silent: 0.05, subtle: 0.075, normal: 0.1, strong: 0.2 };
 
