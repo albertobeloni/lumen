@@ -22,36 +22,6 @@ const probe = (hue, tone) => {
 	return { hue, chroma: maximum(hue, tone) };
 };
 
-export const measure = (tone) => {
-	const minimum = SAMPLES.map((hue) => probe(hue, tone)).reduce(
-		(best, sample) => {
-			return sample.chroma < best.chroma ? sample : best;
-		},
-	);
-
-	let low = minimum.hue - 10;
-	let high = minimum.hue + 10;
-	let left = probe(high - GOLDEN * (high - low), tone);
-	let right = probe(low + GOLDEN * (high - low), tone);
-
-	while (high - low > PRECISION) {
-		if (left.chroma < right.chroma) {
-			high = right.hue;
-			right = left;
-			left = probe(high - GOLDEN * (high - low), tone);
-		} else {
-			low = left.hue;
-			left = right;
-			right = probe(low + GOLDEN * (high - low), tone);
-		}
-	}
-
-	return Math.min(left.chroma, right.chroma, minimum.chroma);
-};
-
-// A color made translucent: "#rrggbb" (or "#rrggbbaa", whose alpha is
-// replaced) with the given opacity. Given a background, the result is the
-// opaque color it shows on that background, for apps without transparency
 export const alpha = (color, opacity, background) => {
 	if (background === undefined) {
 		return render(color, opacity);
@@ -104,10 +74,6 @@ export const colorfulness = ([, a, b]) => {
 	return Math.hypot(a, b);
 };
 
-export const contrast = (foreground, background) => {
-	return Color.contrast(foreground, background, "WCAG21");
-};
-
 export const distance = (a, b) => {
 	const difference = Math.abs(a - b) % 360;
 
@@ -132,6 +98,33 @@ export const hct = (hue, chroma, tone) => {
 	});
 };
 
+export const measure = (tone) => {
+	const minimum = SAMPLES.map((hue) => probe(hue, tone)).reduce(
+		(best, sample) => {
+			return sample.chroma < best.chroma ? sample : best;
+		},
+	);
+
+	let low = minimum.hue - 10;
+	let high = minimum.hue + 10;
+	let left = probe(high - GOLDEN * (high - low), tone);
+	let right = probe(low + GOLDEN * (high - low), tone);
+
+	while (high - low > PRECISION) {
+		if (left.chroma < right.chroma) {
+			high = right.hue;
+			right = left;
+			left = probe(high - GOLDEN * (high - low), tone);
+		} else {
+			low = left.hue;
+			left = right;
+			right = probe(low + GOLDEN * (high - low), tone);
+		}
+	}
+
+	return Math.min(left.chroma, right.chroma, minimum.chroma);
+};
+
 export const render = (color, alpha) => {
 	const result = new Color(color);
 
@@ -150,6 +143,7 @@ export const scale = (steps) => {
 			luminance,
 			1.089 * luminance,
 		]);
+
 		return reference.to("hct").get("t");
 	});
 };

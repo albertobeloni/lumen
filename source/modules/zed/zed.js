@@ -1,30 +1,15 @@
-import os from "node:os";
 import path from "node:path";
 
 import { alpha } from "../../components/color.js";
 
-const CONFIG =
-	process.env.XDG_CONFIG_HOME ?? path.join(os.homedir(), ".config");
-
 const SCHEMA = "https://zed.dev/schema/themes/v0.2.0.json";
 const TRANSPARENT = "#00000000";
-
-const ANSI = [
-	"black",
-	"red",
-	"green",
-	"yellow",
-	"blue",
-	"magenta",
-	"cyan",
-	"white",
-];
 
 const terminal = ({ ansi, surface }) => {
 	const { field } = surface;
 
-	const colors = ANSI.flatMap((name) => {
-		const { normal, strong, subtle } = ansi[name];
+	const colors = Object.entries(ansi).flatMap(([name, color]) => {
+		const { normal, strong, subtle } = color;
 
 		return [
 			[`terminal.ansi.${name}`, normal],
@@ -177,9 +162,17 @@ const style = (roles) => {
 	const selected = accent.base.container;
 	const hover = alpha(selected.background, 0.5, frame.background);
 
-	const highlight = (opacity) => alpha(accent.primary.color, opacity);
-	const match = (opacity) => alpha(color.yellow.color, opacity);
-	const scroll = (opacity) => alpha(field.foreground.subtle, opacity);
+	const highlight = (opacity) => {
+		return alpha(accent.primary.color, opacity);
+	};
+
+	const match = (opacity) => {
+		return alpha(color.yellow.color, opacity);
+	};
+
+	const scroll = (opacity) => {
+		return alpha(field.foreground.subtle, opacity);
+	};
 
 	return {
 		"background.appearance": "opaque",
@@ -289,7 +282,7 @@ const theme = (name, appearance, { roles }) => {
 	return { name, appearance, style: style(roles) };
 };
 
-export default (scheme, { name }) => {
+export default (scheme, { name, config }) => {
 	const family = {
 		$schema: SCHEMA,
 		name,
@@ -301,7 +294,7 @@ export default (scheme, { name }) => {
 	};
 
 	return {
-		directory: path.join(CONFIG, "zed", "themes"),
+		directory: path.join(config, "zed", "themes"),
 		files: [
 			{
 				path: `${name.toLowerCase()}.json`,

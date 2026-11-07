@@ -1,18 +1,29 @@
 import filesystem from "node:fs/promises";
 import path from "node:path";
 
-import { existsSync } from "node:fs";
+import { statSync } from "node:fs";
 
 import Color from "colorjs.io";
 
 import { colorfulness, GREY } from "./color.js";
 import { extract } from "./extractor.js";
 import { list, load } from "./loader.js";
+import { NAME } from "../lumen.js";
 
 const SCHEMES = path.join(import.meta.dirname, "..", "schemes");
 
+const parse = (input) => {
+	try {
+		return new Color(input);
+	} catch {
+		throw new Error(
+			`Unknown input "${input}" (not a scheme, file or color)`,
+		);
+	}
+};
+
 const tint = (input) => {
-	const color = new Color(input);
+	const color = parse(input);
 
 	if (colorfulness(color.to("lab-d65").coords) < GREY) {
 		return { style: "neutral" };
@@ -26,7 +37,7 @@ const restore = async (file) => {
 		await filesystem.readFile(file, "utf8"),
 	);
 
-	return { name: "Lumen", input, definition, mode };
+	return { name: NAME, input, definition, mode };
 };
 
 export const schemes = () => {
@@ -38,15 +49,15 @@ export const read = async (input) => {
 		return { name: input, input, definition: await load(SCHEMES, input) };
 	}
 
-	if (existsSync(input)) {
+	if (statSync(input, { throwIfNoEntry: false })?.isFile()) {
 		const file = path.resolve(input);
 
 		if (path.extname(file) === ".json") {
 			return restore(file);
 		}
 
-		return { name: "Lumen", input: file, definition: await extract(file) };
+		return { name: NAME, input: file, definition: await extract(file) };
 	}
 
-	return { name: "Lumen", input, definition: tint(input) };
+	return { name: NAME, input, definition: tint(input) };
 };

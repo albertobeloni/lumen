@@ -1,26 +1,12 @@
-import os from "node:os";
 import path from "node:path";
-
-const CONFIG =
-	process.env.XDG_CONFIG_HOME ?? path.join(os.homedir(), ".config");
-
-const ANSI = [
-	"black",
-	"red",
-	"green",
-	"yellow",
-	"blue",
-	"magenta",
-	"cyan",
-	"white",
-];
 
 const terminal = ({ accent, ansi, surface }) => {
 	const { field } = surface;
 	const selected = accent.base.container;
 
-	const normal = ANSI.map((name) => [name, ansi[name].normal]);
-	const bright = ANSI.map((name) => [name, ansi[name].strong]);
+	const colors = Object.entries(ansi);
+	const normal = colors.map(([name, color]) => [name, color.normal]);
+	const bright = colors.map(([name, color]) => [name, color.strong]);
 
 	return {
 		background: field.background,
@@ -60,14 +46,14 @@ const palette = ({ roles }) => {
 	};
 };
 
-export default (scheme, { name }) => {
+export default (scheme, { name, config }) => {
 	const palettes = {
 		dark: palette(scheme.theme.dark),
 		light: palette(scheme.theme.light),
 	};
 
 	return {
-		directory: path.join(CONFIG, "noctalia", "palettes"),
+		directory: path.join(config, "noctalia", "palettes"),
 		files: [
 			{
 				path: `${name}.json`,

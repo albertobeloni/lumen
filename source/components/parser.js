@@ -6,17 +6,12 @@ const accents = (scheme) => {
 	const harmony = scheme.harmonies[scheme.harmony];
 	const { chromacity } = scheme.styles[scheme.style];
 
-	const accent = (accent) => {
-		if (scheme[accent] !== undefined) {
-			return {
-				hue: scheme[accent],
-				chromacity: 1 * chromacity * harmony[accent].chromacity,
-			};
-		}
+	const accent = (name) => {
+		const { rotation } = harmony[name];
 
 		return {
-			hue: angle(scheme.primary + harmony[accent].rotation),
-			chromacity: 1 * chromacity * harmony[accent].chromacity,
+			hue: scheme[name] ?? angle(scheme.primary + rotation),
+			chromacity: chromacity * harmony[name].chromacity,
 		};
 	};
 
@@ -28,7 +23,7 @@ const accents = (scheme) => {
 };
 
 const base = (scheme) => {
-	const chroma = scheme.styles[scheme.style].chroma;
+	const { chroma } = scheme.styles[scheme.style];
 	const hues = [scheme.base ?? "primary"].flat();
 
 	return {
@@ -53,10 +48,18 @@ const colors = (scheme) => {
 				name,
 				{
 					hue: harmonize(hue, anchor, scheme.harmonize),
-					chromacity: chromacity,
+					chromacity,
 				},
 			];
 		}),
+	);
+};
+
+const plain = (value) => {
+	return (
+		typeof value === "object" &&
+		value !== null &&
+		[Object.prototype, null].includes(Object.getPrototypeOf(value))
 	);
 };
 
@@ -74,14 +77,6 @@ const merge = (a, b) => {
 
 	return Object.fromEntries(
 		Array.from(keys, (key) => [key, merge(base[key], b[key])]),
-	);
-};
-
-const plain = (value) => {
-	return (
-		typeof value === "object" &&
-		value !== null &&
-		[Object.prototype, null].includes(Object.getPrototypeOf(value))
 	);
 };
 

@@ -10,8 +10,13 @@ const WINDOW = 25; // Radius around a peak used to refine its hue
 const SEPARATION = 30; // Minimum distance between primary and tertiary
 const SECOND = 0.1; // Minimum strength of tertiary relative to primary
 
-const area = () => 1;
-const strength = ({ chroma }) => chroma;
+const area = () => {
+	return 1;
+};
+
+const strength = ({ chroma }) => {
+	return chroma;
+};
 
 const samples = async (file) => {
 	const { default: sharp } = await import("sharp");

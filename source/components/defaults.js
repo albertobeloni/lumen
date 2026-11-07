@@ -51,11 +51,11 @@ export default {
 		dark: "Dark",
 		light: "Light",
 	},
+	primary: 120,
 	style: "neutral",
 	styles: {
 		neutral: { chroma: 0, offset: 0, chromacity: 1 },
 		natural: { chroma: 5, offset: 1, chromacity: 3 / 4 },
 		vibrant: { chroma: 10, offset: 1, chromacity: 1 },
 	},
-	primary: 120,
 };

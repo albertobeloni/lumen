@@ -1,21 +1,6 @@
-import os from "node:os";
 import path from "node:path";
 
 import { alpha } from "../../components/color.js";
-
-const CONFIG =
-	process.env.XDG_CONFIG_HOME ?? path.join(os.homedir(), ".config");
-
-const ANSI = [
-	"black",
-	"red",
-	"green",
-	"yellow",
-	"blue",
-	"magenta",
-	"cyan",
-	"white",
-];
 
 const TINT = 0.15;
 
@@ -28,8 +13,9 @@ const curl = (color) => {
 };
 
 const terminal = ({ ansi }) => {
-	const normal = ANSI.map((name) => ansi[name].normal);
-	const bright = ANSI.map((name) => ansi[name].strong);
+	const colors = Object.values(ansi);
+	const normal = colors.map((color) => color.normal);
+	const bright = colors.map((color) => color.strong);
 
 	return [...normal, ...bright];
 };
@@ -223,8 +209,10 @@ end
 `;
 };
 
-export default (scheme) => ({
-	directory: path.join(CONFIG, "nvim", "colors"),
-	files: [{ path: "lumen.lua", data: colorscheme(scheme) }],
-	command: "pkill -USR1 -x nvim || true",
-});
+export default (scheme, { config }) => {
+	return {
+		directory: path.join(config, "nvim", "colors"),
+		files: [{ path: "lumen.lua", data: colorscheme(scheme) }],
+		command: "pkill -USR1 -x nvim || true",
+	};
+};

@@ -4,6 +4,7 @@ import { parse } from "./components/parser.js";
 
 import ROLES from "./components/roles.js";
 
+export const NAME = "Lumen";
 export const STEPS = 41;
 
 const base = ({ hues, chroma }, tones) => {
@@ -36,11 +37,7 @@ const orient = (palette, dark) => {
 
 const theme = (scheme, dark) => {
 	const { offset } = scheme.styles[scheme.style];
-	const palette = {
-		...orient(scheme.palette, dark),
-		black: scheme.palette.base,
-		white: scheme.palette.base.toReversed(),
-	};
+	const palette = orient(scheme.palette, dark);
 
 	return {
 		name: scheme.names[dark ? "dark" : "light"],

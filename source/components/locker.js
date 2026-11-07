@@ -21,37 +21,47 @@ const alive = (pid) => {
 	}
 };
 
-export const lock = async (name) => {
+const acquire = async (file) => {
+	try {
+		await filesystem.writeFile(file, `${process.pid}`, { flag: "wx" });
+
+		return true;
+	} catch (error) {
+		if (error.code !== "EEXIST") {
+			throw error;
+		}
+	}
+
+	const owner = Number(
+		await filesystem.readFile(file, "utf8").catch(() => ""),
+	);
+
+	if (owner && !alive(owner)) {
+		await filesystem.rm(file, { force: true });
+
+		return acquire(file);
+	}
+
+	return false;
+};
+
+export const exclusive = async (name, task) => {
 	const file = path.join(DIRECTORY, `${name}.lock`);
 
-	for (;;) {
-		try {
-			await filesystem.writeFile(file, `${process.pid}`, { flag: "wx" });
-			break;
-		} catch (error) {
-			if (error.code !== "EEXIST") {
-				throw error;
-			}
-		}
-
-		const owner = Number(
-			await filesystem.readFile(file, "utf8").catch(() => ""),
-		);
-
-		if (owner && !alive(owner)) {
-			await filesystem.rm(file, { force: true });
-			continue;
-		}
-
+	while (!(await acquire(file))) {
 		await wait(INTERVAL);
 	}
 
-	const release = () => rmSync(file, { force: true });
+	const release = () => {
+		rmSync(file, { force: true });
+	};
 
 	process.once("exit", release);
 
-	return () => {
+	try {
+		return await task();
+	} finally {
 		process.off("exit", release);
 		release();
-	};
+	}
 };
