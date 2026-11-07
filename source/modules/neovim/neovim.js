@@ -54,7 +54,7 @@ const groups = (roles) => {
 		"CursorColumn": { "bg": frame.background },
 		"ColorColumn": { "bg": frame.background },
 		"LineNr": { "fg": field.foreground.silent },
-		"CursorLineNr": { ...on(frame, "strong"), "bold": true },
+		"CursorLineNr": { "fg": field.foreground.strong },
 		"LineNrSeparator": { "fg": field.outline.silent },
 		"CursorLineNrSeparator": {
 			"fg": frame.outline.silent,
