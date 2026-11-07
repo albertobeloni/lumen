@@ -5,11 +5,11 @@ import { alpha } from "../../components/color.js";
 const SCHEMA = "https://zed.dev/schema/themes/v0.2.0.json";
 const TRANSPARENT = "#00000000";
 
-const status = (name, color, container) => {
+const status = (name, color, outline) => {
 	return {
 		[name]: color,
-		[`${name}.background`]: container.background,
-		[`${name}.border`]: container.outline.normal,
+		[`${name}.background`]: alpha(color, 0.1),
+		[`${name}.border`]: outline.strong,
 	};
 };
 
@@ -130,20 +130,20 @@ const style = ({ accent, ansi, color, surface, syntax }) => {
 		"panel.indent_guide_active": frame.overlay.strong,
 		"panel.indent_guide_hover": frame.overlay.strong,
 
-		...status("error", red.color, red.container),
-		...status("warning", yellow.color, yellow.container),
-		...status("success", green.color, green.container),
-		...status("info", blue.color, blue.container),
-		...status("hint", cyan.color, cyan.container),
-		...status("conflict", yellow.color, yellow.container),
-		...status("created", green.color, green.container),
-		...status("deleted", red.color, red.container),
-		...status("modified", yellow.color, yellow.container),
-		...status("renamed", blue.color, blue.container),
-		...status("hidden", frame.foreground.silent, base.container),
-		...status("ignored", frame.foreground.silent, base.container),
-		...status("predictive", frame.foreground.silent, base.container),
-		...status("unreachable", frame.foreground.silent, base.container),
+		...status("error", red.color, red.outline),
+		...status("warning", yellow.color, yellow.outline),
+		...status("success", green.color, green.outline),
+		...status("info", blue.color, blue.outline),
+		...status("hint", cyan.color, cyan.outline),
+		...status("conflict", yellow.color, yellow.outline),
+		...status("created", green.color, green.outline),
+		...status("deleted", red.color, red.outline),
+		...status("modified", yellow.color, yellow.outline),
+		...status("renamed", blue.color, blue.outline),
+		...status("hidden", frame.foreground.silent, base.outline),
+		...status("ignored", frame.foreground.silent, base.outline),
+		...status("predictive", frame.foreground.silent, base.outline),
+		...status("unreachable", frame.foreground.silent, base.outline),
 
 		"version_control.added": green.color,
 		"version_control.deleted": red.color,
