@@ -17,7 +17,7 @@ export default {
 	harmonies: {
 		default: {
 			primary: { rotation: 0, chromacity: 1 },
-			secondary: { rotation: 0, chromacity: 1 / 3 },
+			secondary: { rotation: 60, chromacity: 1 / 3 },
 			tertiary: { rotation: -60, chromacity: 1 },
 		},
 		analogous: {
