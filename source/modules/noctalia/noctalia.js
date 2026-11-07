@@ -18,7 +18,7 @@ const palette = ({ accent, ansi, color, shadow, surface }) => {
 		"mOnSurface": field.foreground.normal,
 		"mSurfaceVariant": frame.background,
 		"mOnSurfaceVariant": frame.foreground.normal,
-		"mOutline": field.outline.silent,
+		"mOutline": frame.outline.silent,
 		"mShadow": shadow.slice(0, 7),
 		"mHover": secondary.container.background,
 		"mOnHover": secondary.container.foreground.normal,
