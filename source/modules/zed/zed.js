@@ -5,169 +5,51 @@ import { alpha } from "../../components/color.js";
 const SCHEMA = "https://zed.dev/schema/themes/v0.2.0.json";
 const TRANSPARENT = "#00000000";
 
-const terminal = ({ ansi, surface }) => {
-	const { field } = surface;
-
-	const colors = Object.entries(ansi).flatMap(([name, color]) => {
-		const { normal, strong, subtle } = color;
-
-		return [
-			[`terminal.ansi.${name}`, normal],
-			[`terminal.ansi.bright_${name}`, strong],
-			[`terminal.ansi.dim_${name}`, subtle],
-		];
-	});
-
+const status = (name, { color, container }) => {
 	return {
-		"terminal.background": field.background,
-		"terminal.foreground": field.foreground.normal,
-		"terminal.bright_foreground": field.foreground.strong,
-		"terminal.dim_foreground": field.foreground.subtle,
-		"terminal.ansi.background": field.background,
-		...Object.fromEntries(colors),
+		[name]: color,
+		[`${name}.background`]: container.background,
+		[`${name}.border`]: container.outline.normal,
 	};
 };
 
-const statuses = ({ color, surface }) => {
-	const { frame } = surface;
+const terminal = (name, { normal, strong, subtle }) => {
+	return {
+		[`terminal.ansi.${name}`]: normal,
+		[`terminal.ansi.bright_${name}`]: strong,
+		[`terminal.ansi.dim_${name}`]: subtle,
+	};
+};
 
+const player = ({ color }) => {
+	return {
+		"cursor": color,
+		"background": color,
+		"selection": alpha(color, 0.24),
+	};
+};
+
+const style = ({ accent, ansi, color, surface, syntax }) => {
+	const { field, frame } = surface;
+	const { red, yellow, green, cyan, blue, magenta } = color;
+	const { primary, secondary, tertiary } = accent;
+
+	const selected = accent.base.container;
+	const hover = alpha(selected.background, 0.5, frame.background);
 	const neutral = {
-		color: frame.foreground.subtle,
-		container: {
-			background: frame.outline.subtle,
-			outline: { normal: frame.outline.normal },
+		"color": frame.foreground.subtle,
+		"container": {
+			"background": frame.outline.subtle,
+			"outline": { "normal": frame.outline.normal },
 		},
 	};
 
-	const sources = {
-		error: color.red,
-		warning: color.yellow,
-		success: color.green,
-		info: color.blue,
-		hint: color.cyan,
-		conflict: color.yellow,
-		created: color.green,
-		deleted: color.red,
-		modified: color.yellow,
-		renamed: color.blue,
-		hidden: neutral,
-		ignored: neutral,
-		predictive: neutral,
-		unreachable: neutral,
-	};
-
-	return Object.fromEntries(
-		Object.entries(sources).flatMap(([name, source]) => [
-			[name, source.color],
-			[`${name}.background`, source.container.background],
-			[`${name}.border`, source.container.outline.normal],
-		]),
-	);
-};
-
-const players = ({ accent, color }) => {
-	const sources = [
-		accent.primary,
-		accent.tertiary,
-		accent.secondary,
-		color.red,
-		color.yellow,
-		color.green,
-		color.cyan,
-		color.magenta,
-	];
-
-	return sources.map((source) => ({
-		cursor: source.color,
-		background: source.color,
-		selection: alpha(source.color, 0.24),
-	}));
-};
-
-const accents = ({ accent, color }) => {
-	const sources = [
-		accent.primary,
-		accent.secondary,
-		accent.tertiary,
-		color.cyan,
-		color.magenta,
-		color.yellow,
-	];
-
-	return sources.map((source) => source.color);
-};
-
-const syntax = ({ accent, color, surface, syntax }) => {
-	const { field } = surface;
-
-	const tokens = {
-		attribute: syntax.attribute,
-		boolean: syntax.constant,
-		comment: syntax.comment,
-		"comment.doc": syntax.comment,
-		constant: syntax.constant,
-		constructor: syntax.type,
-		"diff.minus": color.red.color,
-		"diff.plus": color.green.color,
-		embedded: syntax.variable,
-		emphasis: { color: field.foreground.normal, font_style: "italic" },
-		"emphasis.strong": { color: field.foreground.strong, font_weight: 700 },
-		enum: syntax.type,
-		function: syntax.function,
-		hint: field.foreground.subtle,
-		keyword: syntax.keyword,
-		label: syntax.function,
-		link_text: { color: accent.primary.color, font_style: "italic" },
-		link_uri: syntax.string,
-		namespace: syntax.type,
-		number: syntax.number,
-		operator: syntax.operator,
-		predictive: { color: field.foreground.subtle, font_style: "italic" },
-		preproc: syntax.keyword,
-		primary: syntax.variable,
-		property: syntax.property,
-		punctuation: syntax.punctuation,
-		"punctuation.list_marker": accent.primary.color,
-		"punctuation.special": accent.primary.color,
-		selector: syntax.tag,
-		"selector.pseudo": syntax.tag,
-		string: syntax.string,
-		"string.escape": syntax.special,
-		"string.regex": syntax.special,
-		"string.special": syntax.special,
-		"string.special.symbol": syntax.special,
-		tag: syntax.tag,
-		"text.literal": syntax.string,
-		title: { color: field.foreground.strong, font_weight: 700 },
-		type: syntax.type,
-		variable: syntax.variable,
-		"variable.parameter": syntax.variable,
-		"variable.special": syntax.keyword,
-		variant: syntax.constant,
-	};
-
-	return Object.fromEntries(
-		Object.entries(tokens).map(([token, value]) => {
-			return [
-				token,
-				typeof value === "string" ? { color: value } : value,
-			];
-		}),
-	);
-};
-
-const style = (roles) => {
-	const { accent, color, surface } = roles;
-	const { field, frame } = surface;
-	const selected = accent.base.container;
-	const hover = alpha(selected.background, 0.5, frame.background);
-
 	const highlight = (opacity) => {
-		return alpha(accent.primary.color, opacity);
+		return alpha(primary.color, opacity);
 	};
 
 	const match = (opacity) => {
-		return alpha(color.yellow.color, opacity);
+		return alpha(yellow.color, opacity);
 	};
 
 	const scroll = (opacity) => {
@@ -177,7 +59,7 @@ const style = (roles) => {
 	return {
 		"background.appearance": "opaque",
 
-		background: frame.background,
+		"background": frame.background,
 		"surface.background": frame.background,
 		"elevated_surface.background": frame.background,
 		"panel.background": frame.background,
@@ -191,13 +73,13 @@ const style = (roles) => {
 		"tab.inactive_background": frame.background,
 		"tab.active_background": field.background,
 
-		border: frame.outline.subtle,
+		"border": frame.outline.subtle,
 		"border.variant": frame.outline.subtle,
-		"border.focused": accent.primary.color,
+		"border.focused": primary.color,
 		"border.selected": selected.outline.normal,
 		"border.transparent": TRANSPARENT,
 		"border.disabled": frame.outline.subtle,
-		"pane.focused_border": accent.primary.color,
+		"pane.focused_border": primary.color,
 		"pane_group.border": frame.outline.subtle,
 		"panel.focused_border": TRANSPARENT,
 
@@ -213,19 +95,19 @@ const style = (roles) => {
 		"ghost_element.selected": selected.background,
 		"ghost_element.disabled": TRANSPARENT,
 		"drop_target.background": highlight(0.25),
-		"drop_target.border": accent.primary.color,
+		"drop_target.border": primary.color,
 
-		text: frame.foreground.strong,
+		"text": frame.foreground.strong,
 		"text.muted": frame.foreground.normal,
 		"text.placeholder": frame.foreground.subtle,
 		"text.disabled": frame.outline.normal,
-		"text.accent": accent.primary.color,
-		icon: frame.foreground.strong,
+		"text.accent": primary.color,
+		"icon": frame.foreground.strong,
 		"icon.muted": frame.foreground.normal,
 		"icon.placeholder": frame.foreground.subtle,
 		"icon.disabled": frame.outline.normal,
-		"icon.accent": accent.primary.color,
-		"link_text.hover": accent.primary.color,
+		"icon.accent": primary.color,
+		"link_text.hover": primary.color,
 
 		"editor.foreground": field.foreground.normal,
 		"editor.background": field.background,
@@ -258,38 +140,139 @@ const style = (roles) => {
 		"panel.indent_guide_active": frame.outline.normal,
 		"panel.indent_guide_hover": frame.outline.strong,
 
-		...statuses(roles),
-		"version_control.added": color.green.color,
-		"version_control.deleted": color.red.color,
-		"version_control.modified": color.yellow.color,
-		"version_control.renamed": color.blue.color,
-		"version_control.conflict": color.yellow.color,
+		...status("error", red),
+		...status("warning", yellow),
+		...status("success", green),
+		...status("info", blue),
+		...status("hint", cyan),
+		...status("conflict", yellow),
+		...status("created", green),
+		...status("deleted", red),
+		...status("modified", yellow),
+		...status("renamed", blue),
+		...status("hidden", neutral),
+		...status("ignored", neutral),
+		...status("predictive", neutral),
+		...status("unreachable", neutral),
+
+		"version_control.added": green.color,
+		"version_control.deleted": red.color,
+		"version_control.modified": yellow.color,
+		"version_control.renamed": blue.color,
+		"version_control.conflict": yellow.color,
 		"version_control.ignored": field.foreground.subtle,
-		"version_control.word_added": alpha(color.green.color, 0.35),
-		"version_control.word_deleted": alpha(color.red.color, 0.35),
-		"version_control.conflict_marker.ours": alpha(color.green.color, 0.2),
-		"version_control.conflict_marker.theirs": alpha(color.blue.color, 0.2),
+		"version_control.word_added": alpha(green.color, 0.35),
+		"version_control.word_deleted": alpha(red.color, 0.35),
+		"version_control.conflict_marker.ours": alpha(green.color, 0.2),
+		"version_control.conflict_marker.theirs": alpha(blue.color, 0.2),
 
-		...terminal(roles),
+		"terminal.background": field.background,
+		"terminal.foreground": field.foreground.normal,
+		"terminal.bright_foreground": field.foreground.strong,
+		"terminal.dim_foreground": field.foreground.subtle,
+		"terminal.ansi.background": field.background,
+		...terminal("black", ansi.black),
+		...terminal("red", ansi.red),
+		...terminal("green", ansi.green),
+		...terminal("yellow", ansi.yellow),
+		...terminal("blue", ansi.blue),
+		...terminal("magenta", ansi.magenta),
+		...terminal("cyan", ansi.cyan),
+		...terminal("white", ansi.white),
 
-		players: players(roles),
-		accents: accents(roles),
-		syntax: syntax(roles),
+		"players": [
+			player(primary),
+			player(tertiary),
+			player(secondary),
+			player(red),
+			player(yellow),
+			player(green),
+			player(cyan),
+			player(magenta),
+		],
+
+		"accents": [
+			primary.color,
+			secondary.color,
+			tertiary.color,
+			cyan.color,
+			magenta.color,
+			yellow.color,
+		],
+
+		"syntax": {
+			"attribute": { "color": syntax.attribute },
+			"boolean": { "color": syntax.constant },
+			"comment": { "color": syntax.comment },
+			"comment.doc": { "color": syntax.comment },
+			"constant": { "color": syntax.constant },
+			"constructor": { "color": syntax.type },
+			"diff.minus": { "color": red.color },
+			"diff.plus": { "color": green.color },
+			"embedded": { "color": syntax.variable },
+			"emphasis": {
+				"color": field.foreground.normal,
+				"font_style": "italic",
+			},
+			"emphasis.strong": {
+				"color": field.foreground.strong,
+				"font_weight": 700,
+			},
+			"enum": { "color": syntax.type },
+			"function": { "color": syntax.function },
+			"hint": { "color": field.foreground.subtle },
+			"keyword": { "color": syntax.keyword },
+			"label": { "color": syntax.function },
+			"link_text": { "color": primary.color, "font_style": "italic" },
+			"link_uri": { "color": syntax.string },
+			"namespace": { "color": syntax.type },
+			"number": { "color": syntax.number },
+			"operator": { "color": syntax.operator },
+			"predictive": {
+				"color": field.foreground.subtle,
+				"font_style": "italic",
+			},
+			"preproc": { "color": syntax.keyword },
+			"primary": { "color": syntax.variable },
+			"property": { "color": syntax.property },
+			"punctuation": { "color": syntax.punctuation },
+			"punctuation.list_marker": { "color": primary.color },
+			"punctuation.special": { "color": primary.color },
+			"selector": { "color": syntax.tag },
+			"selector.pseudo": { "color": syntax.tag },
+			"string": { "color": syntax.string },
+			"string.escape": { "color": syntax.special },
+			"string.regex": { "color": syntax.special },
+			"string.special": { "color": syntax.special },
+			"string.special.symbol": { "color": syntax.special },
+			"tag": { "color": syntax.tag },
+			"text.literal": { "color": syntax.string },
+			"title": { "color": field.foreground.strong, "font_weight": 700 },
+			"type": { "color": syntax.type },
+			"variable": { "color": syntax.variable },
+			"variable.parameter": { "color": syntax.variable },
+			"variable.special": { "color": syntax.keyword },
+			"variant": { "color": syntax.constant },
+		},
 	};
-};
-
-const theme = (name, appearance, { roles }) => {
-	return { name, appearance, style: style(roles) };
 };
 
 export default (scheme, { name, config }) => {
 	const family = {
-		$schema: SCHEMA,
-		name,
-		author: "Lumen",
-		themes: [
-			theme(`${name} Dark`, "dark", scheme.theme.dark),
-			theme(`${name} Light`, "light", scheme.theme.light),
+		"$schema": SCHEMA,
+		"name": name,
+		"author": "Lumen",
+		"themes": [
+			{
+				"name": `${name} Dark`,
+				"appearance": "dark",
+				"style": style(scheme.theme.dark.roles),
+			},
+			{
+				"name": `${name} Light`,
+				"appearance": "light",
+				"style": style(scheme.theme.light.roles),
+			},
 		],
 	};
 
