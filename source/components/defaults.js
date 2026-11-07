@@ -19,9 +19,9 @@ export default {
 			primary: { rotation: 0, chromacity: 1 },
 			secondary: { rotation: 0, chromacity: 1 / 3 },
 			tertiary: { rotation: -60, chromacity: 1 },
-			quaternary: { rotation: 60, chromacity: 1 },
-			quinary: { rotation: 90, chromacity: 1 },
-			senary: { rotation: 30, chromacity: 1 },
+			quaternary: { rotation: 30, chromacity: 1 },
+			quinary: { rotation: -30, chromacity: 1 },
+			senary: { rotation: -30, chromacity: 1 },
 		},
 		analogous: {
 			primary: { rotation: 0, chromacity: 1 },
