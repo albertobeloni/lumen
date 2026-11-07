@@ -11,7 +11,7 @@ import { read, schemes } from "./components/reader.js";
 import { modules, run } from "./components/runner.js";
 import Lumen from "./lumen.js";
 
-const OPTIONAL = ["json", "preview"];
+const OPTIONAL = ["ansi"];
 const MODES = ["dark", "light"];
 
 const USAGE = `Usage:

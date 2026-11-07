@@ -1,25 +1,33 @@
+const MIDDLE = 20;
+
+const away = (level, distance) =>
+	level <= MIDDLE ? level + distance : level - distance;
+
 const color = (palette, level) => ({ palette, level });
 
 const contrast = (palette, level) => ({
-	normal: color(palette, orient(20, level)),
-	strong: color(palette, orient(26, level)),
-	subtle: color(palette, orient(16, level)),
+	normal: color(palette, away(level, 20)),
+	strong: color(palette, away(level, 26)),
+	subtle: color(palette, away(level, 16)),
 });
 
-const orient = (target, level) =>
-	level <= 20 ? level + target : level - target;
+const shade = (palette, level) => ({
+	normal: color(palette, away(level, 4)),
+	strong: color(palette, away(level, 10)),
+	subtle: color(palette, away(level, 0)),
+});
 
 const surface = (palette, level) => ({
 	background: color(palette, level),
 	foreground: contrast(palette, level),
 	outline: {
-		normal: color(palette, orient(8, level)),
-		strong: color(palette, orient(16, level)),
-		subtle: color(palette, orient(2, level)),
+		normal: color(palette, away(level, 8)),
+		strong: color(palette, away(level, 16)),
+		subtle: color(palette, away(level, 2)),
 	},
 });
 
-export default {
+export default (dark) => ({
 	accent: {
 		base: {
 			...surface("base", 26),
@@ -104,23 +112,15 @@ export default {
 		variable: { role: "surface.field.foreground.normal" },
 	},
 	ansi: {
-		black: {
-			strong: color("black", 0),
-			normal: color("black", 4),
-			subtle: color("black", 16),
-		},
+		black: dark ? shade("base", 0) : contrast("base", 0),
 		red: contrast("red", 0),
 		yellow: contrast("yellow", 0),
 		green: contrast("green", 0),
 		cyan: contrast("cyan", 0),
 		blue: contrast("blue", 0),
 		magenta: contrast("magenta", 0),
-		white: {
-			strong: color("white", 0),
-			normal: color("white", 4),
-			subtle: color("white", 16),
-		},
+		white: dark ? contrast("base", 0) : shade("base", 0),
 	},
 	scrim: { value: "#000000", alpha: 0.75 },
 	shadow: { value: "#000000", alpha: 0.25 },
-};
+});

@@ -38,7 +38,10 @@ const parse = (node, context) => {
 
 const source = (node, context) => {
 	if (Object.hasOwn(node, "palette")) {
-		return context.palette[node.palette][node.level + context.offset];
+		const colors = context.palette[node.palette];
+		const index = node.level + context.offset;
+
+		return colors[Math.min(Math.max(index, 0), colors.length - 1)];
 	}
 
 	if (Object.hasOwn(node, "value")) {

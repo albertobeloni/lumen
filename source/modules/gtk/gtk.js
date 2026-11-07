@@ -6,26 +6,35 @@ import { alpha } from "../../components/color.js";
 const CONFIG =
 	process.env.XDG_CONFIG_HOME ?? path.join(os.homedir(), ".config");
 
-// Adwaita's shade (separators, scroll undershoots) is 25% black in dark mode
-// and 7% in light mode
 const SHADE = { dark: 0.25, light: 0.07 };
 
-// libadwaita's color variables, named without the "--" prefix and "-color"
-// suffix. GTK 3 (adw-gtk3) reads the same names with "_" instead of "-".
-// Text uses foreground.strong: libadwaita dims secondary text to 55% opacity,
-// which would leave foreground.normal at ~2.3:1. --border-color is left to
-// libadwaita (currentColor), which keeps its high contrast behavior
+const RELOAD = [
+	"key='org.gnome.desktop.a11y.interface high-contrast'",
+	"contrast=$(gsettings get $key)",
+	'gsettings set $key $([ "$contrast" = true ] && echo false || echo true)',
+	"sleep 0.3",
+	'gsettings set $key "$contrast"',
+].join("; ");
+
+const status = (name, source) => {
+	return {
+		[`${name}-bg`]: source.background,
+		[`${name}-fg`]: source.foreground.normal,
+		[name]: source.color,
+	};
+};
+
+const area = (name, source) => {
+	return {
+		[`${name}-bg`]: source.background,
+		[`${name}-fg`]: source.foreground.strong,
+	};
+};
+
 const variables = ({ roles }, mode) => {
 	const { accent, color, surface } = roles;
 	const { field, frame, panel, modal, popup } = surface;
 	const shade = alpha(roles.shadow, SHADE[mode]);
-	const scrim = roles.scrim;
-
-	const status = (name, source) => ({
-		[`${name}-bg`]: source.background,
-		[`${name}-fg`]: source.foreground.normal,
-		[name]: source.color,
-	});
 
 	return {
 		...status("accent", accent.primary),
@@ -34,75 +43,59 @@ const variables = ({ roles }, mode) => {
 		...status("warning", color.yellow),
 		...status("error", color.red),
 
-		"window-bg": frame.background,
-		"window-fg": frame.foreground.strong,
-		"view-bg": field.background,
-		"view-fg": field.foreground.strong,
+		...area("window", frame),
+		...area("view", field),
 
-		"headerbar-bg": frame.background,
-		"headerbar-fg": frame.foreground.strong,
-		// Mixed down to 15% by libadwaita, so a foreground and not an outline
+		...area("headerbar", frame),
 		"headerbar-border": frame.foreground.strong,
 		"headerbar-backdrop": frame.background,
 		"headerbar-shade": shade,
-		"headerbar-darker-shade": scrim,
+		"headerbar-darker-shade": roles.scrim,
 
-		"sidebar-bg": frame.background,
-		"sidebar-fg": frame.foreground.strong,
+		...area("sidebar", frame),
 		"sidebar-backdrop": frame.background,
 		"sidebar-border": frame.outline.subtle,
 		"sidebar-shade": shade,
 
-		"secondary-sidebar-bg": frame.background,
-		"secondary-sidebar-fg": frame.foreground.strong,
+		...area("secondary-sidebar", frame),
 		"secondary-sidebar-backdrop": frame.background,
 		"secondary-sidebar-border": frame.outline.subtle,
 		"secondary-sidebar-shade": shade,
 
-		"card-bg": panel.background,
-		"card-fg": panel.foreground.strong,
+		...area("card", panel),
 		"card-shade": shade,
 
-		"overview-bg": frame.background,
-		"overview-fg": frame.foreground.strong,
+		...area("overview", frame),
+		...area("thumbnail", modal),
+		...area("dialog", modal),
 
-		"thumbnail-bg": modal.background,
-		"thumbnail-fg": modal.foreground.strong,
-
-		"dialog-bg": modal.background,
-		"dialog-fg": modal.foreground.strong,
-
-		"popover-bg": popup.background,
-		"popover-fg": popup.foreground.strong,
+		...area("popover", popup),
 		"popover-shade": shade,
 
-		"active-toggle-bg": popup.background,
-		"active-toggle-fg": popup.foreground.strong,
+		...area("active-toggle", popup),
 
 		shade,
 		"scrollbar-outline": field.background,
 	};
 };
 
-// GTK 4.20+ switches between the blocks with the color scheme preference.
-// Each color is both a named color (@window_bg_color, still used by many apps'
-// stylesheets, which libadwaita defines itself) and a CSS variable
-// (--window-bg-color, libadwaita's documented interface)
+const named = (key) => {
+	return `${key.replaceAll("-", "_")}_color`;
+};
+
 const gtk4 = (scheme, name) => {
 	const block = (theme, mode, indent) => {
 		const colors = Object.entries(variables(theme, mode));
-		const named = colors.map(([key, value]) => {
-			return `${indent}@define-color ${key.replaceAll("-", "_")}_color ${value};`;
-		});
-		const properties = colors.map(([key, value]) => {
-			return `${indent}\t--${key}-color: ${value};`;
-		});
 
 		return [
-			...named,
+			...colors.map(([key, value]) => {
+				return `${indent}@define-color ${named(key)} ${value};`;
+			}),
 			"",
 			`${indent}:root {`,
-			...properties,
+			...colors.map(([key, value]) => {
+				return `${indent}\t--${key}-color: ${value};`;
+			}),
 			`${indent}}`,
 		].join("\n");
 	};
@@ -119,51 +112,34 @@ const gtk4 = (scheme, name) => {
 	].join("\n");
 };
 
-// GTK 3 has no media queries (one mode per file) and no 8-digit hex colors
-// (translucent colors use its alpha() function)
 const gtk3 = (scheme, name, mode) => {
 	const css = (value) => {
-		if (value.length === 9) {
-			const opacity = parseInt(value.slice(7), 16) / 255;
-
-			return `alpha(${value.slice(0, 7)}, ${opacity.toFixed(2)})`;
+		if (value.length !== 9) {
+			return value;
 		}
 
-		return value;
+		const opacity = parseInt(value.slice(7), 16) / 255;
+
+		return `alpha(${value.slice(0, 7)}, ${opacity.toFixed(2)})`;
 	};
 
-	const lines = Object.entries(variables(scheme.theme[mode], mode)).map(
-		([key, value]) => {
-			return `@define-color ${key.replaceAll("-", "_")}_color ${css(value)};`;
-		},
-	);
+	const colors = Object.entries(variables(scheme.theme[mode], mode));
+	const lines = colors.map(([key, value]) => {
+		return `@define-color ${named(key)} ${css(value)};`;
+	});
 
 	return `/* ${name}, generated by Lumen (${mode}) */\n\n${lines.join("\n")}\n`;
 };
 
-// GTK 4 re-reads lumen.css (imported by gtk.css) when the color scheme or the
-// contrast preference changes. A mode change already does it; for a new scheme
-// in the same mode, high contrast is flipped and restored (only GTK reacts to
-// it, unlike the color scheme). The pause keeps both changes from merging
-const reload = [
-	"key='org.gnome.desktop.a11y.interface high-contrast'",
-	"contrast=$(gsettings get $key)",
-	'gsettings set $key $([ "$contrast" = true ] && echo false || echo true)',
-	"sleep 0.3",
-	'gsettings set $key "$contrast"',
-].join("; ");
+export default (scheme, { name, mode = "dark" }) => {
+	const theme = mode === "dark" ? "adw-gtk3-dark" : "adw-gtk3";
 
-export default (scheme, { name, mode = "dark" }) => ({
-	directory: CONFIG,
-	files: [
-		{ path: "gtk-4.0/lumen.css", data: gtk4(scheme, name) },
-		{ path: "gtk-3.0/lumen.css", data: gtk3(scheme, name, mode) },
-	],
-	// GTK 3 apps need the matching adw-gtk3 base theme (adw-gtk-theme package)
-	command: [
-		`gsettings set org.gnome.desktop.interface gtk-theme ${
-			mode === "dark" ? "adw-gtk3-dark" : "adw-gtk3"
-		}`,
-		reload,
-	].join("; "),
-});
+	return {
+		directory: CONFIG,
+		files: [
+			{ path: "gtk-4.0/lumen.css", data: gtk4(scheme, name) },
+			{ path: "gtk-3.0/lumen.css", data: gtk3(scheme, name, mode) },
+		],
+		command: `gsettings set org.gnome.desktop.interface gtk-theme ${theme}; ${RELOAD}`,
+	};
+};

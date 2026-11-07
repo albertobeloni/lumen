@@ -4,8 +4,6 @@ import path from "node:path";
 const CONFIG =
 	process.env.XDG_CONFIG_HOME ?? path.join(os.homedir(), ".config");
 
-// color0-7 use each color's normal shade, color8-15 its strong shade. Bright
-// black is the lighter grey (used for comments and suggestions), so black.subtle
 const ANSI = [
 	"black",
 	"red",
@@ -16,26 +14,37 @@ const ANSI = [
 	"cyan",
 	"white",
 ];
-const BRIGHT = { black: "subtle" };
 
-const terminal = (ansi) => {
-	return [
-		...ANSI.map((name) => ansi[name].normal),
-		...ANSI.map((name) => ansi[name][BRIGHT[name] ?? "strong"]),
-	];
+const terminal = ({ ansi }) => {
+	const normal = ANSI.map((name) => ansi[name].normal);
+	const bright = ANSI.map((name) => ansi[name].strong);
+
+	return Object.fromEntries(
+		[...normal, ...bright].map((value, index) => [`color${index}`, value]),
+	);
 };
 
-// Kitty resets every color missing from an auto theme to its own defaults
-// (not to kitty.conf), so every color is set
-const colors = ({ accent, ansi, color, surface }) => {
+const marks = ({ accent }) => {
+	const sources = [accent.primary, accent.secondary, accent.tertiary];
+
+	return Object.fromEntries(
+		sources.flatMap(({ container }, index) => [
+			[`mark${index + 1}_foreground`, container.foreground.strong],
+			[`mark${index + 1}_background`, container.background],
+		]),
+	);
+};
+
+const colors = (roles) => {
+	const { accent, color, surface } = roles;
 	const { field, frame } = surface;
-	const marks = [accent.primary, accent.secondary, accent.tertiary];
+	const selected = accent.base.container;
 
 	return {
 		foreground: field.foreground.normal,
 		background: field.background,
-		selection_foreground: accent.base.container.foreground.strong,
-		selection_background: accent.base.container.background,
+		selection_foreground: selected.foreground.strong,
+		selection_background: selected.background,
 
 		cursor: field.foreground.strong,
 		cursor_text_color: field.background,
@@ -55,26 +64,16 @@ const colors = ({ accent, ansi, color, surface }) => {
 		inactive_tab_foreground: frame.foreground.subtle,
 		inactive_tab_background: frame.background,
 
-		...Object.fromEntries(
-			marks.flatMap((mark, index) => [
-				[
-					`mark${index + 1}_foreground`,
-					mark.container.foreground.strong,
-				],
-				[`mark${index + 1}_background`, mark.container.background],
-			]),
-		),
+		...marks(roles),
 
 		scrollbar_handle_color: field.foreground.subtle,
 		scrollbar_track_color: field.background,
 
-		...Object.fromEntries(
-			terminal(ansi).map((value, index) => [`color${index}`, value]),
-		),
+		...terminal(roles),
 	};
 };
 
-const conf = (name, { roles }) => {
+const theme = (name, { roles }) => {
 	const lines = Object.entries(colors(roles)).map(([key, value]) => {
 		return `${key} ${value}`;
 	});
@@ -83,8 +82,8 @@ const conf = (name, { roles }) => {
 };
 
 export default (scheme, { name }) => {
-	const dark = conf(`${name} Dark`, scheme.theme.dark);
-	const light = conf(`${name} Light`, scheme.theme.light);
+	const dark = theme(`${name} Dark`, scheme.theme.dark);
+	const light = theme(`${name} Light`, scheme.theme.light);
 
 	return {
 		directory: path.join(CONFIG, "kitty"),
