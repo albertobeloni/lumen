@@ -8,7 +8,7 @@ const SMOOTH = 30; // Histogram smoothing radius, in degrees
 const EMPHASIS = 3; // Chroma exponent, so vivid accents outweigh large muted areas
 const VIVID = 20; // Minimum chroma for a pixel to make an accent present
 const PRESENCE = 0.0002; // Minimum share of vivid pixels for an accent to count
-const MUTED = 30; // Mean chroma below which a dominant colour is a backdrop
+const MUTED = 15; // Mean chroma below which a dominant colour is a backdrop
 const OPPOSITE = 90; // Hue distance at which colours clearly contrast
 const NEAR = 45; // Hue distance within which colours read as related
 
