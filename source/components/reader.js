@@ -33,11 +33,11 @@ const tint = (input) => {
 };
 
 const restore = async (file) => {
-	const { input, definition, mode } = JSON.parse(
+	const { input, definition, theme } = JSON.parse(
 		await filesystem.readFile(file, "utf8"),
 	);
 
-	return { name: NAME, input, definition, mode };
+	return { name: NAME, input, definition, theme };
 };
 
 export const schemes = () => {
@@ -46,7 +46,9 @@ export const schemes = () => {
 
 export const read = async (input) => {
 	if ((await schemes()).includes(input)) {
-		return { name: input, input, definition: await load(SCHEMES, input) };
+		const { default: definition } = await load(SCHEMES, input);
+
+		return { name: input, input, definition };
 	}
 
 	if (statSync(input, { throwIfNoEntry: false })?.isFile()) {

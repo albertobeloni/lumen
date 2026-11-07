@@ -22,5 +22,5 @@ export const load = async (directory, name) => {
 		? nested
 		: path.join(directory, `${name}.js`);
 
-	return (await import(pathToFileURL(file))).default;
+	return import(pathToFileURL(file));
 };

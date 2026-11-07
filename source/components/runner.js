@@ -9,22 +9,20 @@ import { list, load } from "./loader.js";
 const CONFIG =
 	process.env.XDG_CONFIG_HOME ?? path.join(os.homedir(), ".config");
 const MODULES = path.join(import.meta.dirname, "..", "modules");
-const OUTPUT = path.join(import.meta.dirname, "..", "..", "build");
-const OPTIONAL = ["ansi"];
 const TIMEOUT = 10000; // Milliseconds a module command may run before it is stopped
 
-const execute = async (module, scheme, context, apply) => {
+const execute = async (module, scheme, context, { output, apply }) => {
 	const {
 		directory,
 		files = [],
 		command,
 		print,
 	} = await module.build(scheme, { ...context, config: CONFIG });
-	const output = path.join(OUTPUT, context.name, module.name);
-	const target = apply && directory ? directory : output;
-
 	for (const file of files) {
-		const destination = path.join(target, file.path);
+		const root = apply
+			? directory
+			: path.join(output, context.name, module.name);
+		const destination = path.join(root, file.path);
 
 		await filesystem.mkdir(path.dirname(destination), { recursive: true });
 		await filesystem.writeFile(destination, file.data);
@@ -43,29 +41,39 @@ const execute = async (module, scheme, context, apply) => {
 	}
 };
 
-export const modules = async (names, { optional = true } = {}) => {
-	const available = await list(MODULES);
-	const unknown = names?.find((name) => !available.includes(name));
+export const modules = async (names, fallback) => {
+	const available = await Promise.all(
+		(await list(MODULES)).map(async (name) => {
+			const { default: build, optional = false } = await load(
+				MODULES,
+				name,
+			);
+
+			return { name, build, optional };
+		}),
+	);
+
+	if (names === undefined) {
+		return available.filter(fallback);
+	}
+
+	if (names.includes("all")) {
+		return available;
+	}
+
+	const unknown = names.find((name) => {
+		return !available.some((module) => module.name === name);
+	});
 
 	if (unknown !== undefined) {
 		throw new Error(`Unknown module "${unknown}"`);
 	}
 
-	const selected = available.filter((name) => {
-		return names === undefined
-			? optional || !OPTIONAL.includes(name)
-			: names.includes(name);
-	});
-
-	return Promise.all(
-		selected.map(async (name) => {
-			return { name, build: await load(MODULES, name) };
-		}),
-	);
+	return available.filter((module) => names.includes(module.name));
 };
 
-export const run = async (modules, scheme, context, { apply = false } = {}) => {
+export const run = async (modules, scheme, context, options = {}) => {
 	for (const module of modules) {
-		await execute(module, scheme, context, apply);
+		await execute(module, scheme, context, options);
 	}
 };

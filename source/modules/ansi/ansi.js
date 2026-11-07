@@ -13,8 +13,10 @@ const block = (hex) => {
 	return `\x1b[48;2;${red};${green};${blue}m${" ".repeat(WIDTH)}\x1b[0m`;
 };
 
-export default (scheme, { mode }) => {
-	const { ansi } = scheme.theme[mode].roles;
+export const optional = true;
+
+export default (scheme, { theme }) => {
+	const { ansi } = scheme.theme[theme].roles;
 
 	const colors = Object.values(ansi);
 	const width = colors.length * WIDTH + (colors.length - 1) * GAP;

@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+import path from "node:path";
+
 import { parseArgs } from "node:util";
 
 import { exclusive } from "./components/locker.js";
@@ -8,87 +10,157 @@ import { modules, run } from "./components/runner.js";
 import { recall, remember } from "./components/state.js";
 import Lumen, { NAME } from "./lumen.js";
 
-const MODE = "dark";
-const MODES = ["dark", "light"];
+const THEME = "dark";
+const THEMES = ["dark", "light"];
+const OUTPUT = "build";
 
-const USAGE = `Usage:
-  lumen build [input] [--mode dark|light] [--module name]...
-  lumen apply [input] [--mode dark|light] [--module name]...`;
+const HELP = `Usage: lumen <command> [input] [options]
 
-const exit = (message) => {
-	console.error(message);
-	process.exit(1);
-};
+Commands:
+  apply [input]         Generate a scheme and apply it to your applications
+  theme <dark|light>    Switch the current scheme to the dark or light theme
+  build [input...]      Write module files to a folder, without touching applications
+  show [input]          Print a preview of a scheme in the terminal
 
-const build = async (input, mode, names) => {
-	const selected = await modules(names);
-	const targets =
-		input === undefined
-			? await Promise.all((await schemes()).map(read))
-			: [await read(input)];
+An input is a scheme name, a color or an image. Without one, apply, theme
+and show use the current scheme, and build uses every bundled scheme.
 
-	for (const target of targets) {
-		const scheme = Lumen(target.definition);
-		const context = {
-			name: target.name,
-			mode: mode ?? target.mode ?? MODE,
-		};
+Options:
+  -m, --module <name,...|all>   Only these modules (optional ones run only when named)
+  -t, --theme <dark|light>      Theme for modules that hold a single theme
+  -o, --output <dir>            Output folder for build (default: ./build)
+  -h, --help                    Show this help`;
 
-		await run(selected, scheme, context);
+const validate = (value) => {
+	if (value !== undefined && !THEMES.includes(value)) {
+		throw new Error(`Unknown theme "${value}" (use dark or light)`);
 	}
+
+	return value;
 };
 
-const apply = async (input, mode, names) => {
-	const selected = await modules(names, { optional: false });
-	const last = await recall();
-	const next = input === undefined ? last : await read(input);
+const required = (module) => {
+	return !module.optional;
+};
 
-	if (next.definition === undefined) {
+const optional = (module) => {
+	return module.optional;
+};
+
+const target = async (input) => {
+	if (input !== undefined) {
+		return read(input);
+	}
+
+	const last = await recall();
+
+	if (last.definition === undefined) {
 		throw new Error(
-			'Nothing to apply yet, run "lumen apply <input>" first',
+			'No scheme applied yet, run "lumen apply <input>" first',
 		);
 	}
 
-	const current = {
-		input: next.input,
-		definition: next.definition,
-		mode: mode ?? next.mode ?? last.mode ?? MODE,
-	};
-	const scheme = Lumen(current.definition);
-	const context = { name: NAME, mode: current.mode };
-
-	await run(selected, scheme, context, { apply: true });
-
-	const changed = input !== undefined || mode !== undefined;
-
-	if (changed && names === undefined) {
-		await remember(current);
-	}
+	return { name: NAME, ...last };
 };
 
-const COMMANDS = { build, apply };
+const commands = {
+	apply: async ([input], options) => {
+		const last = await recall();
+		const next = await target(input);
+		const state = {
+			input: next.input,
+			definition: next.definition,
+			theme: options.theme ?? next.theme ?? last.theme ?? THEME,
+		};
+		const selected = await modules(options.module, required);
 
-const main = async () => {
-	const {
-		positionals: [command, input],
-		values: { mode, module: names },
-	} = parseArgs({
+		await run(
+			selected,
+			Lumen(state.definition),
+			{ name: NAME, theme: state.theme },
+			{ apply: true },
+		);
+
+		if (options.module === undefined) {
+			await remember(state);
+		}
+	},
+
+	theme: async ([value], options) => {
+		if (value === undefined) {
+			throw new Error("Missing theme (use dark or light)");
+		}
+
+		await commands.apply([], { ...options, theme: validate(value) });
+	},
+
+	build: async (inputs, options) => {
+		const names = inputs.length === 0 ? await schemes() : inputs;
+		const targets = await Promise.all(names.map(read));
+		const selected = await modules(options.module, required);
+		const output = path.resolve(options.output ?? OUTPUT);
+
+		for (const { name, definition, theme } of targets) {
+			await run(
+				selected,
+				Lumen(definition),
+				{ name, theme: options.theme ?? theme ?? THEME },
+				{ output },
+			);
+		}
+	},
+
+	show: async ([input], options) => {
+		const { name, definition, theme } = await target(input);
+		const selected = await modules(options.module, optional);
+
+		await run(selected, Lumen(definition), {
+			name,
+			theme: options.theme ?? theme ?? THEME,
+		});
+	},
+};
+
+const parse = () => {
+	const { positionals, values } = parseArgs({
 		allowPositionals: true,
 		options: {
-			mode: { type: "string", short: "m" },
-			module: { type: "string", short: "M", multiple: true },
+			module: { type: "string", short: "m" },
+			theme: { type: "string", short: "t" },
+			output: { type: "string", short: "o" },
+			help: { type: "boolean", short: "h" },
 		},
 	});
+	const [command, ...inputs] = positionals;
 
-	if (!Object.hasOwn(COMMANDS, command)) {
-		exit(USAGE);
-	}
-
-	if (mode !== undefined && !MODES.includes(mode)) {
-		exit(USAGE);
-	}
-
-	await exclusive("lumen", () => COMMANDS[command](input, mode, names));
+	return {
+		command,
+		inputs,
+		help: values.help,
+		options: {
+			module: values.module?.split(","),
+			theme: validate(values.theme),
+			output: values.output,
+		},
+	};
 };
 
-main().catch((error) => exit(error.message));
+const main = async () => {
+	const { command, inputs, help, options } = parse();
+
+	if (help || command === undefined) {
+		console.log(HELP);
+		process.exit(help ? 0 : 1);
+	}
+
+	if (!Object.hasOwn(commands, command)) {
+		throw new Error(`Unknown command "${command}", see "lumen --help"`);
+	}
+
+	await exclusive("lumen", () => commands[command](inputs, options));
+};
+
+main().catch((error) => {
+	console.error(error.message);
+	process.exit(1);
+});
