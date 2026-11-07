@@ -40,7 +40,7 @@ const hue = (palette) => {
 	return {
 		...surface(palette, 26),
 		color: color(palette, 20),
-		container: surface(palette, 8),
+		container: surface(palette, 4),
 	};
 };
 
