@@ -63,7 +63,7 @@ const style = ({ accent, ansi, color, surface, syntax }) => {
 		"tab.inactive_background": frame.background,
 		"tab.active_background": field.background,
 
-		"border": frame.outline.silent,
+		"border": field.outline.subtle,
 		"border.variant": field.outline.silent,
 		"border.focused": primary.color,
 		"border.selected": base.container.outline.normal,
