@@ -8,7 +8,8 @@ const SMOOTH = 30; // Histogram smoothing radius, in degrees
 const EMPHASIS = 3; // Chroma exponent, so vivid accents outweigh large muted areas
 const VIVID = 20; // Minimum chroma for a pixel to make an accent present
 const PRESENCE = 0.0002; // Minimum share of vivid pixels for an accent to count
-const MUTED = 15; // Mean chroma below which a dominant colour is a backdrop
+const SUBSTANCE = 0.01; // Minimum share of pixels for an accent close to the primary
+const MUTED = 30; // Mean chroma below which a dominant colour is a backdrop
 const OPPOSITE = 90; // Hue distance at which colours clearly contrast
 const NEAR = 45; // Hue distance within which colours read as related
 
@@ -156,7 +157,10 @@ const accents = (pixels, total, separation) => {
 			return { members, gap, score };
 		})
 		.filter(({ members, gap }) => {
-			return gap >= separation && present(members, total);
+			const sizable = members.length >= total * SUBSTANCE;
+			const distinct = gap >= OPPOSITE || sizable;
+
+			return gap >= separation && distinct && present(members, total);
 		})
 		.sort((a, b) => b.score - a.score)[0];
 
@@ -170,9 +174,11 @@ const around = (pixels, base) => {
 	const rest = pixels.filter((pixel) => distance(pixel.hue, base) > NEAR);
 	const found = accents(rest, pixels.length, NEAR);
 
-	return found && distance(found.primary, base) >= OPPOSITE
-		? found
-		: undefined;
+	if (!found || distance(found.primary, base) < OPPOSITE) {
+		return undefined;
+	}
+
+	return { primary: found.primary, tertiary: found.tertiary ?? base };
 };
 
 export const extract = async (file) => {
