@@ -4,7 +4,6 @@ const palette = ({ accent, ansi, color, shadow, surface }) => {
 	const { field, frame } = surface;
 	const { primary, secondary, tertiary } = accent;
 	const selected = accent.base.container;
-	const hover = secondary.container;
 
 	return {
 		"mPrimary": primary.background,
@@ -21,8 +20,8 @@ const palette = ({ accent, ansi, color, shadow, surface }) => {
 		"mOnSurfaceVariant": frame.foreground.normal,
 		"mOutline": field.outline.silent,
 		"mShadow": shadow.slice(0, 7),
-		"mHover": hover.background,
-		"mOnHover": hover.foreground.normal,
+		"mHover": secondary.container.background,
+		"mOnHover": secondary.container.foreground.normal,
 		"terminal": {
 			"background": field.background,
 			"foreground": field.foreground.normal,
