@@ -4,11 +4,13 @@ import { angle, colorfulness, distance, GREY } from "./color.js";
 
 const SIZE = 192; // Images are reduced to fit this square before sampling
 const TINT = 2; // Minimum colorfulness for a pixel to have a meaningful hue
+const SMOOTH = 30; // Histogram smoothing radius, in degrees
 const EMPHASIS = 3; // Chroma exponent, so vivid accents outweigh large muted areas
 const VIVID = 20; // Minimum chroma for a pixel to make an accent present
 const PRESENCE = 0.0002; // Minimum share of vivid pixels for an accent to count
-const SMOOTH = 30; // Histogram smoothing radius, in degrees
-const SEPARATION = 90; // Minimum distance between primary and tertiary
+const MUTED = 30; // Mean chroma below which a dominant colour is a backdrop
+const OPPOSITE = 90; // Hue distance at which colours clearly contrast
+const NEAR = 45; // Hue distance within which colours read as related
 
 const area = () => {
 	return 1;
@@ -31,12 +33,11 @@ const samples = async (file) => {
 		const offset = index * info.channels;
 		const rgb = [0, 1, 2].map((channel) => data[offset + channel] / 255);
 		const color = { space: sRGB, coords: rgb, alpha: 1 };
-		const [hue, chroma, tone] = to(color, HCT).coords;
+		const [hue, chroma] = to(color, HCT).coords;
 
 		return {
 			hue: angle(hue || 0),
 			chroma,
-			tone,
 			colorfulness: colorfulness(to(color, Lab_D65).coords),
 		};
 	});
@@ -92,27 +93,7 @@ const family = (pixels, bins, peak) => {
 	});
 };
 
-const present = (pixels, minimum) => {
-	return pixels.filter((pixel) => pixel.chroma >= VIVID).length >= minimum;
-};
-
-const contrasting = (candidates, first, pixels, bins, minimum) => {
-	return candidates
-		.filter(({ hue }) => {
-			return (
-				distance(hue, first.hue) >= SEPARATION &&
-				present(family(pixels, bins, hue), minimum)
-			);
-		})
-		.map((peak) => {
-			const half = (distance(peak.hue, first.hue) * Math.PI) / 360;
-
-			return { ...peak, score: peak.value * Math.sin(half) };
-		})
-		.sort((a, b) => b.score - a.score)[0];
-};
-
-const refine = (pixels, weight) => {
+const center = (pixels, weight) => {
 	let [x, y] = [0, 0];
 
 	for (const pixel of pixels) {
@@ -125,7 +106,19 @@ const refine = (pixels, weight) => {
 	return angle((Math.atan2(y, x) * 180) / Math.PI);
 };
 
-const base = (pixels) => {
+const present = (pixels, total) => {
+	const vivid = pixels.filter((pixel) => pixel.chroma >= VIVID);
+
+	return vivid.length >= total * PRESENCE;
+};
+
+const muted = (pixels) => {
+	const sum = pixels.reduce((total, pixel) => total + pixel.chroma, 0);
+
+	return sum / pixels.length < MUTED;
+};
+
+const dominant = (pixels) => {
 	const tinted = pixels.filter((pixel) => pixel.colorfulness >= TINT);
 
 	if (tinted.length === 0) {
@@ -134,41 +127,66 @@ const base = (pixels) => {
 
 	const bins = histogram(tinted, area);
 	const [peak] = peaks(bins);
-	const dominant = family(tinted, bins, peak.hue);
+	const members = family(tinted, bins, peak.hue);
 
-	if (dominant.length <= pixels.length - tinted.length) {
-		return undefined;
-	}
-
-	return refine(dominant, area);
+	return members.length > pixels.length - tinted.length ? members : undefined;
 };
 
-const accents = (pixels) => {
+const accents = (pixels, total, separation) => {
 	const colored = pixels.filter((pixel) => pixel.colorfulness >= GREY);
-	const minimum = pixels.length * PRESENCE;
 
-	if (colored.length < minimum) {
-		return {};
+	if (colored.length === 0) {
+		return undefined;
 	}
 
 	const bins = histogram(colored, prominence);
 	const [first, ...rest] = peaks(bins);
-	const second = contrasting(rest, first, colored, bins, minimum);
+	const main = family(colored, bins, first.hue);
+
+	if (!present(main, total)) {
+		return undefined;
+	}
+
+	const second = rest
+		.map((peak) => {
+			const members = family(colored, bins, peak.hue);
+			const gap = distance(peak.hue, first.hue);
+			const score = peak.value * Math.sin((gap * Math.PI) / 360);
+
+			return { members, gap, score };
+		})
+		.filter(({ members, gap }) => {
+			return gap >= separation && present(members, total);
+		})
+		.sort((a, b) => b.score - a.score)[0];
 
 	return {
-		primary: refine(family(colored, bins, first.hue), prominence),
-		tertiary: second && refine(family(colored, bins, second.hue), area),
+		primary: center(main, prominence),
+		tertiary: second && center(second.members, area),
 	};
+};
+
+const around = (pixels, base) => {
+	const rest = pixels.filter((pixel) => distance(pixel.hue, base) > NEAR);
+	const found = accents(rest, pixels.length, NEAR);
+
+	return found && distance(found.primary, base) >= OPPOSITE
+		? found
+		: undefined;
 };
 
 export const extract = async (file) => {
 	const pixels = await samples(file);
-	const { primary, tertiary } = accents(pixels);
-	const definition = { base: base(pixels), primary, tertiary };
+	const backdrop = dominant(pixels);
+	const base = backdrop && center(backdrop, area);
+	const aside = backdrop && muted(backdrop) && around(pixels, base);
+	const { primary, tertiary } =
+		aside || accents(pixels, pixels.length, OPPOSITE) || {};
 
-	definition.style = definition.base === undefined ? "neutral" : "natural";
-
-	return Object.fromEntries(
-		Object.entries(definition).filter(([, value]) => value !== undefined),
-	);
+	return {
+		base,
+		primary,
+		tertiary,
+		style: base === undefined ? "neutral" : "natural",
+	};
 };
