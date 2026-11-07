@@ -118,7 +118,7 @@ const style = ({ accent, ansi, color, surface, syntax }) => {
 		"editor.document_highlight.write_background": highlight(0.2),
 		"editor.document_highlight.bracket_background": highlight(0.2),
 		"search.match_background": field.overlay.subtle,
-		"search.active_match_background": highlight(0.1),
+		"search.active_match_background": highlight(0.2),
 
 		"scrollbar.thumb.background": field.overlay.normal,
 		"scrollbar.thumb.hover_background": field.overlay.strong,
