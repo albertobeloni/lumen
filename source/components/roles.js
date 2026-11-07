@@ -59,6 +59,11 @@ export default (dark) => {
 			modal: surface("base", 3),
 			popup: surface("base", 4),
 		},
+		overlay: {
+			normal: { role: "surface.field.foreground.strong", alpha: 0.1 },
+			strong: { role: "surface.field.foreground.strong", alpha: 0.2 },
+			subtle: { role: "surface.field.foreground.strong", alpha: 0.05 },
+		},
 		color: {
 			red: hue("red"),
 			yellow: hue("yellow"),

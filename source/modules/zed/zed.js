@@ -7,7 +7,7 @@ const TRANSPARENT = "#00000000";
 
 const status = (name, { color, container }) => {
 	return {
-		[name]: color,
+		[name]: container.foreground,
 		[`${name}.background`]: container.background,
 		[`${name}.border`]: container.outline.normal,
 	};
@@ -25,17 +25,16 @@ const player = ({ color }) => {
 	return {
 		"cursor": color,
 		"background": color,
-		"selection": alpha(color, 0.24),
+		"selection": alpha(color, 0.15),
 	};
 };
 
-const style = ({ accent, ansi, color, surface, syntax }) => {
+const style = ({ accent, ansi, color, overlay, surface, syntax }) => {
 	const { field, frame } = surface;
 	const { red, yellow, green, cyan, blue, magenta } = color;
 	const { primary, secondary, tertiary } = accent;
 
 	const selected = accent.base.container;
-	const hover = alpha(selected.background, 0.5, frame.background);
 	const neutral = {
 		"color": frame.foreground.subtle,
 		"container": {
@@ -52,10 +51,6 @@ const style = ({ accent, ansi, color, surface, syntax }) => {
 		return alpha(yellow.color, opacity);
 	};
 
-	const scroll = (opacity) => {
-		return alpha(field.foreground.subtle, opacity);
-	};
-
 	return {
 		"background.appearance": "opaque",
 
@@ -64,7 +59,7 @@ const style = ({ accent, ansi, color, surface, syntax }) => {
 		"elevated_surface.background": frame.background,
 		"panel.background": frame.background,
 		"panel.overlay_background": frame.background,
-		"panel.overlay_hover": hover,
+		"panel.overlay_hover": overlay.subtle,
 		"title_bar.background": frame.background,
 		"title_bar.inactive_background": field.background,
 		"status_bar.background": frame.background,
@@ -84,27 +79,27 @@ const style = ({ accent, ansi, color, surface, syntax }) => {
 		"panel.focused_border": TRANSPARENT,
 
 		"element.background": frame.outline.subtle,
-		"element.hover": hover,
-		"element.active": selected.background,
-		"element.selected": selected.background,
+		"element.hover": overlay.subtle,
+		"element.active": overlay.normal,
+		"element.selected": overlay.normal,
 		"element.disabled": frame.background,
-		"element.selection_background": highlight(0.24),
+		"element.selection_background": highlight(0.15),
 		"ghost_element.background": TRANSPARENT,
-		"ghost_element.hover": hover,
-		"ghost_element.active": selected.background,
-		"ghost_element.selected": selected.background,
+		"ghost_element.hover": overlay.subtle,
+		"ghost_element.active": overlay.normal,
+		"ghost_element.selected": overlay.normal,
 		"ghost_element.disabled": TRANSPARENT,
 		"drop_target.background": highlight(0.25),
 		"drop_target.border": primary.color,
 
 		"text": frame.foreground.strong,
 		"text.muted": frame.foreground.normal,
-		"text.placeholder": frame.foreground.subtle,
+		"text.placeholder": alpha(frame.foreground.normal, 0.5),
 		"text.disabled": frame.outline.normal,
 		"text.accent": primary.color,
 		"icon": frame.foreground.strong,
 		"icon.muted": frame.foreground.normal,
-		"icon.placeholder": frame.foreground.subtle,
+		"icon.placeholder": alpha(frame.foreground.normal, 0.5),
 		"icon.disabled": frame.outline.normal,
 		"icon.accent": primary.color,
 		"link_text.hover": primary.color,
@@ -116,26 +111,29 @@ const style = ({ accent, ansi, color, surface, syntax }) => {
 		"editor.active_line.background": frame.background,
 		"editor.highlighted_line.background": frame.background,
 		"editor.debugger_active_line.background": match(0.18),
-		"editor.line_number": field.foreground.subtle,
+		"editor.line_number": alpha(field.foreground.normal, 0.5),
 		"editor.active_line_number": field.foreground.strong,
 		"editor.hover_line_number": field.foreground.normal,
 		"editor.invisible": field.outline.normal,
-		"editor.wrap_guide": field.outline.subtle,
-		"editor.active_wrap_guide": field.outline.normal,
-		"editor.indent_guide": field.outline.subtle,
-		"editor.indent_guide_active": field.outline.normal,
+		"editor.wrap_guide": overlay.subtle,
+		"editor.active_wrap_guide": overlay.normal,
+		"editor.indent_guide": overlay.subtle,
+		"editor.indent_guide_active": overlay.normal,
 		"editor.document_highlight.read_background": highlight(0.12),
 		"editor.document_highlight.write_background": highlight(0.25),
 		"editor.document_highlight.bracket_background": highlight(0.18),
-		"search.match_background": match(0.3),
-		"search.active_match_background": match(0.5),
+		"search.match_background": overlay.strong,
+		"search.active_match_background": highlight(0.3),
 
-		"scrollbar.thumb.background": scroll(0.3),
-		"scrollbar.thumb.hover_background": scroll(0.5),
-		"scrollbar.thumb.active_background": scroll(0.6),
+		"scrollbar.thumb.background": overlay.normal,
+		"scrollbar.thumb.hover_background": overlay.strong,
+		"scrollbar.thumb.active_background": alpha(
+			field.foreground.strong,
+			0.3,
+		),
 		"scrollbar.thumb.border": TRANSPARENT,
 		"scrollbar.track.background": TRANSPARENT,
-		"scrollbar.track.border": field.outline.subtle,
+		"scrollbar.track.border": TRANSPARENT,
 		"panel.indent_guide": frame.outline.subtle,
 		"panel.indent_guide_active": frame.outline.normal,
 		"panel.indent_guide_hover": frame.outline.strong,
