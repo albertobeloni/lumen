@@ -5,9 +5,9 @@ import { alpha } from "../../components/color.js";
 const SCHEMA = "https://zed.dev/schema/themes/v0.2.0.json";
 const TRANSPARENT = "#00000000";
 
-const status = (name, { color, container }) => {
+const status = (name, { container }) => {
 	return {
-		[name]: container.foreground,
+		[name]: container.foreground.normal,
 		[`${name}.background`]: container.background,
 		[`${name}.border`]: container.outline.normal,
 	};
@@ -32,16 +32,7 @@ const player = ({ color }) => {
 const style = ({ accent, ansi, color, overlay, surface, syntax }) => {
 	const { field, frame } = surface;
 	const { red, yellow, green, cyan, blue, magenta } = color;
-	const { primary, secondary, tertiary } = accent;
-
-	const selected = accent.base.container;
-	const neutral = {
-		"color": frame.foreground.subtle,
-		"container": {
-			"background": frame.outline.subtle,
-			"outline": { "normal": frame.outline.normal },
-		},
-	};
+	const { base, primary, secondary, tertiary } = accent;
 
 	const highlight = (opacity) => {
 		return alpha(primary.color, opacity);
@@ -71,7 +62,7 @@ const style = ({ accent, ansi, color, overlay, surface, syntax }) => {
 		"border": frame.outline.subtle,
 		"border.variant": frame.outline.subtle,
 		"border.focused": primary.color,
-		"border.selected": selected.outline.normal,
+		"border.selected": base.container.outline.normal,
 		"border.transparent": TRANSPARENT,
 		"border.disabled": frame.outline.subtle,
 		"pane.focused_border": primary.color,
@@ -148,10 +139,10 @@ const style = ({ accent, ansi, color, overlay, surface, syntax }) => {
 		...status("deleted", red),
 		...status("modified", yellow),
 		...status("renamed", blue),
-		...status("hidden", neutral),
-		...status("ignored", neutral),
-		...status("predictive", neutral),
-		...status("unreachable", neutral),
+		...status("hidden", base),
+		...status("ignored", base),
+		...status("predictive", base),
+		...status("unreachable", base),
 
 		"version_control.added": green.color,
 		"version_control.deleted": red.color,
