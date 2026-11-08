@@ -80,15 +80,19 @@ const tone = (color) => {
 };
 
 const opacity = ({ background, foreground }, target) => {
-	const goal = Math.abs(tone(target) - tone(background));
+	const base = tone(background);
+	const goal = Math.abs(tone(target) - base);
 	let [low, high] = [0, 1];
 
 	for (let step = 0; step < 20; step++) {
 		const middle = (low + high) / 2;
 		const mixed = alpha(foreground.strong, middle, background);
-		const reached = Math.abs(tone(mixed) - tone(background));
 
-		[low, high] = reached < goal ? [middle, high] : [low, middle];
+		if (Math.abs(tone(mixed) - base) < goal) {
+			low = middle;
+		} else {
+			high = middle;
+		}
 	}
 
 	return `${Math.round(low * 100)}%`;
@@ -98,8 +102,7 @@ const opacities = ({ surface }) => {
 	const { frame } = surface;
 
 	return {
-		"border-opacity": opacity(frame, frame.outline.subtle),
-		"divider-opacity": opacity(frame, frame.outline.silent),
+		"border-opacity": opacity(frame, frame.outline.silent),
 		"dim-opacity": opacity(frame, frame.foreground.subtle),
 		"disabled-opacity": opacity(frame, frame.foreground.silent),
 	};
