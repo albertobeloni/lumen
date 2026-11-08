@@ -23,7 +23,7 @@ export default {
 				less: { rotation: -15, chromacity: 1 },
 			},
 			secondary: {
-				rotation: 60,
+				rotation: -60,
 				chromacity: 1,
 				more: { rotation: 15, chromacity: 1 },
 				less: { rotation: -15, chromacity: 1 },
