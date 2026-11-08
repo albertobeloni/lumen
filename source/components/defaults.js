@@ -19,14 +19,14 @@ export default {
 			primary: {
 				rotation: 0,
 				chromacity: 1,
-				more: { rotation: 15, chromacity: 1 },
-				less: { rotation: -15, chromacity: 1 },
+				more: { rotation: 30, chromacity: 1 },
+				less: { rotation: -30, chromacity: 1 },
 			},
 			secondary: {
 				rotation: -60,
 				chromacity: 1,
-				more: { rotation: 15, chromacity: 1 },
-				less: { rotation: -15, chromacity: 1 },
+				more: { rotation: 30, chromacity: 1 },
+				less: { rotation: -30, chromacity: 1 },
 			},
 		},
 		analogous: {
