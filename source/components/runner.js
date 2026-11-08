@@ -19,10 +19,11 @@ const execute = async (module, scheme, context, { output, apply }) => {
 		print,
 	} = await module.build(scheme, { ...context, config: CONFIG });
 
-	for (const file of files) {
-		const root = apply
-			? directory
-			: path.join(output, context.name, module.name);
+	const root = apply
+		? directory
+		: path.join(output, context.name, module.name);
+
+	for (const file of root ? files : []) {
 		const destination = path.join(root, file.path);
 
 		await filesystem.mkdir(path.dirname(destination), { recursive: true });

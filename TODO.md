@@ -15,8 +15,20 @@
 	- Roles: `base` (with `base.variant`), `accent.primary` and `accent.secondary` (with `.more` and `.less`)
 	- Module mapping for now: `accent.base` → `base`, old `secondary` → `base.variant`, old `tertiary` → `secondary`
 - [x] Review and improve syntax roles using the new accents
-- [ ] Make modules more consistent, applying the same colors (roles) for elements
+- [x] Make modules more consistent, applying the same colors (roles) for elements
 - [ ] Implement Zen Browser module
+	- Goal: an own, standalone GNOME-style theme for Zen, consistent with Nautilus and other GNOME apps
+	- Lumen `zen` module: colors only, `chrome/lumen.css` in the Zen profile, both themes in `prefers-color-scheme` blocks, Zen-specific variable names mapped from Lumen roles
+	- Setup `zen` module: everything that isn't color (structure, shape, typography, preferences)
+		- Finds the profile from `profiles.ini` (Flatpak first, then `~/.zen`)
+		- `userChrome.css` and `userContent.css` import `lumen.css` and the theme's style files
+		- `user.js` preferences (legacy stylesheets, `svg.context-properties.content.enabled`, ...)
+	- Steps:
+		- [x] Lumen `zen` module writing `lumen.css`
+		- [x] Setup `zen` module skeleton (profile detection, preferences, imports)
+		- [ ] Build the theme part by part: header bar and toolbar, tabs and sidebar, URL bar, popups and menus, buttons, internal pages
+		- [ ] Remove the ClixTW GNOME theme from the profile
+	- Zen does not reload CSS from disk: new schemes show after a restart; dark/light switches are instant
     - https://github.com/noctalia-dev/community-templates/tree/main/zen-browser
     - https://github.com/lingais/Zen-Browser-Super-Sleek-UI-Theme (page blur)
     - https://github.com/ClixTW/zen-gnome-theme
