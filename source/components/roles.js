@@ -88,21 +88,22 @@ export default (dark) => {
 			notice: { role: "color.blue" },
 		},
 		syntax: {
-			attribute: { role: "surface.field.foreground.normal" },
+			attribute: { role: "base.variant.color" },
 			comment: { role: "surface.field.foreground.silent" },
-			constant: { role: "accent.primary.color" },
+			constant: { role: "accent.primary.more.color" },
 			function: { role: "accent.secondary.color" },
 			keyword: { role: "accent.primary.color" },
-			number: { role: "accent.primary.color" },
-			operator: { role: "surface.field.foreground.normal" },
+			number: { role: "accent.primary.more.color" },
+			operator: { role: "surface.field.foreground.subtle" },
 			property: { role: "surface.field.foreground.normal" },
 			punctuation: { role: "surface.field.foreground.silent" },
-			special: { role: "accent.primary.color" },
-			string: { role: "accent.primary.color" },
-			tag: { role: "accent.secondary.color" },
-			type: { role: "accent.secondary.color" },
+			special: { role: "accent.secondary.less.color" },
+			string: { role: "accent.primary.less.color" },
+			tag: { role: "accent.secondary.more.color" },
+			type: { role: "accent.secondary.more.color" },
 			variable: { role: "surface.field.foreground.normal" },
 		},
+
 		ansi: {
 			black: dark
 				? levels("base", 0, SHADE)

@@ -1,4 +1,4 @@
-- [ ] Restructure base and accents (items 1 and 2 combined)
+- [x] Restructure base and accents (items 1 and 2 combined)
 	- Parsed structure:
 		- `palettes.base`: hues and one `variant` (the same hues)
 		- `palettes.accent.primary` and `palettes.accent.secondary`: hue, chromacity, `more` and `less`
