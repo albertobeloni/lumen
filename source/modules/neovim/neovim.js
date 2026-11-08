@@ -2,8 +2,6 @@ import path from "node:path";
 
 import { alpha, flatten } from "../../components/color.js";
 
-const TINT = 0.15;
-
 const on = (surface, level = "normal") => {
 	return { "fg": surface.foreground[level], "bg": surface.background };
 };
@@ -36,19 +34,20 @@ const terminal = ({ ansi }) => {
 const groups = (roles) => {
 	const { accent, color, status, surface, syntax, ui } = roles;
 	const { field, frame, panel, popup } = surface;
-	const shadow = roles.shadow.slice(0, 7);
+	const shadow = alpha(roles.shadow, 1);
+
+	const solid = (color) => {
+		return flatten(color, field.background);
+	};
+
 	const cursor = { "fg": field.background, "bg": ui.cursor };
 	const match = {
 		"fg": field.foreground.strong,
-		"bg": flatten(ui.match.current, field.background),
+		"bg": solid(ui.match.current),
 	};
 	const selected = {
 		"fg": popup.foreground.strong,
 		"bg": flatten(popup.overlay.normal, popup.background),
-	};
-
-	const tint = (hue, opacity = TINT) => {
-		return flatten(alpha(hue, opacity), field.background);
 	};
 
 	return {
@@ -82,10 +81,13 @@ const groups = (roles) => {
 		"Directory": { "fg": accent.primary.color },
 		"Title": { "fg": field.foreground.strong, "bold": true },
 
-		"Visual": { "bg": flatten(ui.selection, field.background) },
-		"VisualNOS": { "bg": flatten(ui.selection, field.background) },
-		"QuickFixLine": { "bg": tint(accent.primary.color), "bold": true },
-		"Search": { "bg": flatten(ui.match.all, field.background) },
+		"Visual": { "bg": solid(ui.selection) },
+		"VisualNOS": { "bg": solid(ui.selection) },
+		"QuickFixLine": {
+			"bg": solid(accent.primary.tint.normal),
+			"bold": true,
+		},
+		"Search": { "bg": solid(ui.match.all) },
 		"CurSearch": match,
 		"IncSearch": match,
 
@@ -147,12 +149,12 @@ const groups = (roles) => {
 		"Added": { "fg": status.created.color },
 		"Changed": { "fg": status.modified.color },
 		"Removed": { "fg": status.deleted.color },
-		"DiffAdd": { "bg": tint(status.created.color) },
-		"DiffChange": { "bg": tint(status.modified.color, TINT / 2) },
-		"DiffText": { "bg": tint(status.modified.color, TINT * 2) },
+		"DiffAdd": { "bg": solid(status.created.tint.normal) },
+		"DiffChange": { "bg": solid(status.modified.tint.silent) },
+		"DiffText": { "bg": solid(status.modified.tint.strong) },
 		"DiffDelete": {
 			"fg": status.deleted.color,
-			"bg": tint(status.deleted.color),
+			"bg": solid(status.deleted.tint.normal),
 		},
 
 		"Comment": { "fg": syntax.comment },

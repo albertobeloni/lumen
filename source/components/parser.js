@@ -5,10 +5,7 @@ import DEFAULTS from "./defaults.js";
 const accents = (scheme) => {
 	const harmony = scheme.harmonies[scheme.harmony];
 
-	const anchor = (name) => {
-		const { rotation, chromacity, more, less } = harmony[name];
-		const hue = scheme[name] ?? angle(scheme.primary + rotation);
-
+	const anchor = (hue, { chromacity, more, less }) => {
 		const companion = (relation) => {
 			return {
 				hue: angle(hue + relation.rotation),
@@ -24,9 +21,12 @@ const accents = (scheme) => {
 		};
 	};
 
+	const { primary, secondary } = harmony;
+	const fallback = angle(scheme.primary + secondary.rotation);
+
 	return {
-		primary: anchor("primary"),
-		secondary: anchor("secondary"),
+		primary: anchor(scheme.primary, primary),
+		secondary: anchor(scheme.secondary ?? fallback, secondary),
 	};
 };
 

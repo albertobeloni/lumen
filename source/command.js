@@ -60,7 +60,7 @@ const target = async (input) => {
 		);
 	}
 
-	return { name: NAME, ...last };
+	return last;
 };
 
 const commands = {
@@ -100,7 +100,7 @@ const commands = {
 		const selected = await modules(options.module, required);
 		const output = path.resolve(options.output ?? OUTPUT);
 
-		for (const { name, definition, theme } of targets) {
+		for (const { name = NAME, definition, theme } of targets) {
 			await run(
 				selected,
 				Lumen(definition),
@@ -111,7 +111,7 @@ const commands = {
 	},
 
 	show: async ([input], options) => {
-		const { name, definition, theme } = await target(input);
+		const { name = NAME, definition, theme } = await target(input);
 		const selected = await modules(options.module, optional);
 
 		await run(selected, Lumen(definition), {

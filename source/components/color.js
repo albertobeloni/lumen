@@ -152,3 +152,7 @@ export const scale = (steps) => {
 		return reference.to("hct").get("t");
 	});
 };
+
+export const tone = (color) => {
+	return new Color(color).to("hct").get("t");
+};

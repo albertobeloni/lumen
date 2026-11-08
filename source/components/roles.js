@@ -1,9 +1,11 @@
 const MIDDLE = 20;
 
+const ACCENT = { background: 26, color: 20, container: 4 };
 const FOREGROUND = { silent: 12, subtle: 16, normal: 20, strong: 26 };
 const OUTLINE = { silent: 3, subtle: 4, normal: 8, strong: 16 };
-const SHADE = { silent: 0, subtle: 2, normal: 4, strong: 10 };
 const OVERLAY = { silent: 0.05, subtle: 0.075, normal: 0.1, strong: 0.2 };
+const SHADE = { silent: 0, subtle: 2, normal: 4, strong: 10 };
+const TINT = { silent: 0.05, subtle: 0.1, normal: 0.15, strong: 0.25 };
 
 const away = (level, distance) => {
 	return level <= MIDDLE ? level + distance : level - distance;
@@ -21,12 +23,10 @@ const levels = (palette, level, distances) => {
 	);
 };
 
-const overlay = (palette, level) => {
-	const tone = color(palette, away(level, FOREGROUND.strong));
-
+const translucent = (node, opacities) => {
 	return Object.fromEntries(
-		Object.entries(OVERLAY).map(([name, alpha]) => {
-			return [name, { ...tone, alpha }];
+		Object.entries(opacities).map(([name, alpha]) => {
+			return [name, { ...node, alpha }];
 		}),
 	);
 };
@@ -36,15 +36,19 @@ const surface = (palette, level) => {
 		background: color(palette, level),
 		foreground: levels(palette, level, FOREGROUND),
 		outline: levels(palette, level, OUTLINE),
-		overlay: overlay(palette, level),
+		overlay: translucent(
+			color(palette, away(level, FOREGROUND.strong)),
+			OVERLAY,
+		),
 	};
 };
 
 const hue = (palette) => {
 	return {
-		...surface(palette, 26),
-		color: color(palette, 20),
-		container: surface(palette, 4),
+		...surface(palette, ACCENT.background),
+		color: color(palette, ACCENT.color),
+		container: surface(palette, ACCENT.container),
+		tint: translucent(color(palette, ACCENT.color), TINT),
 	};
 };
 

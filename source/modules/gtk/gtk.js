@@ -1,8 +1,6 @@
-import Color from "colorjs.io";
+import { alpha, flatten, tone } from "../../components/color.js";
 
-import { alpha, flatten } from "../../components/color.js";
-
-const SHADE = { dark: 0.25, light: 0.07 };
+const SHADOW = { dark: 0.25, light: 0.07 };
 
 const RELOAD = [
 	"key='org.gnome.desktop.a11y.interface high-contrast'",
@@ -30,7 +28,7 @@ const area = (name, source) => {
 const variables = (roles, theme) => {
 	const { accent, color, scrim, shadow, surface } = roles;
 	const { field, frame, panel, modal, popup } = surface;
-	const shade = alpha(shadow, SHADE[theme]);
+	const shade = alpha(shadow, SHADOW[theme]);
 
 	return {
 		...status("accent", accent.primary),
@@ -73,10 +71,6 @@ const variables = (roles, theme) => {
 		"shade": shade,
 		"scrollbar-outline": field.background,
 	};
-};
-
-const tone = (color) => {
-	return new Color(color).to("hct").coords[2];
 };
 
 const opacity = ({ background, foreground }, target) => {

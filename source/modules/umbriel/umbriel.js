@@ -17,7 +17,7 @@ accent_primary = "${primary.color}"
 accent_secondary = "${variant.color}"
 warning = "${yellow.color}"
 error = "${red.color}"
-insert_hint = "${alpha(primary.color, 0.25)}"
+insert_hint = "${primary.tint.strong}"
 backdrop = "${field.background}"
 shadow = "${shadow}"
 

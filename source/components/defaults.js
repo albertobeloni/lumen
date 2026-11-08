@@ -17,7 +17,6 @@ export default {
 	harmonies: {
 		default: {
 			primary: {
-				rotation: 0,
 				chromacity: 1,
 				more: { rotation: 30, chromacity: 1 },
 				less: { rotation: -30, chromacity: 1 },
@@ -31,7 +30,6 @@ export default {
 		},
 		analogous: {
 			primary: {
-				rotation: 30,
 				chromacity: 1,
 				more: { rotation: 15, chromacity: 1 },
 				less: { rotation: -15, chromacity: 1 },
@@ -45,7 +43,6 @@ export default {
 		},
 		complementary: {
 			primary: {
-				rotation: 0,
 				chromacity: 1,
 				more: { rotation: 15, chromacity: 1 },
 				less: { rotation: -15, chromacity: 1 },
@@ -59,7 +56,6 @@ export default {
 		},
 		monochromatic: {
 			primary: {
-				rotation: 0,
 				chromacity: 1,
 				more: { rotation: 0, chromacity: 1 },
 				less: { rotation: 0, chromacity: 1 },
@@ -73,7 +69,6 @@ export default {
 		},
 		split: {
 			primary: {
-				rotation: 0,
 				chromacity: 1,
 				more: { rotation: 30, chromacity: 1 },
 				less: { rotation: -30, chromacity: 1 },
@@ -87,7 +82,6 @@ export default {
 		},
 		triadic: {
 			primary: {
-				rotation: 120,
 				chromacity: 1,
 				more: { rotation: 15, chromacity: 1 },
 				less: { rotation: -15, chromacity: 1 },
@@ -113,13 +107,13 @@ export default {
 				chroma: 0,
 				chromacity: 1,
 				offset: 0,
-				variant: { chromacity: 1 / 3 },
+				variant: { chromacity: 0 },
 			},
 			light: {
 				chroma: 0,
 				chromacity: 1,
 				offset: 0,
-				variant: { chromacity: 1 / 3 },
+				variant: { chromacity: 0 },
 			},
 		},
 		natural: {

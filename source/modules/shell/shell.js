@@ -2,7 +2,7 @@ import path from "node:path";
 
 import { createHash } from "node:crypto";
 
-const flatten = (node, prefix) => {
+const entries = (node, prefix) => {
 	return Object.entries(node).flatMap(([key, value]) => {
 		const name = prefix ? `${prefix}.${key}` : key;
 
@@ -10,12 +10,12 @@ const flatten = (node, prefix) => {
 			return [[name, value]];
 		}
 
-		return flatten(value, name);
+		return entries(value, name);
 	});
 };
 
 const palette = (roles) => {
-	const lines = flatten(roles)
+	const lines = entries(roles)
 		.filter(([, value]) => value.length === 7)
 		.map(([name, value]) => `\t[${name}]="${value}"`);
 

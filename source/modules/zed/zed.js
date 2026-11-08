@@ -1,15 +1,15 @@
 import path from "node:path";
 
-import { alpha, flatten } from "../../components/color.js";
+import { flatten } from "../../components/color.js";
 
 const SCHEMA = "https://zed.dev/schema/themes/v0.2.0.json";
 const TRANSPARENT = "#00000000";
 
-const status = (name, color, outline) => {
+const status = (name, source, color = source.color) => {
 	return {
 		[name]: color,
-		[`${name}.background`]: alpha(color, 0.1),
-		[`${name}.border`]: outline.strong,
+		[`${name}.background`]: source.tint.subtle,
+		[`${name}.border`]: source.outline.strong,
 	};
 };
 
@@ -21,35 +21,27 @@ const terminal = (name, { normal, strong, subtle }) => {
 	};
 };
 
-const player = ({ color }) => {
+const player = ({ color, tint }) => {
 	return {
 		"cursor": color,
 		"background": color,
-		"selection": alpha(color, 0.15),
+		"selection": tint.normal,
 	};
 };
 
 const style = (roles) => {
 	const { accent, ansi, base, color, surface, syntax, ui } = roles;
-	const { created, deleted, modified } = roles.status;
+	const { caution, created, deleted, modified } = roles.status;
 	const { field, frame } = surface;
 	const { red, yellow, green, cyan, blue, magenta } = color;
 	const { primary, secondary } = accent;
 	const { variant } = base;
 
-	const solid = (opacity) => {
-		const overlay = alpha(frame.foreground.strong, opacity);
-
+	const solid = (overlay) => {
 		return flatten(overlay, frame.background);
 	};
 
-	const highlight = (opacity) => {
-		return alpha(primary.color, opacity);
-	};
 
-	const match = (opacity) => {
-		return alpha(yellow.color, opacity);
-	};
 
 	return {
 		"background.appearance": "opaque",
@@ -59,7 +51,7 @@ const style = (roles) => {
 		"elevated_surface.background": frame.background,
 		"panel.background": frame.background,
 		"panel.overlay_background": frame.background,
-		"panel.overlay_hover": solid(0.05),
+		"panel.overlay_hover": solid(frame.overlay.silent),
 		"title_bar.background": frame.background,
 		"title_bar.inactive_background": field.background,
 		"status_bar.background": frame.background,
@@ -79,9 +71,9 @@ const style = (roles) => {
 		"panel.focused_border": TRANSPARENT,
 
 		"element.background": frame.overlay.silent,
-		"element.hover": solid(0.05),
-		"element.active": solid(0.1),
-		"element.selected": solid(0.1),
+		"element.hover": solid(frame.overlay.silent),
+		"element.active": solid(frame.overlay.normal),
+		"element.selected": solid(frame.overlay.normal),
 		"element.disabled": frame.background,
 		"element.selection_background": ui.selection,
 		"ghost_element.background": TRANSPARENT,
@@ -89,7 +81,7 @@ const style = (roles) => {
 		"ghost_element.active": frame.overlay.normal,
 		"ghost_element.selected": frame.overlay.normal,
 		"ghost_element.disabled": TRANSPARENT,
-		"drop_target.background": highlight(0.25),
+		"drop_target.background": primary.tint.strong,
 		"drop_target.border": ui.focus,
 
 		"text": frame.foreground.strong,
@@ -110,7 +102,7 @@ const style = (roles) => {
 		"editor.subheader.background": frame.background,
 		"editor.active_line.background": frame.background,
 		"editor.highlighted_line.background": frame.background,
-		"editor.debugger_active_line.background": match(0.18),
+		"editor.debugger_active_line.background": caution.tint.normal,
 		"editor.line_number": field.foreground.silent,
 		"editor.active_line_number": field.foreground.strong,
 		"editor.hover_line_number": field.foreground.normal,
@@ -119,9 +111,9 @@ const style = (roles) => {
 		"editor.active_wrap_guide": field.overlay.normal,
 		"editor.indent_guide": field.overlay.silent,
 		"editor.indent_guide_active": field.overlay.normal,
-		"editor.document_highlight.read_background": highlight(0.1),
-		"editor.document_highlight.write_background": highlight(0.2),
-		"editor.document_highlight.bracket_background": highlight(0.2),
+		"editor.document_highlight.read_background": primary.tint.subtle,
+		"editor.document_highlight.write_background": primary.tint.normal,
+		"editor.document_highlight.bracket_background": primary.tint.normal,
 		"search.match_background": ui.match.all,
 		"search.active_match_background": ui.match.current,
 
@@ -135,20 +127,20 @@ const style = (roles) => {
 		"panel.indent_guide_active": frame.overlay.normal,
 		"panel.indent_guide_hover": frame.overlay.normal,
 
-		...status("error", red.color, red.outline),
-		...status("warning", yellow.color, yellow.outline),
-		...status("success", green.color, green.outline),
-		...status("info", blue.color, blue.outline),
-		...status("hint", cyan.color, cyan.outline),
-		...status("conflict", yellow.color, yellow.outline),
-		...status("created", created.color, created.outline),
-		...status("deleted", deleted.color, deleted.outline),
-		...status("modified", modified.color, modified.outline),
-		...status("renamed", blue.color, blue.outline),
-		...status("hidden", frame.foreground.silent, base.outline),
-		...status("ignored", frame.foreground.silent, base.outline),
-		...status("predictive", frame.foreground.silent, base.outline),
-		...status("unreachable", frame.foreground.silent, base.outline),
+		...status("error", red),
+		...status("warning", yellow),
+		...status("success", green),
+		...status("info", blue),
+		...status("hint", cyan),
+		...status("conflict", yellow),
+		...status("created", created),
+		...status("deleted", deleted),
+		...status("modified", modified),
+		...status("renamed", blue),
+		...status("hidden", base, frame.foreground.silent),
+		...status("ignored", base, frame.foreground.silent),
+		...status("predictive", base, frame.foreground.silent),
+		...status("unreachable", base, frame.foreground.silent),
 
 		"version_control.added": created.color,
 		"version_control.deleted": deleted.color,
@@ -156,10 +148,10 @@ const style = (roles) => {
 		"version_control.renamed": blue.color,
 		"version_control.conflict": yellow.color,
 		"version_control.ignored": frame.foreground.silent,
-		"version_control.word_added": alpha(created.color, 0.35),
-		"version_control.word_deleted": alpha(deleted.color, 0.35),
-		"version_control.conflict_marker.ours": alpha(green.color, 0.2),
-		"version_control.conflict_marker.theirs": alpha(blue.color, 0.2),
+		"version_control.word_added": created.tint.strong,
+		"version_control.word_deleted": deleted.tint.strong,
+		"version_control.conflict_marker.ours": green.tint.normal,
+		"version_control.conflict_marker.theirs": blue.tint.normal,
 
 		"terminal.background": field.background,
 		"terminal.foreground": field.foreground.normal,
@@ -263,12 +255,12 @@ export default (scheme, { name, config }) => {
 		"author": "Lumen",
 		"themes": [
 			{
-				"name": `${name} Dark`,
+				"name": `${name} ${scheme.theme.dark.name}`,
 				"appearance": "dark",
 				"style": style(scheme.theme.dark.roles),
 			},
 			{
-				"name": `${name} Light`,
+				"name": `${name} ${scheme.theme.light.name}`,
 				"appearance": "light",
 				"style": style(scheme.theme.light.roles),
 			},

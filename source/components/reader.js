@@ -8,7 +8,6 @@ import Color from "colorjs.io";
 import { colorfulness, GREY } from "./color.js";
 import { extract } from "./extractor.js";
 import { list, load } from "./loader.js";
-import { NAME } from "../lumen.js";
 
 const SCHEMES = path.join(import.meta.dirname, "..", "schemes");
 
@@ -37,7 +36,7 @@ const restore = async (file) => {
 		await filesystem.readFile(file, "utf8"),
 	);
 
-	return { name: NAME, input, definition, theme };
+	return { input, definition, theme };
 };
 
 export const schemes = () => {
@@ -58,8 +57,8 @@ export const read = async (input) => {
 			return restore(file);
 		}
 
-		return { name: NAME, input: file, definition: await extract(file) };
+		return { input: file, definition: await extract(file) };
 	}
 
-	return { name: NAME, input, definition: tint(input) };
+	return { input, definition: tint(input) };
 };

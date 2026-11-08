@@ -63,8 +63,12 @@ color15 ${ansi.white.strong}
 };
 
 export default (scheme, { name, config }) => {
-	const dark = theme(`${name} Dark`, scheme.theme.dark.roles);
-	const light = theme(`${name} Light`, scheme.theme.light.roles);
+	const variant = ({ name: title, roles }) => {
+		return theme(`${name} ${title}`, roles);
+	};
+
+	const dark = variant(scheme.theme.dark);
+	const light = variant(scheme.theme.light);
 
 	return {
 		directory: path.join(config, "kitty"),

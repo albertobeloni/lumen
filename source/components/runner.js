@@ -18,6 +18,7 @@ const execute = async (module, scheme, context, { output, apply }) => {
 		command,
 		print,
 	} = await module.build(scheme, { ...context, config: CONFIG });
+
 	for (const file of files) {
 		const root = apply
 			? directory

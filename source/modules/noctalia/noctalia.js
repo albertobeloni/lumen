@@ -1,8 +1,9 @@
 import path from "node:path";
 
-import { flatten } from "../../components/color.js";
+import { alpha, flatten } from "../../components/color.js";
 
-const palette = ({ accent, ansi, base, color, shadow, surface, ui }) => {
+const palette = (roles) => {
+	const { accent, ansi, base, color, shadow, surface, ui } = roles;
 	const { field, frame } = surface;
 	const { primary, secondary } = accent;
 	const { variant } = base;
@@ -21,7 +22,7 @@ const palette = ({ accent, ansi, base, color, shadow, surface, ui }) => {
 		"mSurfaceVariant": frame.background,
 		"mOnSurfaceVariant": frame.foreground.normal,
 		"mOutline": frame.outline.silent,
-		"mShadow": shadow.slice(0, 7),
+		"mShadow": alpha(shadow, 1),
 		"mHover": flatten(frame.overlay.silent, frame.background),
 		"mOnHover": frame.foreground.strong,
 		"terminal": {
