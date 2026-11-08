@@ -2,7 +2,8 @@ import path from "node:path";
 
 import { flatten } from "../../components/color.js";
 
-const theme = (name, { accent, ansi, base, color, surface, ui }) => {
+const theme = (name, roles) => {
+	const { accent, ansi, base, status, surface, ui } = roles;
 	const { field, frame } = surface;
 	const { primary, secondary } = accent;
 	const { variant } = base;
@@ -18,12 +19,12 @@ cursor ${ui.cursor}
 cursor_text_color ${field.background}
 cursor_trail_color ${field.foreground.subtle}
 
-url_color ${primary.color}
-visual_bell_color ${color.yellow.container.background}
+url_color ${ui.link.normal}
+visual_bell_color ${status.caution.container.background}
 
 active_border_color ${ui.focus}
 inactive_border_color ${field.outline.silent}
-bell_border_color ${color.yellow.color}
+bell_border_color ${status.caution.color}
 
 tab_bar_background ${frame.background}
 tab_bar_margin_color ${frame.background}

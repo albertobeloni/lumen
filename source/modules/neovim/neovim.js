@@ -38,6 +38,10 @@ const groups = (roles) => {
 	const { field, frame, panel, popup } = surface;
 	const shadow = roles.shadow.slice(0, 7);
 	const cursor = { "fg": field.background, "bg": ui.cursor };
+	const match = {
+		"fg": field.foreground.strong,
+		"bg": flatten(ui.match.current, field.background),
+	};
 	const selected = {
 		"fg": popup.foreground.strong,
 		"bg": flatten(popup.overlay.normal, popup.background),
@@ -81,9 +85,9 @@ const groups = (roles) => {
 		"Visual": { "bg": flatten(ui.selection, field.background) },
 		"VisualNOS": { "bg": flatten(ui.selection, field.background) },
 		"QuickFixLine": { "bg": tint(accent.primary.color), "bold": true },
-		"Search": { "bg": tint(color.yellow.color, 0.3) },
-		"CurSearch": on(color.yellow),
-		"IncSearch": on(color.yellow),
+		"Search": { "bg": flatten(ui.match.all, field.background) },
+		"CurSearch": match,
+		"IncSearch": match,
 
 		"StatusLine": on(panel),
 		"StatusLineNC": on(frame, "subtle"),
@@ -140,13 +144,16 @@ const groups = (roles) => {
 		"SpellLocal": curl(status.notice.color),
 		"SpellRare": curl(color.cyan.color),
 
-		"Added": { "fg": color.green.color },
-		"Changed": { "fg": color.yellow.color },
-		"Removed": { "fg": color.red.color },
-		"DiffAdd": { "bg": tint(color.green.color) },
-		"DiffChange": { "bg": tint(color.yellow.color, TINT / 2) },
-		"DiffText": { "bg": tint(color.yellow.color, TINT * 2) },
-		"DiffDelete": { "fg": color.red.color, "bg": tint(color.red.color) },
+		"Added": { "fg": status.created.color },
+		"Changed": { "fg": status.modified.color },
+		"Removed": { "fg": status.deleted.color },
+		"DiffAdd": { "bg": tint(status.created.color) },
+		"DiffChange": { "bg": tint(status.modified.color, TINT / 2) },
+		"DiffText": { "bg": tint(status.modified.color, TINT * 2) },
+		"DiffDelete": {
+			"fg": status.deleted.color,
+			"bg": tint(status.deleted.color),
+		},
 
 		"Comment": { "fg": syntax.comment },
 		"Constant": { "fg": syntax.constant },
@@ -161,7 +168,7 @@ const groups = (roles) => {
 		"Special": { "fg": syntax.special },
 		"Delimiter": { "fg": syntax.punctuation },
 		"Tag": { "fg": syntax.tag },
-		"Underlined": { "fg": accent.primary.color, "underline": true },
+		"Underlined": { "fg": ui.link.normal, "underline": true },
 		"Todo": { "fg": color.yellow.color, "bold": true },
 
 		"@variable": { "fg": syntax.variable },

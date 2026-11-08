@@ -70,6 +70,14 @@ export default (dark) => {
 			selection: { role: "base.variant.color", alpha: 0.1 },
 			focus: { role: "accent.primary.color" },
 			cursor: { role: "accent.primary.color" },
+			link: {
+				normal: { role: "color.blue.color" },
+				visited: { role: "color.purple.color" },
+			},
+			match: {
+				all: { role: "surface.field.overlay.subtle" },
+				current: { role: "accent.primary.color", alpha: 0.2 },
+			},
 		},
 		surface: {
 			field: surface("base", 0),
@@ -80,17 +88,26 @@ export default (dark) => {
 		},
 		color: {
 			red: hue("red"),
+			orange: hue("orange"),
 			yellow: hue("yellow"),
+			lime: hue("lime"),
 			green: hue("green"),
+			teal: hue("teal"),
 			cyan: hue("cyan"),
+			azure: hue("azure"),
 			blue: hue("blue"),
+			purple: hue("purple"),
 			magenta: hue("magenta"),
+			pink: hue("pink"),
 		},
 		status: {
 			critical: { role: "color.red" },
 			caution: { role: "color.yellow" },
 			success: { role: "color.green" },
 			notice: { role: "color.blue" },
+			created: { role: "color.green" },
+			deleted: { role: "color.red" },
+			modified: { role: "color.yellow" },
 		},
 		syntax: {
 			attribute: { role: "base.variant.color" },

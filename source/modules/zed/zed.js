@@ -29,7 +29,9 @@ const player = ({ color }) => {
 	};
 };
 
-const style = ({ accent, ansi, base, color, surface, syntax, ui }) => {
+const style = (roles) => {
+	const { accent, ansi, base, color, surface, syntax, ui } = roles;
+	const { created, deleted, modified } = roles.status;
 	const { field, frame } = surface;
 	const { red, yellow, green, cyan, blue, magenta } = color;
 	const { primary, secondary } = accent;
@@ -100,7 +102,7 @@ const style = ({ accent, ansi, base, color, surface, syntax, ui }) => {
 		"icon.placeholder": frame.foreground.silent,
 		"icon.disabled": frame.foreground.silent,
 		"icon.accent": primary.color,
-		"link_text.hover": primary.color,
+		"link_text.hover": ui.link.normal,
 
 		"editor.foreground": field.foreground.normal,
 		"editor.background": field.background,
@@ -120,8 +122,8 @@ const style = ({ accent, ansi, base, color, surface, syntax, ui }) => {
 		"editor.document_highlight.read_background": highlight(0.1),
 		"editor.document_highlight.write_background": highlight(0.2),
 		"editor.document_highlight.bracket_background": highlight(0.2),
-		"search.match_background": field.overlay.subtle,
-		"search.active_match_background": highlight(0.2),
+		"search.match_background": ui.match.all,
+		"search.active_match_background": ui.match.current,
 
 		"scrollbar.thumb.background": field.overlay.normal,
 		"scrollbar.thumb.hover_background": field.overlay.strong,
@@ -139,23 +141,23 @@ const style = ({ accent, ansi, base, color, surface, syntax, ui }) => {
 		...status("info", blue.color, blue.outline),
 		...status("hint", cyan.color, cyan.outline),
 		...status("conflict", yellow.color, yellow.outline),
-		...status("created", green.color, green.outline),
-		...status("deleted", red.color, red.outline),
-		...status("modified", yellow.color, yellow.outline),
+		...status("created", created.color, created.outline),
+		...status("deleted", deleted.color, deleted.outline),
+		...status("modified", modified.color, modified.outline),
 		...status("renamed", blue.color, blue.outline),
 		...status("hidden", frame.foreground.silent, base.outline),
 		...status("ignored", frame.foreground.silent, base.outline),
 		...status("predictive", frame.foreground.silent, base.outline),
 		...status("unreachable", frame.foreground.silent, base.outline),
 
-		"version_control.added": green.color,
-		"version_control.deleted": red.color,
-		"version_control.modified": yellow.color,
+		"version_control.added": created.color,
+		"version_control.deleted": deleted.color,
+		"version_control.modified": modified.color,
 		"version_control.renamed": blue.color,
 		"version_control.conflict": yellow.color,
 		"version_control.ignored": frame.foreground.silent,
-		"version_control.word_added": alpha(green.color, 0.35),
-		"version_control.word_deleted": alpha(red.color, 0.35),
+		"version_control.word_added": alpha(created.color, 0.35),
+		"version_control.word_deleted": alpha(deleted.color, 0.35),
 		"version_control.conflict_marker.ours": alpha(green.color, 0.2),
 		"version_control.conflict_marker.theirs": alpha(blue.color, 0.2),
 
@@ -204,8 +206,8 @@ const style = ({ accent, ansi, base, color, surface, syntax, ui }) => {
 			"comment.doc": { "color": syntax.comment },
 			"constant": { "color": syntax.constant },
 			"constructor": { "color": syntax.type },
-			"diff.minus": { "color": red.color },
-			"diff.plus": { "color": green.color },
+			"diff.minus": { "color": deleted.color },
+			"diff.plus": { "color": created.color },
 			"embedded": { "color": syntax.variable },
 			"emphasis": {
 				"color": field.foreground.normal,
@@ -220,7 +222,7 @@ const style = ({ accent, ansi, base, color, surface, syntax, ui }) => {
 			"hint": { "color": field.foreground.subtle },
 			"keyword": { "color": syntax.keyword },
 			"label": { "color": syntax.function },
-			"link_text": { "color": primary.color, "font_style": "italic" },
+			"link_text": { "color": ui.link.normal, "font_style": "italic" },
 			"link_uri": { "color": syntax.string },
 			"namespace": { "color": syntax.type },
 			"number": { "color": syntax.number },

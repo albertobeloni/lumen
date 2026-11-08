@@ -1,17 +1,17 @@
 export default {
 	color: {
 		red: 30,
-		// orange: 60,
+		orange: 60,
 		yellow: 90,
-		// lime: 120,
+		lime: 120,
 		green: 150,
-		// teal: 180,
+		teal: 180,
 		cyan: 210,
-		// azure: 240,
+		azure: 240,
 		blue: 270,
-		// purple: 300,
+		purple: 300,
 		magenta: 330,
-		// pink: 360,
+		pink: 360,
 	},
 	harmony: "default",
 	harmonies: {

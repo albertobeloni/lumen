@@ -2,7 +2,8 @@ import path from "node:path";
 
 import { alpha } from "../../components/color.js";
 
-const colors = ({ accent, base, color, shadow, surface, ui }) => {
+const colors = (roles) => {
+	const { accent, base, color, shadow, status, surface, ui } = roles;
 	const { field, frame, panel, popup } = surface;
 	const { primary } = accent;
 	const { variant } = base;
@@ -37,8 +38,8 @@ active = "${field.background}"
 active_text = "${field.foreground.strong}"
 active_unfocused = "${panel.background}"
 active_unfocused_text = "${panel.foreground.normal}"
-urgent = "${red.background}"
-urgent_text = "${red.foreground.normal}"
+urgent = "${status.caution.background}"
+urgent_text = "${status.caution.foreground.normal}"
 
 [colors.title_bar]
 background = "${frame.background}"
