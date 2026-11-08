@@ -1,6 +1,6 @@
 import path from "node:path";
 
-import { alpha } from "../../components/color.js";
+import { alpha, flatten } from "../../components/color.js";
 
 const TINT = 0.15;
 
@@ -34,14 +34,17 @@ const terminal = ({ ansi }) => {
 };
 
 const groups = (roles) => {
-	const { accent, base, color, status, surface, syntax } = roles;
+	const { accent, color, status, surface, syntax, ui } = roles;
 	const { field, frame, panel, popup } = surface;
-	const selected = base.container;
 	const shadow = roles.shadow.slice(0, 7);
-	const cursor = { "fg": field.background, "bg": field.foreground.strong };
+	const cursor = { "fg": field.background, "bg": ui.cursor };
+	const selected = {
+		"fg": popup.foreground.strong,
+		"bg": flatten(popup.overlay.normal, popup.background),
+	};
 
 	const tint = (hue, opacity = TINT) => {
-		return alpha(hue, opacity, field.background);
+		return flatten(alpha(hue, opacity), field.background);
 	};
 
 	return {
@@ -75,8 +78,8 @@ const groups = (roles) => {
 		"Directory": { "fg": accent.primary.color },
 		"Title": { "fg": field.foreground.strong, "bold": true },
 
-		"Visual": { "bg": tint(accent.primary.color) },
-		"VisualNOS": { "bg": tint(accent.primary.color) },
+		"Visual": { "bg": flatten(ui.selection, field.background) },
+		"VisualNOS": { "bg": flatten(ui.selection, field.background) },
 		"QuickFixLine": { "bg": tint(accent.primary.color), "bold": true },
 		"Search": { "bg": tint(color.yellow.color, 0.3) },
 		"CurSearch": on(color.yellow),
@@ -103,11 +106,11 @@ const groups = (roles) => {
 		"FloatShadow": { "bg": shadow, "blend": 80 },
 		"FloatShadowThrough": { "bg": shadow, "blend": 100 },
 		"Pmenu": on(popup),
-		"PmenuSel": on(selected, "strong"),
+		"PmenuSel": selected,
 		"PmenuSbar": { "bg": popup.background },
 		"PmenuThumb": { "bg": popup.outline.strong },
 		"PmenuMatch": { ...on(popup, "strong"), "bold": true },
-		"PmenuMatchSel": { ...on(selected, "strong"), "bold": true },
+		"PmenuMatchSel": { ...selected, "bold": true },
 
 		"ModeMsg": { "fg": field.foreground.strong, "bold": true },
 		"MoreMsg": { "fg": status.success.color },

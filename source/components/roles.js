@@ -66,6 +66,11 @@ export default (dark) => {
 			primary: family("primary"),
 			secondary: family("secondary"),
 		},
+		ui: {
+			selection: { role: "base.variant.color", alpha: 0.1 },
+			focus: { role: "accent.primary.color" },
+			cursor: { role: "accent.primary.color" },
+		},
 		surface: {
 			field: surface("base", 0),
 			frame: surface("base", 1),

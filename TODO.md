@@ -14,7 +14,7 @@
 	- Styles: one full copy per theme (`styles.<name>.dark`, `styles.<name>.light`); palettes built per theme
 	- Roles: `base` (with `base.variant`), `accent.primary` and `accent.secondary` (with `.more` and `.less`)
 	- Module mapping for now: `accent.base` → `base`, old `secondary` → `base.variant`, old `tertiary` → `secondary`
-- [ ] Review and improve syntax roles using the new accents
+- [x] Review and improve syntax roles using the new accents
 - [ ] Make modules more consistent, applying the same colors (roles) for elements
 - [ ] Implement Zen Browser module
     - https://github.com/noctalia-dev/community-templates/tree/main/zen-browser

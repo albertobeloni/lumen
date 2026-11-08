@@ -22,12 +22,8 @@ const probe = (hue, tone) => {
 	return { hue, chroma: maximum(hue, tone) };
 };
 
-export const alpha = (color, opacity, background) => {
-	if (background === undefined) {
-		return render(color, opacity);
-	}
-
-	return render(Color.mix(background, color, opacity, { space: "srgb" }));
+export const alpha = (color, opacity) => {
+	return render(color, opacity);
 };
 
 export const angle = (rotation) => {
@@ -78,6 +74,15 @@ export const distance = (a, b) => {
 	const difference = Math.abs(a - b) % 360;
 
 	return Math.min(difference, 360 - difference);
+};
+
+export const flatten = (color, background) => {
+	const top = new Color(color);
+	const amount = top.alpha;
+
+	top.alpha = 1;
+
+	return render(Color.mix(background, top, amount, { space: "srgb" }));
 };
 
 export const harmonize = (hue, anchor, strength) => {

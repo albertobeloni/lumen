@@ -2,7 +2,7 @@ import path from "node:path";
 
 import { alpha } from "../../components/color.js";
 
-const colors = ({ accent, base, color, shadow, surface }) => {
+const colors = ({ accent, base, color, shadow, surface, ui }) => {
 	const { field, frame, panel, popup } = surface;
 	const { primary } = accent;
 	const { variant } = base;
@@ -21,7 +21,7 @@ backdrop = "${field.background}"
 shadow = "${shadow}"
 
 [colors.border]
-focused = "${variant.container.outline.silent}"
+focused = "${ui.focus}"
 unfocused = "${field.outline.silent}"
 outer = "${field.background}"
 
@@ -33,8 +33,8 @@ badge = "${primary.color}"
 [colors.tab_bar]
 background = "${frame.background}"
 text = "${frame.foreground.subtle}"
-active = "${primary.background}"
-active_text = "${primary.foreground.normal}"
+active = "${field.background}"
+active_text = "${field.foreground.strong}"
 active_unfocused = "${panel.background}"
 active_unfocused_text = "${panel.foreground.normal}"
 urgent = "${red.background}"

@@ -1,6 +1,6 @@
 import Color from "colorjs.io";
 
-import { alpha } from "../../components/color.js";
+import { alpha, flatten } from "../../components/color.js";
 
 const SHADE = { dark: 0.25, light: 0.07 };
 
@@ -86,7 +86,7 @@ const opacity = ({ background, foreground }, target) => {
 
 	for (let step = 0; step < 20; step++) {
 		const middle = (low + high) / 2;
-		const mixed = alpha(foreground.strong, middle, background);
+		const mixed = flatten(alpha(foreground.strong, middle), background);
 
 		if (Math.abs(tone(mixed) - base) < goal) {
 			low = middle;

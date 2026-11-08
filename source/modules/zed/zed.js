@@ -1,6 +1,6 @@
 import path from "node:path";
 
-import { alpha } from "../../components/color.js";
+import { alpha, flatten } from "../../components/color.js";
 
 const SCHEMA = "https://zed.dev/schema/themes/v0.2.0.json";
 const TRANSPARENT = "#00000000";
@@ -29,14 +29,16 @@ const player = ({ color }) => {
 	};
 };
 
-const style = ({ accent, ansi, base, color, surface, syntax }) => {
+const style = ({ accent, ansi, base, color, surface, syntax, ui }) => {
 	const { field, frame } = surface;
 	const { red, yellow, green, cyan, blue, magenta } = color;
 	const { primary, secondary } = accent;
 	const { variant } = base;
 
 	const solid = (opacity) => {
-		return alpha(frame.foreground.strong, opacity, frame.background);
+		const overlay = alpha(frame.foreground.strong, opacity);
+
+		return flatten(overlay, frame.background);
 	};
 
 	const highlight = (opacity) => {
@@ -66,11 +68,11 @@ const style = ({ accent, ansi, base, color, surface, syntax }) => {
 
 		"border": field.outline.silent,
 		"border.variant": field.outline.silent,
-		"border.focused": primary.color,
+		"border.focused": ui.focus,
 		"border.selected": base.container.outline.normal,
 		"border.transparent": TRANSPARENT,
 		"border.disabled": field.outline.silent,
-		"pane.focused_border": primary.color,
+		"pane.focused_border": ui.focus,
 		"pane_group.border": frame.outline.subtle,
 		"panel.focused_border": TRANSPARENT,
 
@@ -79,14 +81,14 @@ const style = ({ accent, ansi, base, color, surface, syntax }) => {
 		"element.active": solid(0.1),
 		"element.selected": solid(0.1),
 		"element.disabled": frame.background,
-		"element.selection_background": highlight(0.15),
+		"element.selection_background": ui.selection,
 		"ghost_element.background": TRANSPARENT,
 		"ghost_element.hover": frame.overlay.silent,
 		"ghost_element.active": frame.overlay.normal,
 		"ghost_element.selected": frame.overlay.normal,
 		"ghost_element.disabled": TRANSPARENT,
 		"drop_target.background": highlight(0.25),
-		"drop_target.border": primary.color,
+		"drop_target.border": ui.focus,
 
 		"text": frame.foreground.strong,
 		"text.muted": frame.foreground.normal,
@@ -172,7 +174,11 @@ const style = ({ accent, ansi, base, color, surface, syntax }) => {
 		...terminal("white", ansi.white),
 
 		"players": [
-			player(primary),
+			{
+				"cursor": ui.cursor,
+				"background": ui.cursor,
+				"selection": ui.selection,
+			},
 			player(secondary),
 			player(variant),
 			player(red),

@@ -1,10 +1,11 @@
 import path from "node:path";
 
-const palette = ({ accent, ansi, base, color, shadow, surface }) => {
+import { flatten } from "../../components/color.js";
+
+const palette = ({ accent, ansi, base, color, shadow, surface, ui }) => {
 	const { field, frame } = surface;
 	const { primary, secondary } = accent;
 	const { variant } = base;
-	const selected = base.container;
 
 	return {
 		"mPrimary": primary.background,
@@ -21,15 +22,15 @@ const palette = ({ accent, ansi, base, color, shadow, surface }) => {
 		"mOnSurfaceVariant": frame.foreground.normal,
 		"mOutline": frame.outline.silent,
 		"mShadow": shadow.slice(0, 7),
-		"mHover": variant.container.background,
-		"mOnHover": variant.container.foreground.normal,
+		"mHover": flatten(frame.overlay.silent, frame.background),
+		"mOnHover": frame.foreground.strong,
 		"terminal": {
 			"background": field.background,
 			"foreground": field.foreground.normal,
-			"cursor": field.foreground.subtle,
+			"cursor": ui.cursor,
 			"cursorText": field.background,
-			"selectionBg": selected.background,
-			"selectionFg": selected.foreground.strong,
+			"selectionBg": flatten(ui.selection, field.background),
+			"selectionFg": field.foreground.strong,
 			"normal": {
 				"black": ansi.black.normal,
 				"red": ansi.red.normal,
