@@ -131,7 +131,7 @@ export default {
 			},
 			light: {
 				chroma: 5,
-				chromacity: 3 / 4,
+				chromacity: 1,
 				offset: 3,
 				variant: { chromacity: 1 / 3 },
 			},
