@@ -126,7 +126,7 @@ export default {
 			dark: {
 				chroma: 5,
 				chromacity: 3 / 4,
-				offset: 1,
+				offset: 0,
 				variant: { chromacity: 1 / 3 },
 			},
 			light: {
