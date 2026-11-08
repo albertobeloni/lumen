@@ -2,9 +2,10 @@ import path from "node:path";
 
 import { alpha } from "../../components/color.js";
 
-const colors = ({ accent, color, shadow, surface }) => {
+const colors = ({ accent, base, color, shadow, surface }) => {
 	const { field, frame, panel, popup } = surface;
-	const { primary, secondary } = accent;
+	const { primary } = accent;
+	const { variant } = base;
 	const { red, yellow } = color;
 
 	return `[colors]
@@ -12,7 +13,7 @@ background = "${popup.background}"
 text_primary = "${popup.foreground.strong}"
 text_muted = "${popup.foreground.subtle}"
 accent_primary = "${primary.color}"
-accent_secondary = "${secondary.color}"
+accent_secondary = "${variant.color}"
 warning = "${yellow.color}"
 error = "${red.color}"
 insert_hint = "${alpha(primary.color, 0.25)}"
@@ -20,7 +21,7 @@ backdrop = "${field.background}"
 shadow = "${shadow}"
 
 [colors.border]
-focused = "${secondary.container.outline.silent}"
+focused = "${variant.container.outline.silent}"
 unfocused = "${field.outline.silent}"
 outer = "${field.background}"
 

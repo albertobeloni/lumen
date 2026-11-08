@@ -34,9 +34,9 @@ const terminal = ({ ansi }) => {
 };
 
 const groups = (roles) => {
-	const { accent, color, status, surface, syntax } = roles;
+	const { accent, base, color, status, surface, syntax } = roles;
 	const { field, frame, panel, popup } = surface;
-	const selected = accent.base.container;
+	const selected = base.container;
 	const shadow = roles.shadow.slice(0, 7);
 	const cursor = { "fg": field.background, "bg": field.foreground.strong };
 

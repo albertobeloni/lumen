@@ -1,0 +1,25 @@
+- [ ] Restructure base and accents (items 1 and 2 combined)
+	- Parsed structure:
+		- `palettes.base`: hues and one `variant` (the same hues)
+		- `palettes.accent.primary` and `palettes.accent.secondary`: hue, chromacity, `more` and `less`
+		- `palettes.color`: the named colors (red, yellow, ...)
+	- Rules:
+		- Accent anchors: the scheme or extracted hue if given, otherwise primary + harmony rotation
+		- Companions (`more`, `less`): always their anchor + harmony rotation
+		- Accent chroma: harmony chromacity × style chromacity (fraction of the maximum chroma at each tone)
+		- Base: hues from the scheme (default: primary hue), absolute chroma from the style
+		- Base variant: base hues at variant chromacity × style chromacity (fraction of the maximum chroma at each tone)
+	- Harmonies are accent-only: `primary` and `secondary`, each `{ rotation, chromacity, more, less }`
+		- Default: secondary −60°, companions ±30°
+	- Styles: one full copy per theme (`styles.<name>.dark`, `styles.<name>.light`); palettes built per theme
+	- Roles: `base` (with `base.variant`), `accent.primary` and `accent.secondary` (with `.more` and `.less`)
+	- Module mapping for now: `accent.base` → `base`, old `secondary` → `base.variant`, old `tertiary` → `secondary`
+- [ ] Review and improve syntax roles using the new accents
+- [ ] Make modules more consistent, applying the same colors (roles) for elements
+- [ ] Implement Zen Browser module
+    - https://github.com/noctalia-dev/community-templates/tree/main/zen-browser
+    - https://github.com/lingais/Zen-Browser-Super-Sleek-UI-Theme (page blur)
+    - https://github.com/ClixTW/zen-gnome-theme
+    - https://docs.zen-browser.app/guides/live-editing
+    - https://docs.zen-browser.app/guides/about-config-flags
+- [ ] Implement GNOME Text Editor module

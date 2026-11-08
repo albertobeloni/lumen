@@ -29,10 +29,11 @@ const player = ({ color }) => {
 	};
 };
 
-const style = ({ accent, ansi, color, surface, syntax }) => {
+const style = ({ accent, ansi, base, color, surface, syntax }) => {
 	const { field, frame } = surface;
 	const { red, yellow, green, cyan, blue, magenta } = color;
-	const { base, primary, secondary, tertiary } = accent;
+	const { primary, secondary } = accent;
+	const { variant } = base;
 
 	const solid = (opacity) => {
 		return alpha(frame.foreground.strong, opacity, frame.background);
@@ -172,8 +173,8 @@ const style = ({ accent, ansi, color, surface, syntax }) => {
 
 		"players": [
 			player(primary),
-			player(tertiary),
 			player(secondary),
+			player(variant),
 			player(red),
 			player(yellow),
 			player(green),
@@ -183,8 +184,8 @@ const style = ({ accent, ansi, color, surface, syntax }) => {
 
 		"accents": [
 			primary.color,
+			variant.color,
 			secondary.color,
-			tertiary.color,
 			cyan.color,
 			magenta.color,
 			yellow.color,

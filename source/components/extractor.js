@@ -166,7 +166,7 @@ const accents = (pixels, total, separation) => {
 
 	return {
 		primary: center(main, prominence),
-		tertiary: second && center(second.members, area),
+		secondary: second && center(second.members, area),
 	};
 };
 
@@ -178,7 +178,7 @@ const around = (pixels, base) => {
 		return undefined;
 	}
 
-	return { primary: found.primary, tertiary: found.tertiary ?? base };
+	return { primary: found.primary, secondary: found.secondary ?? base };
 };
 
 export const extract = async (file) => {
@@ -186,13 +186,13 @@ export const extract = async (file) => {
 	const backdrop = dominant(pixels);
 	const base = backdrop && center(backdrop, area);
 	const aside = backdrop && muted(backdrop) && around(pixels, base);
-	const { primary, tertiary } =
+	const { primary, secondary } =
 		aside || accents(pixels, pixels.length, OPPOSITE) || {};
 
 	return {
 		base,
 		primary,
-		tertiary,
+		secondary,
 		style: base === undefined ? "neutral" : "natural",
 	};
 };

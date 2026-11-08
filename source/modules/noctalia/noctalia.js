@@ -1,17 +1,18 @@
 import path from "node:path";
 
-const palette = ({ accent, ansi, color, shadow, surface }) => {
+const palette = ({ accent, ansi, base, color, shadow, surface }) => {
 	const { field, frame } = surface;
-	const { primary, secondary, tertiary } = accent;
-	const selected = accent.base.container;
+	const { primary, secondary } = accent;
+	const { variant } = base;
+	const selected = base.container;
 
 	return {
 		"mPrimary": primary.background,
 		"mOnPrimary": primary.foreground.normal,
-		"mSecondary": secondary.background,
-		"mOnSecondary": secondary.foreground.normal,
-		"mTertiary": tertiary.background,
-		"mOnTertiary": tertiary.foreground.normal,
+		"mSecondary": variant.background,
+		"mOnSecondary": variant.foreground.normal,
+		"mTertiary": secondary.background,
+		"mOnTertiary": secondary.foreground.normal,
 		"mError": color.red.background,
 		"mOnError": color.red.foreground.normal,
 		"mSurface": field.background,
@@ -20,8 +21,8 @@ const palette = ({ accent, ansi, color, shadow, surface }) => {
 		"mOnSurfaceVariant": frame.foreground.normal,
 		"mOutline": frame.outline.silent,
 		"mShadow": shadow.slice(0, 7),
-		"mHover": secondary.container.background,
-		"mOnHover": secondary.container.foreground.normal,
+		"mHover": variant.container.background,
+		"mOnHover": variant.container.foreground.normal,
 		"terminal": {
 			"background": field.background,
 			"foreground": field.foreground.normal,

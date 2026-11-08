@@ -48,16 +48,23 @@ const hue = (palette) => {
 	};
 };
 
+const family = (palette) => {
+	return {
+		...hue(palette),
+		more: hue(`${palette}-more`),
+		less: hue(`${palette}-less`),
+	};
+};
+
 export default (dark) => {
 	return {
+		base: {
+			...hue("base"),
+			variant: hue("base-variant"),
+		},
 		accent: {
-			base: hue("base"),
-			primary: hue("primary"),
-			secondary: hue("secondary"),
-			tertiary: hue("tertiary"),
-			quaternary: hue("quaternary"),
-			quinary: hue("quinary"),
-			senary: hue("senary"),
+			primary: family("primary"),
+			secondary: family("secondary"),
 		},
 		surface: {
 			field: surface("base", 0),
@@ -84,16 +91,16 @@ export default (dark) => {
 			attribute: { role: "surface.field.foreground.normal" },
 			comment: { role: "surface.field.foreground.silent" },
 			constant: { role: "accent.primary.color" },
-			function: { role: "accent.tertiary.color" },
+			function: { role: "accent.secondary.color" },
 			keyword: { role: "accent.primary.color" },
-			number: { role: "accent.senary.color" },
+			number: { role: "accent.primary.color" },
 			operator: { role: "surface.field.foreground.normal" },
 			property: { role: "surface.field.foreground.normal" },
 			punctuation: { role: "surface.field.foreground.silent" },
-			special: { role: "accent.quinary.color" },
-			string: { role: "accent.quaternary.color" },
-			tag: { role: "accent.tertiary.color" },
-			type: { role: "accent.tertiary.color" },
+			special: { role: "accent.primary.color" },
+			string: { role: "accent.primary.color" },
+			tag: { role: "accent.secondary.color" },
+			type: { role: "accent.secondary.color" },
 			variable: { role: "surface.field.foreground.normal" },
 		},
 		ansi: {

@@ -4,56 +4,44 @@ import DEFAULTS from "./defaults.js";
 
 const accents = (scheme) => {
 	const harmony = scheme.harmonies[scheme.harmony];
-	const { chromacity } = scheme.styles[scheme.style];
 
-	const accent = (name) => {
-		const { rotation } = harmony[name];
+	const anchor = (name) => {
+		const { rotation, chromacity, more, less } = harmony[name];
+		const hue = scheme[name] ?? angle(scheme.primary + rotation);
+
+		const companion = (relation) => {
+			return {
+				hue: angle(hue + relation.rotation),
+				chromacity: relation.chromacity,
+			};
+		};
 
 		return {
-			hue: scheme[name] ?? angle(scheme.primary + rotation),
-			chromacity: chromacity * harmony[name].chromacity,
+			hue,
+			chromacity,
+			more: companion(more),
+			less: companion(less),
 		};
 	};
 
 	return {
-		primary: accent("primary"),
-		secondary: accent("secondary"),
-		tertiary: accent("tertiary"),
-		quaternary: accent("quaternary"),
-		quinary: accent("quinary"),
-		senary: accent("senary"),
+		primary: anchor("primary"),
+		secondary: anchor("secondary"),
 	};
 };
 
-const base = (scheme) => {
-	const { chroma } = scheme.styles[scheme.style];
-	const hues = [scheme.base ?? "primary"].flat();
+const base = (scheme, accent) => {
+	const hues = [scheme.base ?? "primary"].flat().map((hue) => {
+		return typeof hue === "number" ? hue : accent[hue].hue;
+	});
 
-	return {
-		chroma,
-		hues: hues.map((hue) => {
-			if (typeof hue === "number") {
-				return hue;
-			}
-
-			return scheme.accent[hue].hue;
-		}),
-	};
+	return { hues, variant: { hues } };
 };
 
-const colors = (scheme) => {
-	const anchor = scheme.accent.primary.hue;
-	const { chromacity } = scheme.styles[scheme.style];
-
+const colors = (scheme, anchor) => {
 	return Object.fromEntries(
 		Object.entries(scheme.color).map(([name, hue]) => {
-			return [
-				name,
-				{
-					hue: harmonize(hue, anchor, scheme.harmonize),
-					chromacity,
-				},
-			];
+			return [name, { hue: harmonize(hue, anchor, scheme.harmonize) }];
 		}),
 	);
 };
@@ -86,9 +74,13 @@ const merge = (a, b) => {
 export const parse = (definition) => {
 	const scheme = merge(DEFAULTS, definition);
 
-	scheme.accent = accents(scheme);
-	scheme.base = base(scheme);
-	scheme.color = colors(scheme);
+	const accent = accents(scheme);
+
+	scheme.palettes = {
+		base: base(scheme, accent),
+		accent,
+		color: colors(scheme, accent.primary.hue),
+	};
 
 	return scheme;
 };
