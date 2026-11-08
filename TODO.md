@@ -17,21 +17,39 @@
 - [x] Review and improve syntax roles using the new accents
 - [x] Make modules more consistent, applying the same colors (roles) for elements
 - [ ] Implement Zen Browser module
-	- Goal: an own, standalone GNOME-style theme for Zen, consistent with Nautilus and other GNOME apps
-	- Lumen `zen` module: colors only, `chrome/lumen.css` in the Zen profile, both themes in `prefers-color-scheme` blocks, Zen-specific variable names mapped from Lumen roles
-	- Setup `zen` module: everything that isn't color (structure, shape, typography, preferences)
-		- Finds the profile from `profiles.ini` (Flatpak first, then `~/.zen`)
-		- `userChrome.css` and `userContent.css` import `lumen.css` and the theme's style files
-		- `user.js` preferences (legacy stylesheets, `svg.context-properties.content.enabled`, ...)
-	- Steps:
+	- Goal: Zen looks like one of the GNOME apps: next to Nautilus, same colors, square corners, sidebar, menus and buttons, in dark and light
+	- Lumen `zen` module: colors only, the libadwaita color set of the `gtk` module (shared code), prefixed `--lumen-`, in `chrome/lumen.css`
+	- Setup `zen` module: everything that isn't color, in `chrome/style/`, written fresh (ClixTW only as a selector map)
+		- Shape mirrors `libadwaita.css`: `--corner-radius: 0`, libadwaita sizes, round only where libadwaita is round
+		- Derived states (border, hover, active, selected) as `color-mix` with libadwaita opacities
+		- Layout: Zen's vertical sidebar as Nautilus' sidebar, the page as its content view
+		- Strict GNOME: flush page, 1px divider, no margins, shadows, gradients or blur
+	- Mapping: sidebar and toolbar → `sidebar`, page → `view`, menus and URL results → `popover`, URL field → `card`
+	- Steps (each ends with a restart and a screenshot next to Nautilus):
 		- [x] Lumen `zen` module writing `lumen.css`
 		- [x] Setup `zen` module skeleton (profile detection, preferences, imports)
-		- [ ] Build the theme part by part: header bar and toolbar, tabs and sidebar, URL bar, popups and menus, buttons, internal pages
-		- [ ] Remove the ClixTW GNOME theme from the profile
+		- [x] Remove the ClixTW theme from the profile
+		- [ ] Color foundation: shared color set, `variables.css`, `tokens.css`
+		- [ ] Window: flush page, divider, no Zen effects, square corners
+		- [ ] Sidebar and tabs
+		- [ ] Toolbar and buttons
+		- [ ] URL bar and results
+		- [ ] Menus and popups
+		- [ ] Form controls and dialogs
+		- [ ] Zen extras: find bar, toasts, Ctrl+Tab, Library, Boosts, picture-in-picture, tooltips
+		- [ ] Internal pages (`userContent.css`)
 	- Zen does not reload CSS from disk: new schemes show after a restart; dark/light switches are instant
-    - https://github.com/noctalia-dev/community-templates/tree/main/zen-browser
-    - https://github.com/lingais/Zen-Browser-Super-Sleek-UI-Theme (page blur)
-    - https://github.com/ClixTW/zen-gnome-theme
-    - https://docs.zen-browser.app/guides/live-editing
-    - https://docs.zen-browser.app/guides/about-config-flags
+	- Links:
+		- https://github.com/ClixTW/zen-gnome-theme
+		- https://github.com/noctalia-dev/community-templates/tree/main/zen-browser
+		- https://docs.zen-browser.app/guides/live-editing
+		- https://docs.zen-browser.app/guides/about-config-flags
+- [ ] Put GTK and Zen on the 8px grid, without drop shadows (applied, waiting for comparison)
+	- Sizes: controls 32, header bars 48, sidebar rows and tabs 40, list rows 48, menu items 32, menu padding 8
+	- Other values snap to multiples of 8, or to 2, 4, 6 or 12
+	- Shadows: none, except a subtle `0 1px 2px` on floating layers (popovers, toasts, sheets, message dialogs)
+	- GTK: `sizes.css` and `shadows.css`, generated from libadwaita 1.10 rules; `nautilus.css` snapped in place
+	- Zen: `variables.css` and the parts
+	- Rollback: `snapshot/before-sizes` and `~/.local/state/snapshots/2026-11-08-before-sizes/`
 - [ ] Implement GNOME Text Editor module
+- [ ] Implement a theme for Foliate application

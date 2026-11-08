@@ -25,7 +25,7 @@ const area = (name, source) => {
 	};
 };
 
-const variables = (roles, theme) => {
+export const variables = (roles, theme) => {
 	const { accent, color, scrim, shadow, surface } = roles;
 	const { field, frame, panel, modal, popup } = surface;
 	const shade = alpha(shadow, SHADOW[theme]);
@@ -92,7 +92,7 @@ const opacity = ({ background, foreground }, target) => {
 	return `${Math.round(low * 100)}%`;
 };
 
-const opacities = ({ surface }) => {
+export const opacities = ({ surface }) => {
 	const { frame } = surface;
 
 	return {
