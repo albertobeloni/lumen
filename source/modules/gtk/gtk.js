@@ -99,6 +99,7 @@ const opacities = ({ surface }) => {
 
 	return {
 		"border-opacity": opacity(frame, frame.outline.subtle),
+		"divider-opacity": opacity(frame, frame.outline.silent),
 		"dim-opacity": opacity(frame, frame.foreground.subtle),
 		"disabled-opacity": opacity(frame, frame.foreground.silent),
 	};
