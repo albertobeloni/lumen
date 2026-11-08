@@ -24,10 +24,7 @@ const palette = (roles) => {
 		"mOutline": frame.outline.silent,
 		"mShadow": alpha(shadow, 1),
 		"mHover": flatten(variant.overlay.normal, frame.background),
-		// "mHover": variant.background,
-		// "mHover": flatten(frame.overlay.silent, frame.background),
-		// "mOnHover": frame.foreground.normal,
-		"mOnHover": variant.foreground.normal,
+		"mOnHover": frame.foreground.normal,
 		"terminal": {
 			"background": field.background,
 			"foreground": field.foreground.normal,
