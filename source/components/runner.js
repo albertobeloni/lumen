@@ -21,7 +21,7 @@ const execute = async (module, scheme, context, { output, apply }) => {
 
 	const root = apply
 		? directory
-		: path.join(output, context.name, module.name);
+		: output && path.join(output, context.name, module.name);
 
 	for (const file of root ? files : []) {
 		const destination = path.join(root, file.path);
