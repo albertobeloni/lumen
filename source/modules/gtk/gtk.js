@@ -36,16 +36,24 @@ const area = (name, source) => {
 };
 
 export const variables = (roles, theme) => {
-	const { accent, color, scrim, shadow, surface } = roles;
+	const { accent, color, scrim, shadow, status: state, surface, ui } = roles;
 	const { field, frame, panel, modal, popup } = surface;
 	const shade = alpha(shadow, SHADOW[theme]);
 
 	return {
 		...status("accent", accent.primary),
-		...status("destructive", color.red),
-		...status("success", color.green),
-		...status("warning", color.yellow),
-		...status("error", color.red),
+		...status("destructive", state.critical),
+		...status("success", state.success),
+		...status("warning", state.caution),
+		...status("error", state.critical),
+
+		"selection": ui.selection,
+		"focus": ui.focus,
+		"cursor": ui.cursor,
+		"link": ui.link.normal,
+		"link-visited": ui.link.visited,
+		"match": ui.match.all,
+		"match-current": ui.match.current,
 
 		...area("window", frame),
 		...area("view", field),

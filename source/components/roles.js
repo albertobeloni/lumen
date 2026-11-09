@@ -109,6 +109,7 @@ export default (dark) => {
 			caution: { role: "color.yellow" },
 			success: { role: "color.green" },
 			notice: { role: "color.blue" },
+			hint: { role: "color.cyan" },
 			created: { role: "color.green" },
 			deleted: { role: "color.red" },
 			modified: { role: "color.yellow" },

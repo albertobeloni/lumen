@@ -30,7 +30,7 @@ tab_bar_background ${frame.background}
 tab_bar_margin_color ${frame.background}
 active_tab_foreground ${field.foreground.strong}
 active_tab_background ${field.background}
-inactive_tab_foreground ${frame.foreground.subtle}
+inactive_tab_foreground ${frame.foreground.normal}
 inactive_tab_background ${frame.background}
 
 mark1_foreground ${primary.container.foreground.strong}
@@ -40,7 +40,7 @@ mark2_background ${variant.container.background}
 mark3_foreground ${secondary.container.foreground.strong}
 mark3_background ${secondary.container.background}
 
-scrollbar_handle_color ${field.foreground.subtle}
+scrollbar_handle_color ${flatten(field.overlay.normal, field.background)}
 scrollbar_track_color ${field.background}
 
 color0 ${ansi.black.normal}

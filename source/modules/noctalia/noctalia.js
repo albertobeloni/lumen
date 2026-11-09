@@ -3,7 +3,7 @@ import path from "node:path";
 import { alpha, flatten } from "../../components/color.js";
 
 const palette = (roles) => {
-	const { accent, ansi, base, color, shadow, surface, ui } = roles;
+	const { accent, ansi, base, shadow, status, surface, ui } = roles;
 	const { field, frame } = surface;
 	const { primary, secondary } = accent;
 	const { variant } = base;
@@ -15,8 +15,8 @@ const palette = (roles) => {
 		"mOnSecondary": variant.foreground.normal,
 		"mTertiary": secondary.background,
 		"mOnTertiary": secondary.foreground.normal,
-		"mError": color.red.background,
-		"mOnError": color.red.foreground.normal,
+		"mError": status.critical.background,
+		"mOnError": status.critical.foreground.normal,
 		"mSurface": field.background,
 		"mOnSurface": field.foreground.normal,
 		"mSurfaceVariant": frame.background,

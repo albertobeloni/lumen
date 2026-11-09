@@ -31,7 +31,8 @@ const player = ({ color, tint }) => {
 
 const style = (roles) => {
 	const { accent, ansi, base, color, surface, syntax, ui } = roles;
-	const { caution, created, deleted, modified } = roles.status;
+	const { critical, caution, success, notice, hint } = roles.status;
+	const { created, deleted, modified } = roles.status;
 	const { field, frame } = surface;
 	const { red, yellow, green, cyan, blue, magenta } = color;
 	const { primary, secondary } = accent;
@@ -40,8 +41,6 @@ const style = (roles) => {
 	const solid = (overlay) => {
 		return flatten(overlay, frame.background);
 	};
-
-
 
 	return {
 		"background.appearance": "opaque",
@@ -127,12 +126,12 @@ const style = (roles) => {
 		"panel.indent_guide_active": frame.overlay.normal,
 		"panel.indent_guide_hover": frame.overlay.normal,
 
-		...status("error", red),
-		...status("warning", yellow),
-		...status("success", green),
-		...status("info", blue),
-		...status("hint", cyan),
-		...status("conflict", yellow),
+		...status("error", critical),
+		...status("warning", caution),
+		...status("success", success),
+		...status("info", notice),
+		...status("hint", hint),
+		...status("conflict", caution),
 		...status("created", created),
 		...status("deleted", deleted),
 		...status("modified", modified),
@@ -146,7 +145,7 @@ const style = (roles) => {
 		"version_control.deleted": deleted.color,
 		"version_control.modified": modified.color,
 		"version_control.renamed": blue.color,
-		"version_control.conflict": yellow.color,
+		"version_control.conflict": caution.color,
 		"version_control.ignored": frame.foreground.silent,
 		"version_control.word_added": created.tint.strong,
 		"version_control.word_deleted": deleted.tint.strong,

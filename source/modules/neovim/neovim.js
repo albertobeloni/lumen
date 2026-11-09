@@ -32,7 +32,7 @@ const terminal = ({ ansi }) => {
 };
 
 const groups = (roles) => {
-	const { accent, color, status, surface, syntax, ui } = roles;
+	const { accent, status, surface, syntax, ui } = roles;
 	const { field, frame, panel, popup } = surface;
 	const shadow = alpha(roles.shadow, 1);
 
@@ -60,7 +60,7 @@ const groups = (roles) => {
 		"CursorColumn": { "bg": frame.background },
 		"ColorColumn": { "bg": frame.background },
 		"LineNr": { "fg": field.foreground.silent },
-		"CursorLineNr": on(frame),
+		"CursorLineNr": on(frame, "strong"),
 		"LineNrSeparator": { "fg": field.outline.silent },
 		"CursorLineNrSeparator": {
 			"fg": frame.outline.silent,
@@ -73,11 +73,7 @@ const groups = (roles) => {
 		"Conceal": { "fg": field.foreground.subtle },
 		"SpecialKey": { "fg": field.foreground.subtle },
 		"WinSeparator": { "fg": field.outline.silent, "bg": field.background },
-		"MatchParen": {
-			"fg": field.foreground.strong,
-			"bg": panel.background,
-			"bold": true,
-		},
+		"MatchParen": { "bg": solid(accent.primary.tint.normal) },
 		"Directory": { "fg": accent.primary.color },
 		"Title": { "fg": field.foreground.strong, "bold": true },
 
@@ -95,11 +91,11 @@ const groups = (roles) => {
 		"StatusLineNC": on(frame, "subtle"),
 		"StatusLineMode": { ...on(accent.primary), "bold": true },
 		"StatusLineModified": {
-			"fg": color.yellow.color,
+			"fg": status.modified.color,
 			"bg": panel.background,
 			"bold": true,
 		},
-		"TabLine": on(frame, "subtle"),
+		"TabLine": on(frame),
 		"TabLineFill": { "bg": frame.background },
 		"TabLineSel": { ...on(field, "strong"), "bold": true },
 		"WinBar": { ...on(field), "bold": true },
@@ -114,7 +110,9 @@ const groups = (roles) => {
 		"Pmenu": on(popup),
 		"PmenuSel": selected,
 		"PmenuSbar": { "bg": popup.background },
-		"PmenuThumb": { "bg": popup.outline.strong },
+		"PmenuThumb": {
+			"bg": flatten(popup.overlay.normal, popup.background),
+		},
 		"PmenuMatch": { ...on(popup, "strong"), "bold": true },
 		"PmenuMatchSel": { ...selected, "bold": true },
 
@@ -125,17 +123,17 @@ const groups = (roles) => {
 		"WarningMsg": { "fg": status.caution.color },
 		"ErrorMsg": { "fg": status.critical.color },
 		"Error": { "fg": status.critical.color },
-		"NvimInternalError": on(color.red),
+		"NvimInternalError": on(status.critical),
 
 		"DiagnosticError": { "fg": status.critical.color },
 		"DiagnosticWarn": { "fg": status.caution.color },
 		"DiagnosticInfo": { "fg": status.notice.color },
-		"DiagnosticHint": { "fg": color.cyan.color },
+		"DiagnosticHint": { "fg": status.hint.color },
 		"DiagnosticOk": { "fg": status.success.color },
 		"DiagnosticUnderlineError": curl(status.critical.color),
 		"DiagnosticUnderlineWarn": curl(status.caution.color),
 		"DiagnosticUnderlineInfo": curl(status.notice.color),
-		"DiagnosticUnderlineHint": curl(color.cyan.color),
+		"DiagnosticUnderlineHint": curl(status.hint.color),
 		"DiagnosticUnderlineOk": curl(status.success.color),
 		"DiagnosticDeprecated": {
 			"sp": field.foreground.subtle,
@@ -144,17 +142,17 @@ const groups = (roles) => {
 		"SpellBad": curl(status.critical.color),
 		"SpellCap": curl(status.caution.color),
 		"SpellLocal": curl(status.notice.color),
-		"SpellRare": curl(color.cyan.color),
+		"SpellRare": curl(status.hint.color),
 
 		"Added": { "fg": status.created.color },
 		"Changed": { "fg": status.modified.color },
 		"Removed": { "fg": status.deleted.color },
-		"DiffAdd": { "bg": solid(status.created.tint.normal) },
+		"DiffAdd": { "bg": solid(status.created.tint.subtle) },
 		"DiffChange": { "bg": solid(status.modified.tint.silent) },
 		"DiffText": { "bg": solid(status.modified.tint.strong) },
 		"DiffDelete": {
 			"fg": status.deleted.color,
-			"bg": solid(status.deleted.tint.normal),
+			"bg": solid(status.deleted.tint.subtle),
 		},
 
 		"Comment": { "fg": syntax.comment },
@@ -171,7 +169,7 @@ const groups = (roles) => {
 		"Delimiter": { "fg": syntax.punctuation },
 		"Tag": { "fg": syntax.tag },
 		"Underlined": { "fg": ui.link.normal, "underline": true },
-		"Todo": { "fg": color.yellow.color, "bold": true },
+		"Todo": { "fg": accent.primary.color, "bold": true },
 
 		"@variable": { "fg": syntax.variable },
 		"@variable.member": { "fg": syntax.property },
