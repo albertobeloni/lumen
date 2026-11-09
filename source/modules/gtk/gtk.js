@@ -20,6 +20,14 @@ const status = (name, source) => {
 	};
 };
 
+const named = (colors) => {
+	return Object.fromEntries(
+		Object.entries(colors).flatMap(([name, source]) => {
+			return Object.entries(status(name, source));
+		}),
+	);
+};
+
 const area = (name, source) => {
 	return {
 		[`${name}-bg`]: source.background,
@@ -72,6 +80,8 @@ export const variables = (roles, theme) => {
 
 		"shade": shade,
 		"scrollbar-outline": field.background,
+
+		...named(color),
 	};
 };
 
