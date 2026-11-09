@@ -2,6 +2,8 @@ import { alpha, flatten, tone } from "../../components/color.js";
 
 const SHADOW = { dark: 0.25, light: 0.07 };
 
+const INTERFACE = "org.gnome.desktop.interface";
+
 const RELOAD = [
 	"key='org.gnome.desktop.a11y.interface high-contrast'",
 	"contrast=$(gsettings get $key)",
@@ -114,7 +116,9 @@ const legacy = (value) => {
 
 const define = (colors, format = (value) => value) => {
 	return Object.entries(colors).map(([key, value]) => {
-		return `@define-color ${key.replaceAll("-", "_")}_color ${format(value)};`;
+		const name = `${key.replaceAll("-", "_")}_color`;
+
+		return `@define-color ${name} ${format(value)};`;
 	});
 };
 
@@ -174,6 +178,6 @@ export default (scheme, { name, theme, config }) => {
 			{ path: "gtk-4.0/lumen.css", data: gtk4(scheme, name) },
 			{ path: "gtk-3.0/lumen.css", data: gtk3(scheme, name, theme) },
 		],
-		command: `gsettings set org.gnome.desktop.interface gtk-theme ${adwaita}; ${RELOAD}`,
+		command: `gsettings set ${INTERFACE} gtk-theme ${adwaita}; ${RELOAD}`,
 	};
 };
