@@ -57,6 +57,7 @@ export const variables = (roles, theme) => {
 		"headerbar-darker-shade": scrim,
 
 		...area("sidebar", frame),
+		"sidebar-normal-fg": frame.foreground.normal,
 		"sidebar-backdrop": frame.background,
 		"sidebar-border": frame.outline.silent,
 		"sidebar-shade": shade,
