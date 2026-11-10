@@ -42,10 +42,10 @@ urgent = "${status.caution.background}"
 urgent_text = "${status.caution.foreground.normal}"
 
 [colors.title_bar]
-background = "${panel.overlay.strong}"
-background_unfocused = "${panel.overlay.normal}"
+background = "${panel.background}"
+background_unfocused = "${frame.background}"
 text = "${panel.foreground.normal}"
-text_unfocused = "${panel.foreground.subtle}"
+text_unfocused = "${frame.foreground.subtle}"
 close = "${red.background}"
 close_glyph = "${red.foreground.normal}"
 close_glyph_hover = "${red.foreground.strong}"
