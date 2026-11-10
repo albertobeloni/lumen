@@ -7,7 +7,7 @@ const colors = (roles) => {
 	const { field, frame, panel, popup } = surface;
 	const { primary } = accent;
 	const { variant } = base;
-	const { red, yellow } = color;
+	const { green, red, yellow } = color;
 
 	return `[colors]
 background = "${popup.background}"
