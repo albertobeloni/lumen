@@ -23,7 +23,7 @@ shadow = "${shadow}"
 
 [colors.border]
 focused = "${ui.focus}"
-unfocused = "${field.outline.silent}"
+unfocused = "${field.background}"
 outer = "${field.background}"
 
 [colors.overview]
