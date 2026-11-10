@@ -146,6 +146,6 @@ export default (dark) => {
 				: levels("base", 0, SHADE),
 		},
 		scrim: { value: "#000000", alpha: 0.75 },
-		shadow: { value: "#000000", alpha: 0.25 },
+		shadow: { value: "#000000", alpha: 0.15 },
 	};
 };
