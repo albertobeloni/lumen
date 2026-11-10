@@ -22,7 +22,7 @@ backdrop = "${field.background}"
 shadow = "${shadow}"
 
 [colors.border]
-focused = "${variant.background}"
+focused = "${accent.container.background}"
 unfocused = "${field.background}"
 outer = "${field.background}"
 
@@ -42,9 +42,9 @@ urgent = "${status.caution.background}"
 urgent_text = "${status.caution.foreground.normal}"
 
 [colors.title_bar]
-background = "${variant.background}"
+background = "${accent.container.background}"
 background_unfocused = "${field.background}"
-text = "${variant.foreground.normal}"
+text = "${accent.container.foreground.normal}"
 text_unfocused = "${field.foreground.subtle}"
 close = "${red.background}"
 close_glyph = "${red.foreground.normal}"
