@@ -74,10 +74,8 @@ export default (scheme, { name, config }) => {
 		directory: path.join(config, "kitty"),
 		files: [
 			{ path: "dark-theme.auto.conf", data: dark },
-			{ path: "light-theme.auto.conf", data: dark },
-			{ path: "no-preference-theme.auto.conf", data: dark },
-			// { path: "light-theme.auto.conf", data: light },
-			// { path: "no-preference-theme.auto.conf", data: light },
+			{ path: "light-theme.auto.conf", data: light },
+			{ path: "no-preference-theme.auto.conf", data: light },
 		],
 		command: "pkill -USR1 -x kitty || true",
 	};
