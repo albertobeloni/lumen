@@ -22,7 +22,7 @@ backdrop = "${field.background}"
 shadow = "${shadow}"
 
 [colors.border]
-focused = "${frame.outline.normal}"
+focused = "${variant.outline.strong}"
 unfocused = "${frame.outline.subtle}"
 outer = "${field.background}"
 
