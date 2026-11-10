@@ -72,7 +72,7 @@ export default (dark) => {
 		},
 		ui: {
 			selection: { role: "base.variant.color", alpha: 0.1 },
-			focus: { role: "surface.frame.outline.normal" },
+			focus: { role: "accent.primary.color" },
 			cursor: { role: "accent.primary.color" },
 			link: {
 				normal: { role: "color.blue.color" },
