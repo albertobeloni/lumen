@@ -22,8 +22,8 @@ backdrop = "${field.background}"
 shadow = "${shadow}"
 
 [colors.border]
-focused = "${panel.background}"
-unfocused = "${field.background}"
+focused = "${field.outline.}"
+unfocused = "${frame.outline.subtle}"
 outer = "${field.background}"
 
 [colors.overview]
